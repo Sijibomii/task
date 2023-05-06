@@ -1,0 +1,1 @@
+consumers goes here. each topic should that will be consumed by this service should have a consumer
