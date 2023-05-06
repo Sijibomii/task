@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @EntityScan
 @Data
 @Table
-public class Users {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -64,12 +64,12 @@ public class Users {
     private Boolean email;
 
     // createdAt
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+1")
     @CreationTimestamp
     private Date createdAt;
 
     // lastUpdateAt
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+1")
     @CreationTimestamp
     private Date lastUpdateAt;
 
