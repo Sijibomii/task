@@ -1,10 +1,10 @@
-package com.task.app;
+package com.task.server;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class AppApplicationTests {
+class ServerApplicationTests {
 
 	@Test
 	void contextLoads() {
