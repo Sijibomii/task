@@ -18,7 +18,6 @@ public class UserService {
         return userDao.save(user);
     }
 
-
     public Users login(String email, String password) throws Exception { 
         Users user = userDao.findByEmail(email);
         if (user == null) {
@@ -33,6 +32,9 @@ public class UserService {
         return user;
     }
 
+    public Users findByEmail(String Email) {
+        return userDao.findByEmail(Email);
+    }
 
     
 }

@@ -6,19 +6,38 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import com.mysema.commons.lang.Assert;
 import com.task.server.controllers.base.BaseController;
+import com.task.server.dto.LoginTokenDto;
 import com.task.server.entity.Users;
 import com.task.server.services.JwtService;
 import com.task.server.services.UserService;
 import com.task.server.utils.MessageResult;
 import com.task.server.utils.CaptchaUtil;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import jakarta.annotation.Resource;
+import jakarta.mail.MessagingException; 
+import jakarta.mail.internet.MimeMessage;
+import org.springframework.scheduling.annotation.Async;
+import java.io.IOException;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 @RestController
 public class UserController extends BaseController{
@@ -29,10 +48,22 @@ public class UserController extends BaseController{
     @Autowired 
     private JwtService jwtService;
 
+    @Autowired
+    private JavaMailSender javaMailSender;
+
+    @Autowired RedisTemplate template;
+
+    @Value("${spring.mail.username}")
+    private String from;
+    @Value("${spark.system.host}")
+    private String host;
+    @Value("${spark.system.name}")
+    private String company;
+
     // @Autowired
     // private MemberEvent memberEvent;
-    // username, password, captcha code on next page send code to email for validation
-    @RequestMapping(value = "/login")
+    @SuppressWarnings({"all"})
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     @Transactional(rollbackFor = Exception.class)
     public MessageResult login(HttpServletRequest request) throws Exception{
         StringBuilder sb = new StringBuilder();
@@ -42,20 +73,18 @@ public class UserController extends BaseController{
         sb.append(line);
         }
         String requestBody = sb.toString();
-        String value = StringUtils.substringBetween(requestBody, "{", "}"); //requestBody.substring(1, requestBody.length()-1);           //remove curly brackets
-        String[] keyValuePairs = value.split(",");              //split the string to creat key-value pairs
+        String value = StringUtils.substringBetween(requestBody, "{", "}"); 
+        String[] keyValuePairs = value.split(",");         
         Map<String,String> map = new HashMap<>();               
 
-        for(String pair : keyValuePairs)                        //iterate over the pairs
+        for(String pair : keyValuePairs)    
         {
             String[] entry = pair.split(":");    
             String _key = entry[0].trim(); 
             String key = _key.substring(1, _key.length() - 1);
-
             String _val = entry[1].trim();
             String val = _val.substring(1, _val.length() - 1);
-
-            map.put(key, val);          //add them to the hashmap and trim whitespaces   
+            map.put(key, val);        
         }  
         Assert.hasText(map.get("email"),"MISSING_USERNAME");
         Assert.hasText(map.get("password"), "MISSING_PASSWORD");
@@ -68,27 +97,68 @@ public class UserController extends BaseController{
         }
          //TODO: google captcha
 
-        //  return tokens
-
         Users user = userService.login(map.get("email"), map.get("password"));
 
         if(user == null){
             //throw
         }
+		String key_id = "USER_ID";
+        String key_email = "USER_EMAIL";
+		HttpSession session = request.getSession();
+		session.setAttribute(key_id, user.getId());
+		session.setAttribute(key_email, user.getEmail());
         // send mail 
+        ValueOperations valueOperations = template.opsForValue();
+        sentEmail(valueOperations, user, user.getEmail());
+        return success();
+        
+    }
 
-
+    @RequestMapping(value = "/verify/login", method = RequestMethod.POST)
+    @Transactional(rollbackFor = Exception.class)
+    public MessageResult verifyLogin(HttpServletRequest request) throws Exception{
+        // String id = (String) request.getSession().getAttribute("USER_ID");
+        String email = (String) request.getSession().getAttribute("USER_EMAIL");
+        Users user = userService.findByEmail(email);
+        // email should be found but in case
+        if (user == null){
+            // throw
+        }
         // jwt tokens
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
-
-        return success();
+       
+        LoginTokenDto login = new LoginTokenDto(user.getId(), user.getEmail(), jwtToken, refreshToken);
+        return success(login);
     }
-
-    // picture capta
 
 
     // send token to email
+    @SuppressWarnings({"all"})
+    @Async
+    public void sentEmail(ValueOperations valueOperations, Users user, String email) throws MessagingException, IOException, TemplateException {
+        String token = UUID.randomUUID().toString().replace("-", "");
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = null;
+        helper = new MimeMessageHelper(mimeMessage, true);
+        helper.setFrom(from);
+        helper.setTo(email);
+        helper.setSubject(company);
+        Map<String, Object> model = new HashMap<>(16);
+        model.put("username", user.getDisplayName());
+        model.put("token", token);
+        model.put("host", host);
+        model.put("name", company);
+
+        Configuration cfg = new Configuration(Configuration.VERSION_2_3_26);
+        cfg.setClassForTemplateLoading(this.getClass(), "/templates");
+        Template template = cfg.getTemplate("loginEmail.ftl");
+        String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
+        helper.setText(html, true);
+        // send email
+        javaMailSender.send(mimeMessage);
+        valueOperations.set(user.getId(), token, 5, TimeUnit.MINUTES);
+    }
 
   
 }
