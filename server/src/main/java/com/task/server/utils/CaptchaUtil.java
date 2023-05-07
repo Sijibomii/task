@@ -1,19 +1,13 @@
 package com.task.server.utils;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
+import jakarta.servlet.http.HttpSession;
 public class CaptchaUtil {
 
-    @Autowired
-    private static RedisTemplate redisTemplate;
-
+    // the captcha code is stored in the req session and used to compare
 	private static final String prefix = "CAPTCHA_";
 	
-	public static boolean validate(String sessionId, String value){
-        ValueOperations valueOperations = redisTemplate.opsForValue();
-        String key = prefix + sessionId;
-		String captcha = (String) valueOperations.get(key);
+	public static boolean validate(HttpSession session, String pageId, String value){
+		String captcha = (String) session.getAttribute(prefix+pageId);;
 		return captcha != null && captcha.equalsIgnoreCase(value);
 	}
 }

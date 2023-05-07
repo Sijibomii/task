@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import lombok.Data;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.UUID;
 
@@ -16,13 +17,14 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.persistence.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Data
 @Table(name = "users")
-public class Users {
+public class Users{
 
     @Id
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
@@ -89,4 +91,6 @@ public class Users {
     private String salt;
 
     private Boolean isBlocked;
+
+   
 }
