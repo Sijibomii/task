@@ -14,6 +14,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @EntityScan
 @Data
@@ -42,6 +43,9 @@ public class User {
 
     // avatarUrl
     private String avatarUrl;
+
+    // Password
+    private String password;
 
     // online
     @NotNull
@@ -75,6 +79,9 @@ public class User {
 
     // token used to generate access and refresh tokens
     private String token;
+
+    @JsonIgnore
+    private String salt;
 
     private Boolean isBlocked;
 }
