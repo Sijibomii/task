@@ -4,8 +4,7 @@ import java.util.Date;
 import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.data.annotation.Id;
+import jakarta.persistence.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -13,6 +12,7 @@ import com.task.server.constants.EventEnum;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
@@ -20,7 +20,7 @@ import jakarta.persistence.GenerationType;
 import lombok.Data;
 
 // the entity for events
-@EntityScan
+@Entity
 @Data
 @Table
 public class Events {

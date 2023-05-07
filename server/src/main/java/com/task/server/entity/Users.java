@@ -1,6 +1,10 @@
 package com.task.server.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import lombok.Data;
@@ -8,21 +12,22 @@ import lombok.Data;
 import java.util.Date;
 import java.util.UUID;
 
-import javax.validation.constraints.NotNull;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.data.annotation.Id;
+import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@EntityScan
+@Entity
 @Data
-@Table
-public class User {
+@Table(name = "users")
+public class Users {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "uuid2")
+    @Column(length = 36, nullable = false, updatable = false)
     private UUID id;
 
     // githubId
@@ -53,7 +58,7 @@ public class User {
 
     // staff
     @NotNull
-    private Boolean staff;
+    private Boolean isStaff;
 
     // hasLoggedIn
     @NotNull
@@ -65,7 +70,7 @@ public class User {
 
     // email
     @NotNull
-    private Boolean email;
+    private String email;
 
     // createdAt
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+1")

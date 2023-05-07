@@ -5,7 +5,7 @@ import lombok.Setter;
 import com.task.server.dao.base.BaseDao;
 import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 import org.springframework.transaction.annotation.Transactional;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -19,8 +19,8 @@ public class BaseService<E, D extends BaseDao<E>>{
     protected EntityManager entityManager;
 
     // Factory class for query and DML clause creation
-    @Autowired
-    protected JPAQueryFactory queryFactory;
+    // @Autowired
+    // protected JPAQueryFactory queryFactory;
 
     public List<E> findAll() {
         return dao.findAll();
