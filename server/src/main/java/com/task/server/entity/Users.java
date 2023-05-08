@@ -81,7 +81,6 @@ public class Users{
 
     // lastUpdateAt
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+1")
-    @CreationTimestamp
     private Date lastUpdateAt;
 
     // token used to generate access and refresh tokens
