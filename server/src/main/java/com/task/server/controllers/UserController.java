@@ -26,6 +26,8 @@ import com.task.server.services.JwtService;
 import com.task.server.services.UserService;
 import com.task.server.utils.MessageResult;
 import com.task.server.utils.CaptchaUtil;
+import com.task.server.utils.Md5;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -43,6 +45,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import com.task.server.constants.SystemConstants;
 import com.task.server.utils.RandomNumber;
+import static org.springframework.util.Assert.isTrue;
+import static org.springframework.util.Assert.notNull;
 
 @RestController
 public class UserController extends BaseController{
@@ -315,5 +319,77 @@ public class UserController extends BaseController{
         valueOperations.set(SystemConstants.REQUEST_CODE_PREFIX + email, code, 10, TimeUnit.MINUTES);
     }
 
-  
+    // anything that needs email authentication code will be requested here
+    @SuppressWarnings({"all"})
+    @RequestMapping(value= "/request/reset/login", method = RequestMethod.POST)
+    @ResponseBody
+    @Transactional(rollbackFor = Exception.class)
+    public MessageResult sendResetPasswordCode(String email) throws Exception{
+        Users user = userService.findByEmail(email);
+
+        if(user == null){
+            throw new AuthException();
+        }
+
+        ValueOperations valueOperations = template.opsForValue();
+        if (valueOperations.get(SystemConstants.RESET_PASSWORD_CODE_PREFIX + user.getEmail()) != null) {
+            return error("EMAIL ALREADY SENT");
+        }
+        try {
+            String code = String.valueOf(RandomNumber.getRandomNumber(100000, 999999));
+
+            sentResetCode(valueOperations, email, code); 
+        } catch (Exception e) {
+            e.printStackTrace();
+            return error("SEND_FAILED");
+        }
+        return success("SENT_SUCCESS");
+    }
+
+    @SuppressWarnings({"all"})
+    @RequestMapping(value = "/reset/login/password", method = RequestMethod.POST)
+    @ResponseBody
+    @Transactional(rollbackFor = Exception.class)
+    public MessageResult forgetPassword(String email, HttpServletRequest request) throws Exception {
+        StringBuilder sb = new StringBuilder();
+        BufferedReader reader = request.getReader();
+        String line;
+        while ((line = reader.readLine()) != null) {
+        sb.append(line);
+        }
+        String requestBody = sb.toString();
+        String value = StringUtils.substringBetween(requestBody, "{", "}"); 
+        String[] keyValuePairs = value.split(",");         
+        Map<String,String> map = new HashMap<>();               
+
+        for(String pair : keyValuePairs)    
+        {
+            String[] entry = pair.split(":");    
+            String _key = entry[0].trim(); 
+            String key = _key.substring(1, _key.length() - 1);
+            String _val = entry[1].trim();
+            String val = _val.substring(1, _val.length() - 1);
+            map.put(key, val);        
+        }  
+        Assert.hasText(map.get("password"),"MISSING_PASSWORD");
+        Assert.hasText(map.get("code"),"MISSING_CODE");
+
+        Users user = null; 
+        ValueOperations valueOperations = template.opsForValue();
+        Object redisCode = valueOperations.get(SystemConstants.RESET_PASSWORD_CODE_PREFIX + email);
+        
+        user = userService.findByEmail(email);
+
+        isTrue(map.get("password").length() >= 6 && map.get("password").length() <= 20, "PASSWORD_LENGTH_ILLEGAL");
+        notNull(user, "MEMBER_NOT_EXISTS");
+        if (!map.get("code").equals(redisCode.toString())) {
+            return error("VERIFICATION_CODE_INCORRECT");
+        } else {
+            valueOperations.getOperations().delete(SystemConstants.RESET_PASSWORD_CODE_PREFIX + email);
+        }
+        //生成密码
+        String newPassword = Md5.md5Digest(map.get("password") + user.getSalt()).toLowerCase();
+        user.setPassword(newPassword);
+        return success();
+    }
 }
