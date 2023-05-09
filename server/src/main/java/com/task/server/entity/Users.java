@@ -91,5 +91,6 @@ public class Users{
 
     private Boolean isBlocked;
 
+    private Boolean twoFactorAuth;
    
 }
