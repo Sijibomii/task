@@ -11,5 +11,6 @@ import com.task.server.dao.base.BaseDao;
 public interface UserDao extends BaseDao<Users> {
      
     Users findByEmail(String email);
+    Users findById(String id);
     List<Users> getAllByEmailEquals(String email);
 }

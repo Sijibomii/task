@@ -1,0 +1,10 @@
+<html>
+<body>
+<div>
+    <h3>Hello ${name}！</h3><br/>
+    <br/>Use this code to perfom your action on the site<br/>
+    <br/>${code}<br/>
+    <br/>Ignore if you did not request this</br>
+</div>
+</body>
+</html>

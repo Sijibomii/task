@@ -4,6 +4,7 @@ import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,6 +73,10 @@ public class UserService {
 
     public Users findByEmail(String Email) {
         return userDao.findByEmail(Email);
+    }
+
+    public Users findById(String id) {
+        return userDao.findById(id);
     }
 
     public Boolean emailIsExist(String email){

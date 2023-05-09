@@ -35,10 +35,14 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import jakarta.mail.MessagingException; 
 import jakarta.mail.internet.MimeMessage;
+import jakarta.security.auth.message.AuthException;
+
 import org.springframework.scheduling.annotation.Async;
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+import com.task.server.constants.SystemConstants;
+import com.task.server.utils.RandomNumber;
 
 @RestController
 public class UserController extends BaseController{
@@ -47,7 +51,7 @@ public class UserController extends BaseController{
     private UserService userService;
 
     @Autowired 
-    private JwtService jwtService;
+    private JwtService jwtService; 
 
     @Autowired
     private JavaMailSender javaMailSender;
@@ -57,10 +61,9 @@ public class UserController extends BaseController{
 
     @Value("${spring.mail.username}")
     private String from;
-    @Value("${spark.system.host}")
+    @Value("${spring.system.host}")
     private String host;
-    @Value("${spark.system.name}")
-    private String company;
+
 
     // @Autowired
     // private MemberEvent memberEvent;
@@ -124,7 +127,7 @@ public class UserController extends BaseController{
             String val = _val.substring(1, _val.length() - 1);
             map.put(key, val);        
         }  
-        Assert.hasText(map.get("email"),"MISSING_USERNAME");
+        Assert.hasText(map.get("email"),"MISSING_EMAIL");
         Assert.hasText(map.get("password"), "MISSING_PASSWORD");
         Assert.hasText(map.get("captcha"), "MISSING_CAPTCHA");
 
@@ -151,7 +154,7 @@ public class UserController extends BaseController{
         helper = new MimeMessageHelper(mimeMessage, true);
         helper.setFrom(from);
         helper.setTo(email);
-        helper.setSubject(company);
+
         Map<String, Object> model = new HashMap<>(16);
         model.put("name", user.getDisplayName());
         model.put("token", token);
@@ -248,7 +251,7 @@ public class UserController extends BaseController{
         helper = new MimeMessageHelper(mimeMessage, true);
         helper.setFrom(from);
         helper.setTo(email);
-        helper.setSubject(company);
+  
         Map<String, Object> model = new HashMap<>(16);
         model.put("ame", user.getDisplayName());
         model.put("token", token);
@@ -262,6 +265,54 @@ public class UserController extends BaseController{
         // send email
         javaMailSender.send(mimeMessage);
         valueOperations.set(user.getId(), token, 5, TimeUnit.MINUTES);
+    }
+
+    // anything that needs email authentication code will be requested here
+    @SuppressWarnings({"all"})
+    @RequestMapping(value= "/request/reset/code", method = RequestMethod.POST)
+    @ResponseBody
+    @Transactional(rollbackFor = Exception.class)
+    public MessageResult sendResetCode(HttpServletRequest request) throws Exception{
+        String id = (String) request.getSession().getAttribute("USER_ID");
+        Users user = userService.findById(id);
+
+        if(user == null){
+            throw new AuthException();
+        }
+
+        ValueOperations valueOperations = template.opsForValue();
+        if (valueOperations.get(SystemConstants.REQUEST_CODE_PREFIX + user.getEmail()) != null) {
+            return error("EMAIL ALREADY SENT");
+        }
+        try {
+            String code = String.valueOf(RandomNumber.getRandomNumber(100000, 999999));
+            String email = user.getEmail();
+
+            sentResetCode(valueOperations, email, code); 
+        } catch (Exception e) {
+            e.printStackTrace();
+            return error("SEND_FAILED");
+        }
+        return success("SENT_SUCCESS");
+    }
+    @SuppressWarnings({"all"})
+    @Async
+    public void sentResetCode(ValueOperations valueOperations, String email, String code) throws MessagingException, IOException, TemplateException {
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = null;
+        helper = new MimeMessageHelper(mimeMessage, true);
+        helper.setFrom(from);
+        helper.setTo(email);
+        Map<String, Object> model = new HashMap<>(16);
+        model.put("code", code);
+        Configuration cfg = new Configuration(Configuration.VERSION_2_3_26);
+        cfg.setClassForTemplateLoading(this.getClass(), "/templates");
+        Template template = cfg.getTemplate("resetCodeEmail.ftl");
+        String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
+        helper.setText(html, true);
+        //发送邮件
+        javaMailSender.send(mimeMessage);
+        valueOperations.set(SystemConstants.REQUEST_CODE_PREFIX + email, code, 10, TimeUnit.MINUTES);
     }
 
   
