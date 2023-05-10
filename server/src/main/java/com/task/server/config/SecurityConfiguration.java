@@ -22,7 +22,7 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 @EnableWebSecurity
 @RequiredArgsConstructor
 @EnableMethodSecurity
-public class SecurityConfiguration {
+public class SecurityConfiguration{
 
 //   private final JwtAuthenticationFilter jwtAuthFilter;
 //   private final AuthenticationProvider authenticationProvider;
@@ -31,21 +31,40 @@ public class SecurityConfiguration {
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
+        // disables Cross-Site Request Forgery (CSRF) protection for this application.
         .csrf()
         .disable()
+        // configures authorization rules for incoming HTTP requests.
         .authorizeHttpRequests()
+        // specifies the request matchers to which the following authorization rules will apply. In this case, the listed URL patterns are used as request matchers.
         .requestMatchers(
                 "/request/reset/code",
                 "/register/**",
+                "/login/**",
                 "/login",
                 "/verify/login",
                 "/request/reset/code",
-                "/captcha"
+                "/captcha",
+                "/oauth2/**"
         )
-          .permitAll();
-
-
-      
+          // allows any user to access the specified URLs without authentication.
+          .permitAll()
+          // applies the following authorization rules to all other requests.
+          .anyRequest()
+          // requires authentication for the specified URLs.
+          .authenticated()
+          .and()
+          // configures OAuth2 login for this application.
+          .oauth2Login();
+          // // specifies the URL for the login page.
+          // .loginPage("/login")
+          // .failureUrl("/login?error=true")
+          // .and()
+          // .logout()
+          // .logoutUrl("/logout")
+          // .logoutSuccessUrl("/")
+          // .invalidateHttpSession(true)
+          // .deleteCookies("JSESSIONID");
 
     return http.build();
   }

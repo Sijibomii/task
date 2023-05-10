@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -40,6 +43,13 @@ import jakarta.mail.internet.MimeMessage;
 import jakarta.security.auth.message.AuthException;
 
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
@@ -63,6 +73,9 @@ public class UserController extends BaseController{
     @Autowired 
     private RedisTemplate template;
 
+    @Autowired
+    private OAuth2AuthorizedClientService clientService;
+
     @Value("${spring.mail.username}")
     private String from;
     @Value("${spring.system.host}")
@@ -71,6 +84,15 @@ public class UserController extends BaseController{
 
     // @Autowired
     // private MemberEvent memberEvent;
+
+
+    // /login/oauth2/code/google is the default redirect URL used by Spring Security for Google OAuth2 authentication.
+    @GetMapping("/login/oauth2/code/google")
+    public String googleCallback(@AuthenticationPrincipal OAuth2User oauth2User) {
+        System.out.println(oauth2User);
+        return "oauth2-success";
+    }
+
 
     @SuppressWarnings({"all"})
     @RequestMapping(value = "/register/active")
