@@ -90,6 +90,8 @@ public class UserController extends BaseController{
     @GetMapping("/login/oauth2/code/google")
     public String googleCallback(@AuthenticationPrincipal OAuth2User oauth2User) {
         System.out.println(oauth2User);
+        //  store in db
+        //  disptach event
         return "oauth2-success";
     }
 
