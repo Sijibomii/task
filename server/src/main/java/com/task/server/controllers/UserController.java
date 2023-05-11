@@ -1,28 +1,22 @@
 package com.task.server.controllers;
 
 import java.io.BufferedReader;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-
 import com.mysema.commons.lang.Assert;
 import com.task.server.controllers.base.BaseController;
 import com.task.server.dto.LoginTokenDto;
@@ -33,39 +27,34 @@ import com.task.server.services.UserService;
 import com.task.server.utils.MessageResult;
 import com.task.server.utils.CaptchaUtil;
 import com.task.server.utils.Md5;
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import jakarta.mail.MessagingException; 
 import jakarta.mail.internet.MimeMessage;
 import jakarta.security.auth.message.AuthException;
-
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
-
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import com.task.server.constants.SystemConstants;
 import com.task.server.utils.RandomNumber;
+import com.task.server.utils.KafkaDispatcher;
+import com.task.server.utils.KafkaTopics;
 import static org.springframework.util.Assert.isTrue;
 import static org.springframework.util.Assert.notNull;
 
+@SuppressWarnings({"all"})
 @RestController
 @Controller
 public class UserController extends BaseController{
@@ -84,6 +73,8 @@ public class UserController extends BaseController{
 
     @Autowired
     private OAuth2AuthorizedClientService clientService;
+
+    
 
     @Value("${spring.mail.username}")
     private String from;
@@ -123,6 +114,7 @@ public class UserController extends BaseController{
                 var refreshToken = jwtService.generateRefreshToken(user);
                
                 LoginTokenDto login = new LoginTokenDto(user.getId(), user.getEmail(), jwtToken, refreshToken);
+                KafkaDispatcher.disptach(KafkaTopics.USER_LOGIN_EVENT, user, "user google login");
                 return success(login);
             }
             // create users
@@ -152,6 +144,7 @@ public class UserController extends BaseController{
             var refreshToken = jwtService.generateRefreshToken(user_saved);
             LoginTokenDto login = new LoginTokenDto(user_saved.getId(), user_saved.getEmail(), jwtToken, refreshToken);
             //  //  disptach event
+            KafkaDispatcher.disptach(KafkaTopics.USER_REGISTER_EVENT, user, "user google register");
             return success(login);
         } else if ("github".equals(registrationId)) {
             // github sign-in
@@ -173,7 +166,7 @@ public class UserController extends BaseController{
                 var refreshToken = jwtService.generateRefreshToken(user);
                
                 LoginTokenDto login = new LoginTokenDto(user.getId(), user.getEmail(), jwtToken, refreshToken);
-
+                KafkaDispatcher.disptach(KafkaTopics.USER_LOGIN_EVENT, user, "user github login");
                 return success(login);
             }
             String avartar = oauth2User.getAttribute("avatar_url");
@@ -197,6 +190,7 @@ public class UserController extends BaseController{
             var refreshToken = jwtService.generateRefreshToken(user_saved);
             LoginTokenDto login = new LoginTokenDto(user_saved.getId(), user_saved.getEmail(), jwtToken, refreshToken);
              //  disptach event
+            KafkaDispatcher.disptach(KafkaTopics.USER_REGISTER_EVENT, user, "user github register");
             return success(login);
         }
         
