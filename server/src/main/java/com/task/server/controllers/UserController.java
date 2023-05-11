@@ -1,6 +1,7 @@
 package com.task.server.controllers;
 
 import java.io.BufferedReader;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -88,54 +89,45 @@ public class UserController extends BaseController{
     @Value("${spring.system.host}")
     private String host;
 
-
     // @Autowired
     // private MemberEvent memberEvent;
 
-    
-    
-    // /login/oauth2/code/google is the default redirect URL used by Spring Security for Google OAuth2 authentication.
-    @GetMapping("/login/oauth2/code/google")
-    public String googleCallbac(@AuthenticationPrincipal OAuth2User oauth2User) {
-        System.out.println("LOGGED INN");
+    @GetMapping("/login/oauth2/code/github")
+    public String githubCallback(@AuthenticationPrincipal OAuth2User oauth2User) {
+       
         System.out.println(oauth2User);
 
-        String email = oauth2User.getAttribute("email");
-        Boolean user_exists = userService.emailIsExist(email);
-
-        if (user_exists){
-            // return tokens
-        }
-        // create users
-
-        String first_name = oauth2User.getAttribute("given_name");
-        String last_name = oauth2User.getAttribute("family_name");
-        String avartar = oauth2User.getAttribute("picture");
-
-        System.out.println(first_name);
-
-        //  store in db
-        //  disptach event
         return "oauth2-success";
-    }
-
-
+    }   
+    
     @GetMapping("/login/google/success")
-    public String googleCallback(@AuthenticationPrincipal OAuth2User oauth2User) {
-        System.out.println("LOGGED INN");
-        System.out.println(oauth2User);
+    public String googleCallback(@AuthenticationPrincipal OAuth2User oauth2User, OAuth2AuthenticationToken authentication) {
+        
+        String registrationId = authentication.getAuthorizedClientRegistrationId();
 
-        String email = oauth2User.getAttribute("email");
-        Boolean user_exists = userService.emailIsExist(email);
+        System.out.print(registrationId);
+        if ("google".equals(registrationId)) {
+            // Google sign-in
+            String email = oauth2User.getAttribute("email");
+            Boolean user_exists = userService.emailIsExist(email);
 
-        if (user_exists){
-            // return tokens
+            if (user_exists){
+                // return tokens
+            }
+            // create users
+    
+            String first_name = oauth2User.getAttribute("given_name");
+    
+            String last_name = oauth2User.getAttribute("family_name");
+            String avartar = oauth2User.getAttribute("picture");
+
+        } else if ("github".equals(registrationId)) {
+            // github sign-in
+            // ...
         }
-        // create users
+        
 
-        String first_name = oauth2User.getAttribute("given_name");
-        String last_name = oauth2User.getAttribute("family_name");
-        String avartar = oauth2User.getAttribute("picture");
+        
 
         //  store in db
         //  disptach event
