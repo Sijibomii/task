@@ -2,6 +2,7 @@ package com.task.server.controllers;
 
 import java.io.BufferedReader;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -100,27 +101,58 @@ public class UserController extends BaseController{
         return "oauth2-success";
     }   
     
-    @GetMapping("/login/google/success")
-    public String googleCallback(@AuthenticationPrincipal OAuth2User oauth2User, OAuth2AuthenticationToken authentication) {
+    @GetMapping("/login/oauth/success")
+    public MessageResult googleCallback(@AuthenticationPrincipal OAuth2User oauth2User, OAuth2AuthenticationToken authentication) throws Exception{
         
         String registrationId = authentication.getAuthorizedClientRegistrationId();
+        
 
-        System.out.print(registrationId);
         if ("google".equals(registrationId)) {
             // Google sign-in
             String email = oauth2User.getAttribute("email");
             Boolean user_exists = userService.emailIsExist(email);
-
+            System.out.println(oauth2User);
             if (user_exists){
                 // return tokens
+                Users user = userService.findByEmail(email);
+                // email should be found but in case
+                if (user == null){
+                    throw new Exception("user not found");
+                }
+                // jwt tokens
+                var jwtToken = jwtService.generateToken(user);
+                var refreshToken = jwtService.generateRefreshToken(user);
+               
+                LoginTokenDto login = new LoginTokenDto(user.getId(), user.getEmail(), jwtToken, refreshToken);
+                return success(login);
             }
             // create users
-    
             String first_name = oauth2User.getAttribute("given_name");
     
-            String last_name = oauth2User.getAttribute("family_name");
+            String googleId = oauth2User.getAttribute("sub");
             String avartar = oauth2User.getAttribute("picture");
 
+            Users user = new Users();
+            user.setEmail(email);
+            user.setAvatarUrl(avartar);
+            user.setDisplayName(first_name);
+            user.setHasActivated(false);
+            user.setOnline(false);
+            user.setIsStaff(false);
+            user.setHasLoggenIn(false);
+            user.setHasActivated(false);
+            user.setLastUpdateAt(new Date());
+            user.setIsBlocked(false);
+            user.setGoogleId(googleId);
+            OAuth2AuthorizedClient client = clientService.loadAuthorizedClient(
+            authentication.getAuthorizedClientRegistrationId(),
+            authentication.getName());
+            user.setGoogleAccessToken(client.getAccessToken().getTokenValue());
+            Users user_saved = userService.save(user);
+            var jwtToken = jwtService.generateToken(user_saved);
+            var refreshToken = jwtService.generateRefreshToken(user_saved);
+            LoginTokenDto login = new LoginTokenDto(user_saved.getId(), user_saved.getEmail(), jwtToken, refreshToken);
+            return success(login);
         } else if ("github".equals(registrationId)) {
             // github sign-in
             // ...
@@ -131,7 +163,7 @@ public class UserController extends BaseController{
 
         //  store in db
         //  disptach event
-        return "oauth2-success";
+        return success("oauth2-success");
     }
 
 
@@ -202,8 +234,8 @@ public class UserController extends BaseController{
         Boolean validated = CaptchaUtil.validate(request.getSession(), "", map.get("captcha"));
         if (!validated){
             return error("captcha error");
-        }
-        RegisterDto register = new RegisterDto(map.get("display_name"), map.get("password"), map.get("email"));
+        } 
+        RegisterDto register = new RegisterDto(map.get("display_name"), map.get("password"), map.get("email")); 
         Users user = userService.register(register);
         ValueOperations valueOperations = template.opsForValue();
         // verify email

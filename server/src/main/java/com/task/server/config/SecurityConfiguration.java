@@ -57,7 +57,7 @@ public class SecurityConfiguration{
           // configures OAuth2 login for this application.
           .oauth2Login()
           // // specifies the URL for the login page.
-          .defaultSuccessUrl("/login/google/success", true)
+          .defaultSuccessUrl("/login/oauth/success", true)
           .failureUrl("/login?error=true");
           
 
