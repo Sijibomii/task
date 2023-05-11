@@ -55,16 +55,12 @@ public class SecurityConfiguration{
           .authenticated()
           .and()
           // configures OAuth2 login for this application.
-          .oauth2Login();
+          .oauth2Login()
           // // specifies the URL for the login page.
           // .loginPage("/login")
-          // .failureUrl("/login?error=true")
-          // .and()
-          // .logout()
-          // .logoutUrl("/logout")
-          // .logoutSuccessUrl("/")
-          // .invalidateHttpSession(true)
-          // .deleteCookies("JSESSIONID");
+          .defaultSuccessUrl("/login/google/success", true)
+          .failureUrl("/login?error=true");
+          
 
     return http.build();
   }

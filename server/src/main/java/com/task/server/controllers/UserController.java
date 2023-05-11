@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -36,6 +37,10 @@ import jakarta.servlet.http.HttpSession;
 
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import jakarta.mail.MessagingException; 
@@ -49,6 +54,7 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Value;
@@ -59,6 +65,7 @@ import static org.springframework.util.Assert.isTrue;
 import static org.springframework.util.Assert.notNull;
 
 @RestController
+@Controller
 public class UserController extends BaseController{
     
     @Autowired
@@ -85,11 +92,51 @@ public class UserController extends BaseController{
     // @Autowired
     // private MemberEvent memberEvent;
 
-
+    
+    
     // /login/oauth2/code/google is the default redirect URL used by Spring Security for Google OAuth2 authentication.
     @GetMapping("/login/oauth2/code/google")
-    public String googleCallback(@AuthenticationPrincipal OAuth2User oauth2User) {
+    public String googleCallbac(@AuthenticationPrincipal OAuth2User oauth2User) {
+        System.out.println("LOGGED INN");
         System.out.println(oauth2User);
+
+        String email = oauth2User.getAttribute("email");
+        Boolean user_exists = userService.emailIsExist(email);
+
+        if (user_exists){
+            // return tokens
+        }
+        // create users
+
+        String first_name = oauth2User.getAttribute("given_name");
+        String last_name = oauth2User.getAttribute("family_name");
+        String avartar = oauth2User.getAttribute("picture");
+
+        System.out.println(first_name);
+
+        //  store in db
+        //  disptach event
+        return "oauth2-success";
+    }
+
+
+    @GetMapping("/login/google/success")
+    public String googleCallback(@AuthenticationPrincipal OAuth2User oauth2User) {
+        System.out.println("LOGGED INN");
+        System.out.println(oauth2User);
+
+        String email = oauth2User.getAttribute("email");
+        Boolean user_exists = userService.emailIsExist(email);
+
+        if (user_exists){
+            // return tokens
+        }
+        // create users
+
+        String first_name = oauth2User.getAttribute("given_name");
+        String last_name = oauth2User.getAttribute("family_name");
+        String avartar = oauth2User.getAttribute("picture");
+
         //  store in db
         //  disptach event
         return "oauth2-success";
