@@ -105,13 +105,12 @@ public class UserController extends BaseController{
     public MessageResult googleCallback(@AuthenticationPrincipal OAuth2User oauth2User, OAuth2AuthenticationToken authentication) throws Exception{
         
         String registrationId = authentication.getAuthorizedClientRegistrationId();
-        
 
         if ("google".equals(registrationId)) {
             // Google sign-in
             String email = oauth2User.getAttribute("email");
             Boolean user_exists = userService.emailIsExist(email);
-            System.out.println(oauth2User);
+            
             if (user_exists){
                 // return tokens
                 Users user = userService.findByEmail(email);
@@ -152,18 +151,56 @@ public class UserController extends BaseController{
             var jwtToken = jwtService.generateToken(user_saved);
             var refreshToken = jwtService.generateRefreshToken(user_saved);
             LoginTokenDto login = new LoginTokenDto(user_saved.getId(), user_saved.getEmail(), jwtToken, refreshToken);
+            //  //  disptach event
             return success(login);
         } else if ("github".equals(registrationId)) {
             // github sign-in
             // ...
+            System.out.println(registrationId);
+            System.out.println(oauth2User);
+
+            String email = oauth2User.getAttribute("email");
+            Boolean user_exists = userService.emailIsExist(email);
+            if (user_exists){
+                // return tokens
+                Users user = userService.findByEmail(email);
+                // email should be found but in case
+                if (user == null){
+                    throw new Exception("user not found");
+                }
+                // jwt tokens
+                var jwtToken = jwtService.generateToken(user);
+                var refreshToken = jwtService.generateRefreshToken(user);
+               
+                LoginTokenDto login = new LoginTokenDto(user.getId(), user.getEmail(), jwtToken, refreshToken);
+
+                return success(login);
+            }
+            String avartar = oauth2User.getAttribute("avatar_url");
+            Users user = new Users();
+            user.setEmail(email);
+            user.setAvatarUrl(avartar);
+            user.setDisplayName(oauth2User.getAttribute("login"));
+            user.setHasActivated(true);
+            user.setOnline(false);
+            user.setIsStaff(false);
+            user.setHasLoggenIn(true);
+            user.setLastUpdateAt(new Date());
+            user.setIsBlocked(false);
+            user.setGithubId(oauth2User.getAttribute("id"));
+            OAuth2AuthorizedClient client = clientService.loadAuthorizedClient(
+            authentication.getAuthorizedClientRegistrationId(),
+            authentication.getName());
+            user.setGithubAccessToken(client.getAccessToken().getTokenValue());
+            Users user_saved = userService.save(user);
+            var jwtToken = jwtService.generateToken(user_saved);
+            var refreshToken = jwtService.generateRefreshToken(user_saved);
+            LoginTokenDto login = new LoginTokenDto(user_saved.getId(), user_saved.getEmail(), jwtToken, refreshToken);
+             //  disptach event
+            return success(login);
         }
         
-
-        
-
-        //  store in db
-        //  disptach event
-        return success("oauth2-success");
+        return success();
     }
 
 
