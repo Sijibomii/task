@@ -1,15 +1,43 @@
 import { Http } from "./raw";
  
-export type AuthResponse = {
-  username: string;
-  accessToken: string;
-  refreshToken: string;
+export interface Response{
+  code?: Number,
+  message?: String
 };
+
+export interface LoginResponse extends Response {
+    data?: {
+        access: String,
+        refresh: String
+    }
+}
 
 export const wrap = (http: Http) => {
   return {
-    auth: (apiKey: string) =>
-      http.request("POST", "/bot/auth", { apiKey }) as Promise<AuthResponse>,
+
+    // captcha: I'm not sure the typescript type of response
+    //  to use: 
+    //    const captchaImage = await captcha;
+
+    //   const imageUrl = URL.createObjectURL(captchaImage);
+    
+    //   const captchaElement = document.createElement('img');
+    //   captchaElement.src = imageUrl;
+    captcha: () => http.request("GET", "/captcha", {}) as Promise<Blob>,
+
+    login: (email: String, password: String, captcha: String) => http.request("POST", "/login", { 
+        email, password, captcha
+    }) as Promise<Response>,
+
+    loginVerify: (code: String) => http.request("POST", "/login/verify", { 
+       code
+    }) as Promise<LoginResponse>,
+
+    // register
+
+
+    // register verify
+
     testUser: (username: string) =>
       http.request("GET", `/dev/test-info?username=${username}`) as Promise<{
         accessToken: string;

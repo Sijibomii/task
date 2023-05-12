@@ -357,6 +357,35 @@ public class UserController extends BaseController{
         if (user == null){
             throw new Exception("user not found");
         }
+        StringBuilder sb = new StringBuilder();
+        BufferedReader reader = request.getReader();
+        String line;
+        while ((line = reader.readLine()) != null) {
+        sb.append(line);
+        }
+        String requestBody = sb.toString();
+        String value = StringUtils.substringBetween(requestBody, "{", "}"); 
+        String[] keyValuePairs = value.split(",");         
+        Map<String,String> map = new HashMap<>();               
+
+        for(String pair : keyValuePairs)    
+        {
+            String[] entry = pair.split(":");    
+            String _key = entry[0].trim(); 
+            String key = _key.substring(1, _key.length() - 1);
+            String _val = entry[1].trim();
+            String val = _val.substring(1, _val.length() - 1);
+            map.put(key, val);        
+        }  
+        Assert.hasText(map.get("code"),"MISSING_CODE");
+       
+        ValueOperations valueOperations = template.opsForValue();
+        Object token = valueOperations.get(user.getId());
+
+        if (!token.equals(map.get("code"))){
+           throw new Exception("INVALID CODE");
+        }
+
         // jwt tokens
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
@@ -384,7 +413,7 @@ public class UserController extends BaseController{
 
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_26);
         cfg.setClassForTemplateLoading(this.getClass(), "/templates");
-        Template template = cfg.getTemplate("loginEmail.ftl");
+        Template template = cfg.getTemplate("loginEmail.ftl"); 
         String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
         helper.setText(html, true);
         // send email

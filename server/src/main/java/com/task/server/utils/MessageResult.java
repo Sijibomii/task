@@ -1,10 +1,9 @@
 package com.task.server.utils;
-
-
 import com.alibaba.fastjson.JSONObject;
 
 public class MessageResult {
 	private Object data;
+	//  code = error code
 	public MessageResult(int code , String msg){
 		this.code = code;
 		this.message = msg;
@@ -38,25 +37,7 @@ public class MessageResult {
 	private int code;
 	private String message;
 	private Object Data;
-	
-	private String totalPage;
-	private String totalElement;
-
-    public String getTotalPage() {
-        return totalPage;
-    }
-
-    public void setTotalPage(String totalPage) {
-        this.totalPage = totalPage;
-    }
-
-    public String getTotalElement() {
-        return totalElement;
-    }
-
-    public void setTotalElement(String totalElement) {
-        this.totalElement = totalElement;
-    }
+	   
 
     public int getCode() {
 		return code;

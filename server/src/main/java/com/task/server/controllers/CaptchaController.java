@@ -119,13 +119,13 @@ public class CaptchaController extends BaseController {
 	
 	/** 
      *  
-     * @Description:正弦曲线Wave扭曲图片 Sinusoidal Wave Distortion Picture
+     * @Description: Sinusoidal Wave Distortion Picture
      * @return BufferedImage 
      */ 
     private BufferedImage twistImage(BufferedImage buffImg) {
     	Random random = new Random();
-        double dMultValue = random.nextInt(10) + 5;// 波形的幅度倍数，越大扭曲的程序越高，一般为3  
-        double dPhase = random.nextInt(6);// 波形的起始相位，取值区间(0-2＊PI)
+        double dMultValue = random.nextInt(10) + 5;
+        double dPhase = random.nextInt(6);
         BufferedImage destBi = new BufferedImage(buffImg.getWidth(),  
                 buffImg.getHeight(), BufferedImage.TYPE_INT_RGB); 
         Graphics g = destBi.getGraphics();
@@ -156,7 +156,7 @@ public class CaptchaController extends BaseController {
      */ 
     private int getXPosition4Twist(double dPhase, double dMultValue,  
             int height, int xPosition, int yPosition) {  
-        double PI = 3.1415926535897932384626433832799; // 此值越大，扭曲程度越大  
+        double PI = 3.1415926535897932384626433832799;
         double dx = (double) (PI * yPosition) / height + dPhase;  
         double dy = Math.sin(dx);  
         return xPosition + (int) (dy * dMultValue);  
