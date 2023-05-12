@@ -189,8 +189,9 @@ public class UserController extends BaseController{
     }
 
 
-    @SuppressWarnings({"all"})
-    @RequestMapping(value = "/register/active")
+    // key is passed in as a url param
+    @SuppressWarnings({"all"}) 
+    @RequestMapping(value = "/register/activate")
     @Transactional(rollbackFor = Exception.class)
     public MessageResult activate(String key, HttpServletRequest request) throws Exception {
         if (StringUtils.isEmpty(key)) {
@@ -346,7 +347,7 @@ public class UserController extends BaseController{
         
     }
 
-    @RequestMapping(value = "/verify/login", method = RequestMethod.POST)
+    @RequestMapping(value = "/login/verify", method = RequestMethod.POST)
     @Transactional(rollbackFor = Exception.class)
     public MessageResult verifyLogin(HttpServletRequest request) throws Exception{
         // String id = (String) request.getSession().getAttribute("USER_ID");
