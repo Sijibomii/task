@@ -26,7 +26,8 @@ public class JwtService {
   @Value("${application.security.jwt.refresh-token.expiration}")
   private long refreshExpiration;
 
-  public String extractUsername(String token) {
+  public String extractEmail(String token) {
+    // get the subject of this token. the email was set as subject
     return extractClaim(token, Claims::getSubject);
   }
 
@@ -41,7 +42,7 @@ public class JwtService {
 
   public String generateToken(
       Map<String, Object> extraClaims,
-      Users userDetails
+      Users userDetails 
   ) {
     return buildToken(extraClaims, userDetails, jwtExpiration);
   }
@@ -57,6 +58,7 @@ public class JwtService {
           Users userDetails,
           long expiration
   ) {
+    extraClaims.put("id", userDetails.getId());
     return Jwts
             .builder()
             .setClaims(extraClaims)
@@ -68,7 +70,7 @@ public class JwtService {
   }
 
   public boolean isTokenValid(String token, Users userDetails) {
-    final String username = extractUsername(token);
+    final String username = extractEmail(token);
     return (username.equals(userDetails.getEmail())) && !isTokenExpired(token);
   }
 

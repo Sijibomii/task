@@ -9,14 +9,17 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.persistence.Id;
 import org.springframework.data.relational.core.mapping.Table;
-
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -92,5 +95,19 @@ public class Users{
     private Boolean isBlocked;
 
     private Boolean twoFactorAuth;
+
+
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
+
+        // write logic for determining if user is staff
+        if (this.getIsStaff()){
+            //user is staff
+            list.add(new SimpleGrantedAuthority("STAFF_USER"));
+        }else{
+            list.add(new SimpleGrantedAuthority("USER"));
+        }
+        return list;
+    }
    
 }
