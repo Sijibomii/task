@@ -263,6 +263,7 @@ public class UserController extends BaseController{
         ValueOperations valueOperations = template.opsForValue();
         // verify email
         sendRegistrationEmail(valueOperations, user, user.getEmail());
+        KafkaDispatcher.disptach(KafkaTopics.USER_REGISTER_EVENT, user, "user register email sent", EventEnum.USER_REQUEST_REGISTER_EMAIL);
         return success();
     }
 
@@ -340,6 +341,7 @@ public class UserController extends BaseController{
         // send mail 
         ValueOperations valueOperations = template.opsForValue();
         sentEmail(valueOperations, user, user.getEmail());
+        KafkaDispatcher.disptach(KafkaTopics.USER_LOGIN_EVENT, user, "user login email sent", EventEnum.USER_REQUEST_LOGIN_EMAIL);
         return success();
         
     }
@@ -389,34 +391,7 @@ public class UserController extends BaseController{
         valueOperations.set(user.getId(), token, 5, TimeUnit.MINUTES);
     }
 
-    // anything that needs email authentication code will be requested here
-    @SuppressWarnings({"all"})
-    @RequestMapping(value= "/request/reset/code", method = RequestMethod.POST)
-    @ResponseBody
-    @Transactional(rollbackFor = Exception.class)
-    public MessageResult sendResetCode(HttpServletRequest request) throws Exception{
-        String id = (String) request.getSession().getAttribute("USER_ID");
-        Users user = userService.findById(id);
-
-        if(user == null){
-            throw new AuthException();
-        }
-
-        ValueOperations valueOperations = template.opsForValue();
-        if (valueOperations.get(SystemConstants.REQUEST_CODE_PREFIX + user.getEmail()) != null) {
-            return error("EMAIL ALREADY SENT");
-        }
-        try {
-            String code = String.valueOf(RandomNumber.getRandomNumber(100000, 999999));
-            String email = user.getEmail();
-
-            sentResetCode(valueOperations, email, code); 
-        } catch (Exception e) {
-            e.printStackTrace();
-            return error("SEND_FAILED");
-        }
-        return success("SENT_SUCCESS");
-    }
+    
     @SuppressWarnings({"all"})
     @Async
     public void sentResetCode(ValueOperations valueOperations, String email, String code) throws MessagingException, IOException, TemplateException {
@@ -437,37 +412,33 @@ public class UserController extends BaseController{
         valueOperations.set(SystemConstants.REQUEST_CODE_PREFIX + email, code, 10, TimeUnit.MINUTES);
     }
 
-    // anything that needs email authentication code will be requested here
+    
     @SuppressWarnings({"all"})
-    @RequestMapping(value= "/request/reset/login", method = RequestMethod.POST)
+    @RequestMapping(value= "/reset/login/password/verify", method = RequestMethod.POST)
     @ResponseBody
     @Transactional(rollbackFor = Exception.class)
-    public MessageResult sendResetPasswordCode(String email) throws Exception{
-        Users user = userService.findByEmail(email);
-
-        if(user == null){
-            throw new AuthException();
-        }
-
+    public MessageResult sendResetPasswordCode(String email, String code) throws Exception{
         ValueOperations valueOperations = template.opsForValue();
-        if (valueOperations.get(SystemConstants.RESET_PASSWORD_CODE_PREFIX + user.getEmail()) != null) {
-            return error("EMAIL ALREADY SENT");
+        Object redisCode = valueOperations.get(SystemConstants.RESET_PASSWORD_CODE_PREFIX + email);
+        
+        if (!code.equals(redisCode.toString())) {
+            return error("VERIFICATION_CODE_INCORRECT");
+        } else {
+            valueOperations.getOperations().delete(SystemConstants.RESET_PASSWORD_CODE_PREFIX + email);
         }
-        try {
-            String code = String.valueOf(RandomNumber.getRandomNumber(100000, 999999));
+        Users user = null; 
+        user = userService.findByEmail(email);
 
-            sentResetCode(valueOperations, email, code); 
-        } catch (Exception e) {
-            e.printStackTrace();
-            return error("SEND_FAILED");
-        }
-        return success("SENT_SUCCESS");
+        Object newPassword = valueOperations.get(SystemConstants.RESET_PASSWORD_PREFIX + email);
+        user.setPassword((String)newPassword);
+        return success();
     }
 
     @SuppressWarnings({"all"})
     @RequestMapping(value = "/reset/login/password", method = RequestMethod.POST)
     @ResponseBody
     @Transactional(rollbackFor = Exception.class)
+    // email should be a req param
     public MessageResult forgetPassword(String email, HttpServletRequest request) throws Exception {
         StringBuilder sb = new StringBuilder();
         BufferedReader reader = request.getReader();
@@ -490,24 +461,19 @@ public class UserController extends BaseController{
             map.put(key, val);        
         }  
         Assert.hasText(map.get("password"),"MISSING_PASSWORD");
-        Assert.hasText(map.get("code"),"MISSING_CODE");
 
-        Users user = null; 
         ValueOperations valueOperations = template.opsForValue();
-        Object redisCode = valueOperations.get(SystemConstants.RESET_PASSWORD_CODE_PREFIX + email);
-        
+        Users user = null; 
         user = userService.findByEmail(email);
-
         isTrue(map.get("password").length() >= 6 && map.get("password").length() <= 20, "PASSWORD_LENGTH_ILLEGAL");
         notNull(user, "MEMBER_NOT_EXISTS");
-        if (!map.get("code").equals(redisCode.toString())) {
-            return error("VERIFICATION_CODE_INCORRECT");
-        } else {
-            valueOperations.getOperations().delete(SystemConstants.RESET_PASSWORD_CODE_PREFIX + email);
-        }
-        //生成密码
         String newPassword = Md5.md5Digest(map.get("password") + user.getSalt()).toLowerCase();
-        user.setPassword(newPassword);
+        // send email to reset password:
+        sentResetCode(valueOperations, email, SystemConstants.RESET_PASSWORD_CODE_PREFIX + email); 
+        // puts hash in redis
+        valueOperations.set(SystemConstants.RESET_PASSWORD_PREFIX + email, newPassword, 10, TimeUnit.MINUTES);
+        
         return success();
     }
 }
+ 

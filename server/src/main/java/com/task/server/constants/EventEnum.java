@@ -12,8 +12,18 @@ import lombok.Setter;
 public enum EventEnum implements BaseEnum{
     
     USER_LOGIN("user login"),
+
+    USER_REQUEST_LOGIN_EMAIL("user login email sent"),
    
-    USER_REGISTER("user register");
+    USER_REGISTER("user register"),
+
+    USER_REQUEST_REGISTER_EMAIL("user register email sent"),
+
+    USER_REQUEST_PASSWORD_RESET_EMAIL("user reset password"),
+
+    USER_PASSWORD_RESET("user reset password");
+    
+
 
     @Setter
     private String eventName;
@@ -24,6 +34,6 @@ public enum EventEnum implements BaseEnum{
         return this.ordinal();
     }
 
-    
+
 
 }
