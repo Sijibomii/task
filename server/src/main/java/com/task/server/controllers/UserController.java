@@ -431,6 +431,7 @@ public class UserController extends BaseController{
 
         Object newPassword = valueOperations.get(SystemConstants.RESET_PASSWORD_PREFIX + email);
         user.setPassword((String)newPassword);
+        KafkaDispatcher.disptach(KafkaTopics.USER_DETAILS_RESET_EVENT, user, "user password reset", EventEnum.USER_PASSWORD_RESET);
         return success();
     }
 
@@ -470,6 +471,7 @@ public class UserController extends BaseController{
         String newPassword = Md5.md5Digest(map.get("password") + user.getSalt()).toLowerCase();
         // send email to reset password:
         sentResetCode(valueOperations, email, SystemConstants.RESET_PASSWORD_CODE_PREFIX + email); 
+        KafkaDispatcher.disptach(KafkaTopics.USER_DETAILS_RESET_EVENT, user, "user password reset email sent", EventEnum.USER_REQUEST_PASSWORD_RESET_EMAIL);
         // puts hash in redis
         valueOperations.set(SystemConstants.RESET_PASSWORD_PREFIX + email, newPassword, 10, TimeUnit.MINUTES);
         
