@@ -34,9 +34,10 @@ export const wrap = (http: Http) => {
     }) as Promise<LoginResponse>,
 
     // register
+    register: (email: String, password: String, captcha: String) => http.request("POST", "/register", { 
+        email, password, captcha
+    }) as Promise<Response>,
 
-
-    // register verify
 
     testUser: (username: string) =>
       http.request("GET", `/dev/test-info?username=${username}`) as Promise<{
