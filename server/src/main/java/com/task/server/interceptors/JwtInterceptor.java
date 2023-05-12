@@ -1,8 +1,9 @@
 package com.task.server.interceptors;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -12,13 +13,9 @@ import com.task.server.services.JwtService;
 import com.task.server.services.UserService;
 
 import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
-import java.util.ArrayList;
-import java.util.List;
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletResponse;
 
 public class JwtInterceptor implements HandlerInterceptor {
@@ -42,15 +39,59 @@ public class JwtInterceptor implements HandlerInterceptor {
                 }
             } catch (JwtException ex) {
                 // Token is invalid or expired
-                // check if token is expired return new token
-                response.setStatus(HttpStatus.UNAUTHORIZED.value());
-                return false;
+                if(tokenExpired(request)){
+                    // get refresh token if any
+                    String refresh = extractRefreshToken(request);
+                    String email = jwtService.extractEmail(refresh);
+                    Users user = userService.findByEmail(email);
+                    Boolean isValid = jwtService.isTokenValid(token, user);
+
+                    if (isValid){
+                        // create new access token and write in response
+                       String access =  jwtService.generateToken(user);
+                       response.addHeader("access", access);
+                    }else{
+                        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                        return false;
+                    }
+
+
+                }else{
+                    response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                    return false;
+                } 
             }
         }
         return true;
     }
 
-    
+    private Boolean tokenExpired(HttpServletRequest request){
+        String header = request.getHeader("Authorization");
+        if (header == null || !header.startsWith("Bearer ")) {
+            return false;
+        }
+        String token = header.substring(7);
+        try {
+            Claims claims = Jwts
+                    .parserBuilder()
+                    .setSigningKey(jwtService.getSignInKey())
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+            Date expiration = claims.getExpiration();
+            return expiration.before(new Date());
+        } catch (JwtException | IllegalArgumentException e) {
+           return false;
+        }
+    }
+
+    private String extractRefreshToken(HttpServletRequest request) {
+        String header = request.getHeader("Refresh");
+        if (header != null && header.startsWith("Bearer ")) {
+            return header.substring(7);
+        }
+        return null;
+    }
 
     private String extractToken(HttpServletRequest request) {
         String header = request.getHeader("Authorization");
