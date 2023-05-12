@@ -53,6 +53,7 @@ import com.task.server.utils.KafkaDispatcher;
 import com.task.server.utils.KafkaTopics;
 import static org.springframework.util.Assert.isTrue;
 import static org.springframework.util.Assert.notNull;
+import com.task.server.constants.EventEnum;
 
 @SuppressWarnings({"all"})
 @RestController
@@ -81,16 +82,6 @@ public class UserController extends BaseController{
     @Value("${spring.system.host}")
     private String host;
 
-    // @Autowired
-    // private MemberEvent memberEvent;
-
-    @GetMapping("/login/oauth2/code/github")
-    public String githubCallback(@AuthenticationPrincipal OAuth2User oauth2User) {
-       
-        System.out.println(oauth2User);
-
-        return "oauth2-success";
-    }   
     
     @GetMapping("/login/oauth/success")
     public MessageResult googleCallback(@AuthenticationPrincipal OAuth2User oauth2User, OAuth2AuthenticationToken authentication) throws Exception{
@@ -114,7 +105,7 @@ public class UserController extends BaseController{
                 var refreshToken = jwtService.generateRefreshToken(user);
                
                 LoginTokenDto login = new LoginTokenDto(user.getId(), user.getEmail(), jwtToken, refreshToken);
-                KafkaDispatcher.disptach(KafkaTopics.USER_LOGIN_EVENT, user, "user google login");
+                KafkaDispatcher.disptach(KafkaTopics.USER_LOGIN_EVENT, user, "user google login", EventEnum.USER_LOGIN);
                 return success(login);
             }
             // create users
@@ -144,7 +135,7 @@ public class UserController extends BaseController{
             var refreshToken = jwtService.generateRefreshToken(user_saved);
             LoginTokenDto login = new LoginTokenDto(user_saved.getId(), user_saved.getEmail(), jwtToken, refreshToken);
             //  //  disptach event
-            KafkaDispatcher.disptach(KafkaTopics.USER_REGISTER_EVENT, user, "user google register");
+            KafkaDispatcher.disptach(KafkaTopics.USER_REGISTER_EVENT, user, "user google register", EventEnum.USER_REGISTER);
             return success(login);
         } else if ("github".equals(registrationId)) {
             // github sign-in
@@ -166,7 +157,7 @@ public class UserController extends BaseController{
                 var refreshToken = jwtService.generateRefreshToken(user);
                
                 LoginTokenDto login = new LoginTokenDto(user.getId(), user.getEmail(), jwtToken, refreshToken);
-                KafkaDispatcher.disptach(KafkaTopics.USER_LOGIN_EVENT, user, "user github login");
+                KafkaDispatcher.disptach(KafkaTopics.USER_LOGIN_EVENT, user, "user github login", EventEnum.USER_LOGIN);
                 return success(login);
             }
             String avartar = oauth2User.getAttribute("avatar_url");
@@ -190,7 +181,7 @@ public class UserController extends BaseController{
             var refreshToken = jwtService.generateRefreshToken(user_saved);
             LoginTokenDto login = new LoginTokenDto(user_saved.getId(), user_saved.getEmail(), jwtToken, refreshToken);
              //  disptach event
-            KafkaDispatcher.disptach(KafkaTopics.USER_REGISTER_EVENT, user, "user github register");
+            KafkaDispatcher.disptach(KafkaTopics.USER_REGISTER_EVENT, user, "user github register", EventEnum.USER_REGISTER);
             return success(login);
         }
         
@@ -227,6 +218,7 @@ public class UserController extends BaseController{
         if (user_saved == null){
             return error("Activation failed");
         }
+        KafkaDispatcher.disptach(KafkaTopics.USER_REGISTER_EVENT, user_saved, "user password register", EventEnum.USER_REGISTER);
         // user should login to get tokens
         return success("activation successfull");
     }
@@ -365,7 +357,7 @@ public class UserController extends BaseController{
         // jwt tokens
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
-       
+        KafkaDispatcher.disptach(KafkaTopics.USER_LOGIN_EVENT, user, "user password login", EventEnum.USER_LOGIN);
         LoginTokenDto login = new LoginTokenDto(user.getId(), user.getEmail(), jwtToken, refreshToken);
         return success(login);
     }

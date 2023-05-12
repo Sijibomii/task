@@ -5,6 +5,7 @@ import com.task.server.dao.EventDao;
 import com.task.server.entity.Events;
 
 public class EventService {
+    
     @Autowired
     private EventDao eventsDao;
 
