@@ -1,8 +1,3 @@
-
-
-export default function Home() {
-    return (
-      <h5>knn</h5>
-    )
-}
-  
+import { LoginPage } from "../modules/landing-page/LoginPage";
+//
+export default LoginPage;
