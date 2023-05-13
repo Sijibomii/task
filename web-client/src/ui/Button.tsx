@@ -20,11 +20,8 @@ const colorClassnames = {
     "accent-secondary":
         "text-button bg-secondary hover:bg-secondary-washed-out disabled:text-secondary-washed-out",
 };
-
-export type ButtonProps = DetailedHTMLProps<
-    ButtonHTMLAttributes<HTMLButtonElement>,
-    HTMLButtonElement
-    > & {
+// DetailedHTMLProps is a TypeScript type that represents all the possible props that a HTML element can have, including the standard HTML attributes, events, and the element-specific attributes.
+export type ButtonProps = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> & {
     size?: keyof typeof sizeClassnames;
     color?: keyof typeof colorClassnames;
     loading?: boolean;
@@ -58,7 +55,7 @@ export const Button: React.FC<ButtonProps> = ({
         </span>
         {loading ? (
             <span className={`absolute`}>
-            <Spinner size={size === "small" ? "2" : "4"} />
+                <Spinner size={size === "small" ? "2" : "4"} />
             </span>
         ) : null}
         </button>
