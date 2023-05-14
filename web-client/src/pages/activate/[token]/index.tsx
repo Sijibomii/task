@@ -1,0 +1,1 @@
+// should redirect to dashboard if token is valid

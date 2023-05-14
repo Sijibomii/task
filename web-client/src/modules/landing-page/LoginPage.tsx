@@ -11,10 +11,11 @@ import SvgSolidGitHub from "../../icons/GitHub";
 import SvgSolidPerson from "../../icons/Person";
 import captchaPlaceholder from "../../img/captcha-example.webp";
 interface LoginButtonProps {
-    children: [React.ReactNode, React.ReactNode];
+    children: React.ReactNode | [React.ReactNode, React.ReactNode];
     dev?: true;
     onClick?: () => void;
     oauthUrl?: string; 
+    className?: string;
 }
 
 export const LoginButton: React.FC<LoginButtonProps> = ({
@@ -43,13 +44,12 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
         {...props}
       >
         <div
-          className="grid gap-4"
+          className={Array.isArray(children) ? "grid gap-4": ""}
           style={{
             gridTemplateColumns: "1fr auto 1fr",
           }}
         >
-          {children[0]}
-          {children[1]}
+          {Array.isArray(children) ? { ...children} : children}
           <div />
         </div>
       </Button>

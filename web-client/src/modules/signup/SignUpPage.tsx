@@ -1,8 +1,8 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { Button } from "../../ui/Button";
+
 import { Input } from "../../ui/input";
-import { apiBaseUrl, isStaging, loginNextPathKey, __prod__, } from "../../lib/constants";
+import {  isStaging,  __prod__, } from "../../lib/constants";
 import { isServer } from "../../lib/isServer";
 import Image from "next/image";
 import { useTokenStore } from "../auth/useTokenStore";
@@ -13,6 +13,24 @@ import captchaPlaceholder from "../../img/captcha-example.webp";
 
 
 export const SignUpPage: React.FC = () => {
+    const hasTokens = useTokenStore((s) => !!(s.accessToken && s.refreshToken));
+    const { push } = useRouter();
+    const [tokensChecked, setTokensChecked] = useState(false);
+  
+    useEffect(() => {
+      if (hasTokens) {
+        push("/dashboard");
+      } else {
+        setTokensChecked(true);
+      }
+    }, [hasTokens, push]);
+  
+    const queryParams =
+      isStaging && !isServer
+        ? "?redirect_after_base=" + window.location.origin
+        : "";
+  
+    if (!tokensChecked) return null;
 
     return (
         <>
