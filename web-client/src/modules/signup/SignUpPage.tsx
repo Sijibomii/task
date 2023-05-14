@@ -6,80 +6,16 @@ import { apiBaseUrl, isStaging, loginNextPathKey, __prod__, } from "../../lib/co
 import { isServer } from "../../lib/isServer";
 import Image from "next/image";
 import { useTokenStore } from "../auth/useTokenStore";
-import SvgSolidGoogle from "../../icons/SolidGoogle";
+import { LoginButton } from "../landing-page/LoginPage";
 import SvgSolidGitHub from "../../icons/GitHub";
 import SvgSolidPerson from "../../icons/Person";
 import captchaPlaceholder from "../../img/captcha-example.webp";
-interface LoginButtonProps {
-    children: [React.ReactNode, React.ReactNode];
-    dev?: true;
-    onClick?: () => void;
-    oauthUrl?: string; 
-}
 
-export const LoginButton: React.FC<LoginButtonProps> = ({
-    children,
-    onClick,
-    oauthUrl,
-    dev,
-    ...props
-  }) => {
-    const { query } = useRouter();
-    const clickHandler = useCallback(() => {
-      if (typeof query.next === "string" && query.next) {
-        try {
-          localStorage.setItem(loginNextPathKey, query.next);
-        } catch {}
-      }
-  
-      window.location.href = oauthUrl as string;
-    }, [query, oauthUrl]);
-  
+
+export const SignUpPage: React.FC = () => {
+
     return (
-      <Button
-        className="justify-center text-base py-3 mt-2 bg-black"
-        color={dev ? "primary" : "secondary"}
-        onClick={oauthUrl ? clickHandler : onClick}
-        {...props}
-      >
-        <div
-          className="grid gap-4"
-          style={{
-            gridTemplateColumns: "1fr auto 1fr",
-          }}
-        >
-          {children[0]}
-          {children[1]}
-          <div />
-        </div>
-      </Button>
-    );
-  };
-
-
-  export const LoginPage: React.FC = () => {
-    // useSaveTokensFromQueryParams();
-    const hasTokens = useTokenStore((s) => !!(s.accessToken && s.refreshToken));
-    const { push } = useRouter();
-    const [tokensChecked, setTokensChecked] = useState(false);
-  
-    useEffect(() => {
-      if (hasTokens) {
-        push("/dashboard");
-      } else {
-        setTokensChecked(true);
-      }
-    }, [hasTokens, push]);
-  
-    const queryParams =
-      isStaging && !isServer
-        ? "?redirect_after_base=" + window.location.origin
-        : "";
-  
-    if (!tokensChecked) return null;
-  
-    return (
-      <>
+        <>
         <div className="flex">
         </div>
         <div
@@ -90,41 +26,24 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
         >
           {/* <HeaderController embed={{}} title="Login" /> */}
           <div className="hidden sm:flex" />
-          <div className="flex justify-self-center self-center sm:hidden">
-            {/* <LgLogo /> */}
-          </div>
           <div className="flex  m-auto flex-col p-6 gap-5 bg-primary-800 sm:rounded-8 z-10 sm:w-400 w-full">
             <div className="flex gap-2 flex-col text-center">
-              <span className="text-3xl text-primary-100 font-bold">Welcome</span>
-              <div className="text-primary-100 flex-wrap">
-                By logging in you accept our&nbsp;
-                <a
-                  href="/privacy-policy.html"
-                  className="text-accent hover:underline"
-                >
-                  Privacy Policy
-                </a>
-                &nbsp;and&nbsp;
-                <a href="/terms.html" className="text-accent hover:underline">
-                  Terms of Service
-                </a>
-                .
-              </div>
-            </div>
-            <div className="flex flex-col gap-4">
-              <LoginButton 
-                oauthUrl={`${apiBaseUrl}/`}
-              >
-                <SvgSolidGitHub width={20} height={20} />
-                Log in with GitHub
-              </LoginButton>
-              <LoginButton
-                oauthUrl={`${apiBaseUrl}/`}
-              >
-                <SvgSolidGoogle width={20} height={20} />
-                Log in with Google
-              </LoginButton>
-            </div>
+                <span className="text-3xl text-primary-100 font-bold">Welcome</span>
+                <div className="text-primary-100 flex-wrap">
+                    By logging in you accept our&nbsp;
+                    <a
+                    href="/privacy-policy.html"
+                    className="text-accent hover:underline"
+                    >
+                    Privacy Policy
+                    </a>
+                    &nbsp;and&nbsp;
+                    <a href="/terms.html" className="text-accent hover:underline">
+                    Terms of Service
+                    </a>
+                    .
+                </div>
+                </div>
             <div className="flex flex-col gap-4">
                 <div className="flex flex-col">
                     <h3 className="text-primary-100 text-sm text-gray">Email:</h3>
@@ -167,27 +86,22 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
                     >
                         Generate captcha
                     </a>
-                    <a
-                        href=""
-                        className="text-primary-200 text-sm mt-0 underline"
-                    >
-                        Forgot Password?
-                    </a>
+                
                 </div>
                 
                 <LoginButton
                 // onClick={}
                 >
                 <SvgSolidPerson width={20} height={20} />
-                    Login with email
+                    Login 
                 </LoginButton>
                 <h3 className="text-sm text-center">
-                    <span className="font-normal text-primary-200">Dont have an account?</span>
+                    <span className="font-normal text-primary-200">have an account?</span>
                     <a
                         href=""
                         className="text-primary-200 text-sm mt-0 ml-1"
                     >
-                        Sign up
+                        Sign in
                     </a>
                 </h3>
             </div>
@@ -222,7 +136,6 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
             </div>
           </div>
         </div>
-      </>
-    );
-  };
-  
+        </>
+    )
+  }
