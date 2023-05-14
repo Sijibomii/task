@@ -5,11 +5,12 @@ import { Input } from "../../ui/input";
 import { LgLogo } from "../../icons";
 import { apiBaseUrl, isStaging, loginNextPathKey, __prod__, } from "../../lib/constants";
 import { isServer } from "../../lib/isServer";
-// import { useSaveTokensFromQueryParams } from "../auth/useSaveTokensFromQueryParams";
+import Image from "next/image";
 import { useTokenStore } from "../auth/useTokenStore";
 import SvgSolidGoogle from "../../icons/SolidGoogle";
 import SvgSolidGitHub from "../../icons/GitHub";
 import SvgSolidPerson from "../../icons/Person";
+import captchaPlaceholder from "../../img/captcha-example.webp";
 interface LoginButtonProps {
     children: [React.ReactNode, React.ReactNode];
     dev?: true;
@@ -37,7 +38,7 @@ const LoginButton: React.FC<LoginButtonProps> = ({
   
     return (
       <Button
-        className="justify-center text-base py-3 mt-2 "
+        className="justify-center text-base py-3 mt-2 bg-black"
         color={dev ? "primary" : "secondary"}
         onClick={oauthUrl ? clickHandler : onClick}
         {...props}
@@ -147,12 +148,34 @@ const LoginButton: React.FC<LoginButtonProps> = ({
                     // onChange={(e) => setReason(e.target.value)}
                     />
                 </div>
-                <a
-                    href=""
-                    className="ml-auto hover:text-primary-200 text-sm mt-0"
-                >
-                    Forgot Password?
-                </a>
+                <div className="flex flex-col">
+                    <h3 className="text-primary-100 text-sm">Captcha</h3>
+                    <div className="flex items-center justify-between">
+                        <Image src={captchaPlaceholder} height={100} width={150} alt="captcha" />
+                        <Input
+                        className={``}
+                        autoFocus
+                        placeholder={"Enter Captcha Code"}
+                        // value={reason}
+                        // onChange={(e) => setReason(e.target.value)}
+                        />
+                    </div>
+                </div>
+                <div className="flex items-center justify-between">
+                    <a
+                        href=""
+                        className="hover:text-primary-200 text-sm mt-0 underline"
+                    >
+                        Generate captcha
+                    </a>
+                    <a
+                        href=""
+                        className="hover:text-primary-200 text-sm mt-0 underline"
+                    >
+                        Forgot Password?
+                    </a>
+                </div>
+                
                 <LoginButton
                 // onClick={}
                 >
