@@ -1,1 +1,1 @@
-export { default as SolidGithub } from "./SolidGithub";
+export { default as LgLogo } from "./LgLogo";
