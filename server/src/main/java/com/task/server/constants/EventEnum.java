@@ -21,6 +21,8 @@ public enum EventEnum implements BaseEnum{
 
     USER_REQUEST_PASSWORD_RESET_EMAIL("user reset password"),
 
+    USER_PASSWORD_RESET_CODE_VERIFIED("user reset password code verified"),
+
     USER_PASSWORD_RESET("user reset password");
     
 

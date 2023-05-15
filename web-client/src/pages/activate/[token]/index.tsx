@@ -1,1 +1,1 @@
-// should redirect to dashboard if token is valid
+// should redirect to login if token is valid

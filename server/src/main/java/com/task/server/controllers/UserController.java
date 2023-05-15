@@ -54,6 +54,8 @@ import com.task.server.utils.KafkaTopics;
 import static org.springframework.util.Assert.isTrue;
 import static org.springframework.util.Assert.notNull;
 import com.task.server.constants.EventEnum;
+import com.task.server.utils.RandomString;
+
 
 @SuppressWarnings({"all"})
 @RestController
@@ -75,6 +77,7 @@ public class UserController extends BaseController{
     @Autowired
     private OAuth2AuthorizedClientService clientService;
 
+    
     
 
     @Value("${spring.mail.username}")
@@ -437,7 +440,31 @@ public class UserController extends BaseController{
         Template template = cfg.getTemplate("resetCodeEmail.ftl");
         String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
         helper.setText(html, true);
-        //发送邮件
+
+        javaMailSender.send(mimeMessage);
+        valueOperations.set(SystemConstants.REQUEST_CODE_PREFIX + email, code, 10, TimeUnit.MINUTES);
+    }
+
+    @SuppressWarnings({"all"})
+    @Async
+    public void sentResetPassswordCode(ValueOperations valueOperations, String email) throws MessagingException, IOException, TemplateException {
+        // generate random code
+        String code = RandomString.generate(32);
+
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = null;
+        helper = new MimeMessageHelper(mimeMessage, true);
+        helper.setFrom(from);
+        helper.setTo(email);
+        Map<String, Object> model = new HashMap<>(16);
+        model.put("code", code);
+        model.put("email", email);
+        Configuration cfg = new Configuration(Configuration.VERSION_2_3_26);
+        cfg.setClassForTemplateLoading(this.getClass(), "/templates");
+        Template template = cfg.getTemplate("resetPassword.ftl");
+        String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
+        helper.setText(html, true);
+
         javaMailSender.send(mimeMessage);
         valueOperations.set(SystemConstants.REQUEST_CODE_PREFIX + email, code, 10, TimeUnit.MINUTES);
     }
@@ -447,7 +474,7 @@ public class UserController extends BaseController{
     @RequestMapping(value= "/reset/login/password/verify", method = RequestMethod.POST)
     @ResponseBody
     @Transactional(rollbackFor = Exception.class)
-    public MessageResult sendResetPasswordCode(String email, String code) throws Exception{
+    public MessageResult sendResetPasswordCode(String email, String code, HttpServletRequest request) throws Exception{
         ValueOperations valueOperations = template.opsForValue();
         Object redisCode = valueOperations.get(SystemConstants.RESET_PASSWORD_CODE_PREFIX + email);
         
@@ -459,18 +486,22 @@ public class UserController extends BaseController{
         Users user = null; 
         user = userService.findByEmail(email);
 
-        Object newPassword = valueOperations.get(SystemConstants.RESET_PASSWORD_PREFIX + email);
-        user.setPassword((String)newPassword);
-        KafkaDispatcher.disptach(KafkaTopics.USER_DETAILS_RESET_EVENT, user, "user password reset", EventEnum.USER_PASSWORD_RESET);
+        // set request session here
+        String sRand = RandomString.generate(32);
+		String key = "USER_RESET_TOKEN";
+		HttpSession session = request.getSession();
+		session.setAttribute(key, sRand);
+		
+        KafkaDispatcher.disptach(KafkaTopics.USER_DETAILS_RESET_EVENT, user, "user password reset code verified", EventEnum.USER_PASSWORD_RESET_CODE_VERIFIED);
         return success();
     }
 
+
     @SuppressWarnings({"all"})
-    @RequestMapping(value = "/reset/login/password", method = RequestMethod.POST)
+    @RequestMapping(value= "/reset/login/password/", method = RequestMethod.POST)
     @ResponseBody
     @Transactional(rollbackFor = Exception.class)
-    // email should be a req param
-    public MessageResult forgetPassword(String email, HttpServletRequest request) throws Exception {
+    public MessageResult resetPasswordCode(String email, HttpServletRequest request) throws Exception{
         StringBuilder sb = new StringBuilder();
         BufferedReader reader = request.getReader();
         String line;
@@ -493,17 +524,32 @@ public class UserController extends BaseController{
         }  
         Assert.hasText(map.get("password"),"MISSING_PASSWORD");
 
+        // check request session 
+
+        isTrue(map.get("password").length() >= 6 && map.get("password").length() <= 20, "PASSWORD_LENGTH_ILLEGAL");
+        Users user = null; 
+        user = userService.findByEmail(email);
+        String newPassword = Md5.md5Digest(map.get("password") + user.getSalt()).toLowerCase();
+        user.setPassword((String)newPassword);
+        return success(true);
+    }
+
+    @SuppressWarnings({"all"})
+    @RequestMapping(value = "/reset/login/password/request", method = RequestMethod.POST)
+    @ResponseBody
+    @Transactional(rollbackFor = Exception.class)
+    // email should be a req param
+    public MessageResult forgetPassword(String email, HttpServletRequest request) throws Exception {
+
         ValueOperations valueOperations = template.opsForValue();
         Users user = null; 
         user = userService.findByEmail(email);
-        isTrue(map.get("password").length() >= 6 && map.get("password").length() <= 20, "PASSWORD_LENGTH_ILLEGAL");
+        
         notNull(user, "MEMBER_NOT_EXISTS");
-        String newPassword = Md5.md5Digest(map.get("password") + user.getSalt()).toLowerCase();
+   
         // send email to reset password:
-        sentResetCode(valueOperations, email, SystemConstants.RESET_PASSWORD_CODE_PREFIX + email); 
+        sentResetPassswordCode(valueOperations, email); 
         KafkaDispatcher.disptach(KafkaTopics.USER_DETAILS_RESET_EVENT, user, "user password reset email sent", EventEnum.USER_REQUEST_PASSWORD_RESET_EMAIL);
-        // puts hash in redis
-        valueOperations.set(SystemConstants.RESET_PASSWORD_PREFIX + email, newPassword, 10, TimeUnit.MINUTES);
         
         return success();
     }
