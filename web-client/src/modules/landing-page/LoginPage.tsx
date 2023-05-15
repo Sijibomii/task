@@ -1,4 +1,5 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
+import { Form, Formik, FormikErrors } from "formik";
 import { useRouter } from "next/router";
 import { Button } from "../../ui/Button";
 import { Input } from "../../ui/input";
@@ -10,12 +11,18 @@ import SvgSolidGoogle from "../../icons/SolidGoogle";
 import SvgSolidGitHub from "../../icons/GitHub";
 import SvgSolidPerson from "../../icons/Person";
 import captchaPlaceholder from "../../img/captcha-example.webp";
+import validate from 'deep-email-validator'
+import { errorObject, usePasswordValidator } from "../../shared-hooks/usePasswordValidator";
+import { InputErrorMsg } from "../../ui/inputErrorMsg";
+
 interface LoginButtonProps {
     children: React.ReactNode | [React.ReactNode, React.ReactNode];
     dev?: true;
     onClick?: () => void;
     oauthUrl?: string; 
     className?: string;
+    type?: "button" | "submit" | "reset" | undefined;
+    loading?: boolean;
 }
 
 export const LoginButton: React.FC<LoginButtonProps> = ({
@@ -23,6 +30,8 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
     onClick,
     oauthUrl,
     dev,
+    type, 
+    loading,
     ...props
   }) => {
     const { query } = useRouter();
@@ -40,6 +49,8 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
       <Button
         className="justify-center text-base py-3 mt-2 bg-black"
         color={dev ? "primary" : "secondary"}
+        type={type ? type : undefined}
+        loading={loading ? true: false}
         onClick={oauthUrl ? clickHandler : onClick}
         {...props}
       >
@@ -49,7 +60,7 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
             gridTemplateColumns: "1fr auto 1fr",
           }}
         >
-          {Array.isArray(children) ? { ...children} : children}
+          {Array.isArray(children) ? [ ...children] : children}
           <div />
         </div>
       </Button>
@@ -62,6 +73,21 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
     const hasTokens = useTokenStore((s) => !!(s.accessToken && s.refreshToken));
     const { push } = useRouter();
     const [tokensChecked, setTokensChecked] = useState(false);
+   
+    const [ isValid, passwordErrors,  setIsValid ] = usePasswordValidator({
+      digits: true,
+      lowercase: true,
+      uppercase: true,
+      symbols: true,
+      spaces: false
+    });
+
+    interface LoginErrors {
+      email?: string | undefined;
+      password?: errorObject[] | undefined;
+      captcha_code?: string | undefined;
+    }
+    const [formErrors, setFormErrors] = useState<LoginErrors>({});
   
     useEffect(() => {
       if (hasTokens) {
@@ -88,11 +114,7 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
             gridTemplateRows: "1fr auto 1fr",
           }}
         >
-          {/* <HeaderController embed={{}} title="Login" /> */}
           <div className="hidden sm:flex" />
-          <div className="flex justify-self-center self-center sm:hidden">
-            {/* <LgLogo /> */}
-          </div>
           <div className="flex  m-auto flex-col p-6 gap-5 bg-primary-800 sm:rounded-8 z-10 sm:w-400 w-full">
             <div className="flex gap-2 flex-col text-center">
               <span className="text-3xl text-primary-100 font-bold">Welcome</span>
@@ -125,72 +147,135 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
                 Log in with Google
               </LoginButton>
             </div>
-            <div className="flex flex-col gap-4">
-                <div className="flex flex-col">
-                    <h3 className="text-primary-100 text-sm text-gray">Email:</h3>
-                    <div className="flex">
-                        <Input
-                        autoFocus
-                        placeholder={"Enter your Email"}
-                        // value={username}
-                        // onChange={(e) => setUsername(e.target.value)}
-                        />
+            <Formik<{
+                email: string;
+                password: string;
+                captcha_code: String;
+              }>
+                initialValues={
+                  {
+                    email: "",
+                    password: "",
+                    captcha_code: ""
+                  }
+                }
+                validateOnChange={false}
+                validateOnBlur={false}
+                validate={({ email, password }): LoginErrors => {
+                  const errors: LoginErrors = {
+                    email: "",
+                    password: [],
+                    captcha_code: ""
+                  };
+                  let { valid, validators, reason } = await validate(email)
+                  if (!valid){ 
+                    type rea = "regex"| "typo" | "disposable" | "mx" | "smtp" | undefined
+                    const errorReason = reason as rea
+                    if (errorReason){
+                      return {
+                        email: "" // reason ? validators[errorReason] : ""
+                      }
+                    }
+                  }
+                  setIsValid(password)
+
+                  if(!isValid){
+                    return {
+                      password: passwordErrors
+                    }
+                  }
+                  // had to do this because formik keeps changing my type of errors 
+                  setFormErrors(errors)
+                  return errors;
+                }}
+                onSubmit={({ email, password, captcha_code }) => {
+                 
+                }}
+              >
+                {({ isSubmitting, setFieldValue, values, errors,  }) => (
+                  <Form className={``}>
+                    <div className="flex flex-col gap-4">
+                    <div className="flex flex-col">
+                        <h3 className="text-primary-100 text-sm text-gray">Email:</h3>
+                        <div className="flex">
+                        {errors.email ? (
+                          <div className={`flex mt-1`}>
+                            <InputErrorMsg>{errors.email}</InputErrorMsg>
+                          </div>
+                        ) : null}
+                            <Input
+                            autoFocus
+                            placeholder={"Enter your Email"}
+                            name="email"
+                            
+                            // onChange={(e) => setUsername(e.target.value)}
+                            />
+                        </div>
                     </div>
-                </div>
-                <div className="flex flex-col">
-                    <h3 className="text-primary-100 text-sm">Password</h3>
-                    <Input
-                    className={``}
-                    autoFocus
-                    placeholder={"Enter password"}
-                    // value={reason}
-                    // onChange={(e) => setReason(e.target.value)}
-                    />
-                </div>
-                <div className="flex flex-col">
-                    <h3 className="text-primary-100 text-sm">Captcha</h3>
-                    <div className="flex items-center justify-between">
-                        <Image src={captchaPlaceholder} height={100} width={120} alt="captcha" />
+                    <div className="flex flex-col">
+                        <h3 className="text-primary-100 text-sm">Password</h3>
+                        {errors.password ? (
+                          <div className={`flex mt-1`}>
+                            {formErrors.password && formErrors.password.map(error => <InputErrorMsg key={error.arguments}>{error.message}</InputErrorMsg>)}
+                          </div>
+                        ) : null}
                         <Input
-                        className={`ml-3`}
+                        className={``}
                         autoFocus
-                        placeholder={"Enter Captcha Code"}
+                        placeholder={"Enter password"}
+                        name="password"
                         // value={reason}
                         // onChange={(e) => setReason(e.target.value)}
                         />
                     </div>
+                    <div className="flex flex-col">
+                        <h3 className="text-primary-100 text-sm">Captcha</h3>
+                        <div className="flex items-center justify-between">
+                            <Image src={captchaPlaceholder} height={100} width={120} alt="captcha" />
+                            <Input
+                            className={`ml-3`}
+                            autoFocus
+                            placeholder={"Enter Captcha Code"}
+                            // value={reason}
+                            // onChange={(e) => setReason(e.target.value)}
+                            />
+                        </div>
+                    </div>
+                    <div className="flex items-center justify-between">
+                        <a
+                            href=""
+                            className="text-primary-200 text-sm mt-0 underline"
+                        >
+                            Generate captcha
+                        </a>
+                        <a
+                            href=""
+                            className="text-primary-200 text-sm mt-0 underline"
+                        >
+                            Forgot Password?
+                        </a>
+                    </div>
+                    
+                    <LoginButton loading={isSubmitting} type="submit"
+                    // onClick={}
+                    >
+                    <SvgSolidPerson width={20} height={20} />
+                        Login with email
+                    </LoginButton>
+                    <h3 className="text-sm text-center">
+                        <span className="font-normal text-primary-200">Dont have an account?</span>
+                        <a
+                            href=""
+                            className="text-primary-200 text-sm mt-0 ml-1"
+                        >
+                            Sign up
+                        </a>
+                    </h3>
                 </div>
-                <div className="flex items-center justify-between">
-                    <a
-                        href=""
-                        className="text-primary-200 text-sm mt-0 underline"
-                    >
-                        Generate captcha
-                    </a>
-                    <a
-                        href=""
-                        className="text-primary-200 text-sm mt-0 underline"
-                    >
-                        Forgot Password?
-                    </a>
-                </div>
-                
-                <LoginButton
-                // onClick={}
-                >
-                <SvgSolidPerson width={20} height={20} />
-                    Login with email
-                </LoginButton>
-                <h3 className="text-sm text-center">
-                    <span className="font-normal text-primary-200">Dont have an account?</span>
-                    <a
-                        href=""
-                        className="text-primary-200 text-sm mt-0 ml-1"
-                    >
-                        Sign up
-                    </a>
-                </h3>
-            </div>
+                  </Form>
+                )}
+            </Formik>
+            
           </div>
           <div className="flex flex-row absolute bottom-0 w-full justify-between px-5 py-5 mt-auto items-center sm:px-7">
             <div className="hidden sm:flex">

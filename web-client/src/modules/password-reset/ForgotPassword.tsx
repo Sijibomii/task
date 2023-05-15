@@ -9,7 +9,6 @@ import { useTokenStore } from "../auth/useTokenStore";
 import Key from "../../icons/Key";
 import Email from "../../icons/Email";
 import { LoginButton } from "../landing-page/LoginPage";
-import captchaPlaceholder from "../../img/captcha-example.webp";
 import SvgSolidGitHub from "../../icons/GitHub";
 
 export const ForgotPassword: React.FC = () => {
