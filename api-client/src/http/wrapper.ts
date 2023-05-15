@@ -11,10 +11,10 @@ export interface LoginResponse extends Response {
         refresh: String
     }
 }
-
+ 
 export const wrap = (http: Http) => {
-  return {
 
+  return {
     // captcha: I'm not sure the typescript type of response
     //  to use: 
     //    const captchaImage = await captcha;
