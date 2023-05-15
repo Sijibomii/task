@@ -166,31 +166,33 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
                 validateOnBlur 
 
                 validate={({ email, password }): LoginErrors => {
-                  console.log('cc')
-                  const errors: LoginErrors = {
-                    email: "",
-                    password: [],
-                    captcha_code: ""
-                  };
+
+                  const errors: LoginErrors = {};
 
                   const emailNotValid =  (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
                   if (emailNotValid && email.length !== 0){ 
                     errors.email = "enter a valid email" 
+                    return errors
                   }
                   setIsValid(password)
-
                   if(!isValid && password.length !== 0){
                     errors.password= passwordErrors
+                    return errors
                   }
+
                   // had to do this because formik keeps changing my type of errors 
-                  return errors;
+                  return {};
                 }}
+               
                 onSubmit={async ({ email, password, captcha_code }) => {
+                  console.log(captcha_code, email)
+                  if (email.length === 0 || password.length ===0 || captcha_code.length === 0) return
+                    
                     const resp = await wrappedClient.login(email, password, captcha_code)
                     console.log(resp)
                 }}
               >
-                {({ isSubmitting, errors, handleChange, handleBlur  }) => (
+                {({ isSubmitting, errors, handleChange, handleBlur, setFieldValue }) => (
                   <Form className={``}>
                     <div className="flex flex-col gap-4">
                     <div className="flex flex-col">
@@ -234,10 +236,14 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
                         <div className="flex items-center justify-between">
                             <Image src={captchaPlaceholder} height={100} width={120} alt="captcha" />
                             <Input
-                            className={`ml-3`}
-                            autoFocus
-                            placeholder={"Enter Captcha Code"}
-                            
+                              className={`ml-3`}
+                              // autoFocus
+                              placeholder={"Enter Captcha Code"}
+                              id="captcha_code"                   
+                              name="captcha_code"
+                              onBlur={handleBlur}
+                              onChange={handleChange}
+                             
                             />
                         </div>
                     </div>
@@ -255,13 +261,17 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
                             Forgot Password?
                         </a>
                     </div>
+
+                    {/* <Button loading={isSubmitting} type="submit" onClick={()=> console.log(errors)}>
+                      Login with email
+                    </Button> */}
                     
-                    <LoginButton loading={isSubmitting} type="submit"
-                    // onClick={}
-                    >
-                    <SvgSolidPerson width={20} height={20} />
+                    <LoginButton loading={isSubmitting} type="submit">
+                        <SvgSolidPerson width={20} height={20} />
                         Login with email
                     </LoginButton>
+
+
                     <h3 className="text-sm text-center">
                         <span className="font-normal text-primary-200">Dont have an account?</span>
                         <a
