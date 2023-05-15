@@ -1,4 +1,4 @@
-import { http } from "@sijibomi/api-client";
+import { http } from "../api-client";
 import { useHttpClient as useHttp } from "../global-stores/useHttpClient";
 
 // return the http client
@@ -7,8 +7,10 @@ export const useHttpClient = () => {
 
     if(httpClient === null){
         const { create } = http;
-        const client = create(process.env.BASE_API_URL)
-        setHttp(create);
+        const client = create({
+            baseUrl: process.env.BASE_API_URL || 'http://localhost:8080'
+        })
+        setHttp(client);
         return client
     }
     

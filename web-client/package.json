@@ -42,6 +42,7 @@
     "@storybook/testing-library": "^0.0.14-next.2",
     "@types/isomorphic-fetch": "^0.0.36",
     "@types/react-modal": "^3.16.0",
+    "dotenv": "^16.0.3",
     "eslint-plugin-storybook": "^0.6.12",
     "storybook": "^7.0.11"
   }

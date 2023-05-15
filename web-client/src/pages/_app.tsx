@@ -1,12 +1,18 @@
+import { useEffect } from 'react';
 import '../styles/global.css';
 import { AppProps } from "next/app";
 import { QueryClientProvider } from "react-query";
 import Head from "next/head";
 import { queryClient } from "../lib/queryClient"; 
 import { ErrorToastController } from "../modules/errors/ErrorToastController";
+// import dotenv from 'dotenv';
+
 
 
 export default function App({ Component, pageProps }: AppProps) {
+  // useEffect(()=>{
+  //   dotenv.config();
+  // },[])
   return (
     <QueryClientProvider client={queryClient}> 
         <Head>

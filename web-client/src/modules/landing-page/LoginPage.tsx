@@ -13,7 +13,8 @@ import SvgSolidPerson from "../../icons/Person";
 import captchaPlaceholder from "../../img/captcha-example.webp";
 import { errorObject, usePasswordValidator } from "../../shared-hooks/usePasswordValidator";
 import { InputErrorMsg } from "../../ui/inputErrorMsg";
-import { InputField } from "../../form-fields/InputField";
+import { useHttpClient } from "../../shared-hooks/useHttpClient";
+import { http } from "../../api-client";
 
 interface LoginButtonProps {
     children: React.ReactNode | [React.ReactNode, React.ReactNode];
@@ -35,6 +36,7 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
     ...props
   }) => {
     const { query } = useRouter();
+   
     const clickHandler = useCallback(() => {
       if (typeof query.next === "string" && query.next) {
         try {
@@ -73,7 +75,8 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
     const hasTokens = useTokenStore((s) => !!(s.accessToken && s.refreshToken));
     const { push } = useRouter();
     const [tokensChecked, setTokensChecked] = useState(false);
-   
+    const httpClient = useHttpClient();
+    const wrappedClient = http.wrap(httpClient)
     const [ isValid, passwordErrors,  setIsValid ] = usePasswordValidator({
       digits: true,
       lowercase: true,
@@ -182,8 +185,9 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
                   // had to do this because formik keeps changing my type of errors 
                   return errors;
                 }}
-                onSubmit={({ email, password, captcha_code }) => {
-                 
+                onSubmit={async ({ email, password, captcha_code }) => {
+                    const resp = await wrappedClient.login(email, password, captcha_code)
+                    console.log(resp)
                 }}
               >
                 {({ isSubmitting, errors, handleChange, handleBlur  }) => (
@@ -233,8 +237,7 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
                             className={`ml-3`}
                             autoFocus
                             placeholder={"Enter Captcha Code"}
-                            // value={reason}
-                            // onChange={(e) => setReason(e.target.value)}
+                            
                             />
                         </div>
                     </div>

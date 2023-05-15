@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { combine } from "zustand/middleware";
-import { Http } from "@sijibomi/api-client";
+import { http } from "../api-client";
 
 export const useHttpClient = create(
   combine(
@@ -9,7 +9,7 @@ export const useHttpClient = create(
     },
     (set, get) => ({
       set,
-      setHttpClient: (http: Http) => {
+      setHttpClient: (http: http.Http) => {
         const client = get().http;
         set({ http });
       },
