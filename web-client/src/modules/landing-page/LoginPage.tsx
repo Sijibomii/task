@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import { Form, Formik, FormikErrors } from "formik";
+import { Form, Formik } from "formik";
 import { useRouter } from "next/router";
 import { Button } from "../../ui/Button";
 import { Input } from "../../ui/input";
@@ -11,9 +11,9 @@ import SvgSolidGoogle from "../../icons/SolidGoogle";
 import SvgSolidGitHub from "../../icons/GitHub";
 import SvgSolidPerson from "../../icons/Person";
 import captchaPlaceholder from "../../img/captcha-example.webp";
-import validate from 'deep-email-validator'
 import { errorObject, usePasswordValidator } from "../../shared-hooks/usePasswordValidator";
 import { InputErrorMsg } from "../../ui/inputErrorMsg";
+import { InputField } from "../../form-fields/InputField";
 
 interface LoginButtonProps {
     children: React.ReactNode | [React.ReactNode, React.ReactNode];
@@ -87,7 +87,7 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
       password?: errorObject[] | undefined;
       captcha_code?: string | undefined;
     }
-    const [formErrors, setFormErrors] = useState<LoginErrors>({});
+   
   
     useEffect(() => {
       if (hasTokens) {
@@ -159,74 +159,71 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
                     captcha_code: ""
                   }
                 }
-                validateOnChange={false}
-                validateOnBlur={false}
+                validateOnChange
+                validateOnBlur 
+
                 validate={({ email, password }): LoginErrors => {
+                  console.log('cc')
                   const errors: LoginErrors = {
                     email: "",
                     password: [],
                     captcha_code: ""
                   };
-                  let { valid, validators, reason } = await validate(email)
-                  if (!valid){ 
-                    type rea = "regex"| "typo" | "disposable" | "mx" | "smtp" | undefined
-                    const errorReason = reason as rea
-                    if (errorReason){
-                      return {
-                        email: "" // reason ? validators[errorReason] : ""
-                      }
-                    }
+
+                  const emailNotValid =  (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+                  if (emailNotValid && email.length !== 0){ 
+                    errors.email = "enter a valid email" 
                   }
                   setIsValid(password)
 
-                  if(!isValid){
-                    return {
-                      password: passwordErrors
-                    }
+                  if(!isValid && password.length !== 0){
+                    errors.password= passwordErrors
                   }
                   // had to do this because formik keeps changing my type of errors 
-                  setFormErrors(errors)
                   return errors;
                 }}
                 onSubmit={({ email, password, captcha_code }) => {
                  
                 }}
               >
-                {({ isSubmitting, setFieldValue, values, errors,  }) => (
+                {({ isSubmitting, errors, handleChange, handleBlur  }) => (
                   <Form className={``}>
                     <div className="flex flex-col gap-4">
                     <div className="flex flex-col">
                         <h3 className="text-primary-100 text-sm text-gray">Email:</h3>
-                        <div className="flex">
                         {errors.email ? (
                           <div className={`flex mt-1`}>
                             <InputErrorMsg>{errors.email}</InputErrorMsg>
                           </div>
-                        ) : null}
-                            <Input
+                        ) : null }
+                          <Input
                             autoFocus
                             placeholder={"Enter your Email"}
                             name="email"
-                            
-                            // onChange={(e) => setUsername(e.target.value)}
-                            />
-                        </div>
+                            id="email"
+                            type={"email"}
+                            onBlur={handleBlur}
+                            onChange={handleChange}
+                          />
                     </div>
                     <div className="flex flex-col">
                         <h3 className="text-primary-100 text-sm">Password</h3>
                         {errors.password ? (
-                          <div className={`flex mt-1`}>
-                            {formErrors.password && formErrors.password.map(error => <InputErrorMsg key={error.arguments}>{error.message}</InputErrorMsg>)}
+                          <div className={`flex flex-col mt-1`}>
+                            {errors.password && errors.password.map(error => 
+                            <InputErrorMsg
+                            key={error.message}>{error.message}</InputErrorMsg>)}
                           </div>
                         ) : null}
                         <Input
-                        className={``}
-                        autoFocus
-                        placeholder={"Enter password"}
-                        name="password"
-                        // value={reason}
-                        // onChange={(e) => setReason(e.target.value)}
-                        />
+                          className={``}
+                          id="password"
+                          placeholder={"Enter password"}
+                          name="password"
+                          type={"password"}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          />
                     </div>
                     <div className="flex flex-col">
                         <h3 className="text-primary-100 text-sm">Captcha</h3>

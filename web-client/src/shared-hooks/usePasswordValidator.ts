@@ -100,7 +100,7 @@ export function usePasswordValidator( option?: Partial<IValidatorOption> ): IUse
         isValid, 
         errors,
         ( password: string ) => {
-            const valid = schema.validate(password, { list: true });
+            const valid = schema.validate(password, { details: true });
             setIsValid(Array.isArray(valid) ? false : true)
             if (Array.isArray(valid)){
                 setErrors(valid)
