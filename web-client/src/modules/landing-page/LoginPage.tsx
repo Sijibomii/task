@@ -75,6 +75,7 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
     const hasTokens = useTokenStore((s) => !!(s.accessToken && s.refreshToken));
     const { push } = useRouter();
     const [tokensChecked, setTokensChecked] = useState(false);
+    const [captcha, setCaptcha] = useState<string | undefined | null>(undefined);
     const httpClient = useHttpClient();
     const wrappedClient = http.wrap(httpClient)
     const [ isValid, passwordErrors,  setIsValid ] = usePasswordValidator({
@@ -89,6 +90,17 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
       email?: string | undefined;
       password?: errorObject[] | undefined;
       captcha_code?: string | undefined;
+    }
+
+   async function generateCaptcha(){
+      const reader = new FileReader();
+      const resp = await wrappedClient.captcha()
+      reader.onloadend = () => {
+        const dataUrl = reader.result;
+        setCaptcha(dataUrl as string);
+      };
+
+      reader.readAsDataURL(resp);
     }
    
   
@@ -186,10 +198,15 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
                
                 onSubmit={async ({ email, password, captcha_code }) => {
                   console.log(captcha_code, email)
-                  if (email.length === 0 || password.length ===0 || captcha_code.length === 0) return
+                  if (email.length === 0 || password.length ===0) return
+
+                  if (captcha_code.length === 0){
+                    alert('generate captcha with the link in the form')
+                  }
                     
                     const resp = await wrappedClient.login(email, password, captcha_code)
                     console.log(resp)
+                    console.log(resp.code)
                 }}
               >
                 {({ isSubmitting, errors, handleChange, handleBlur, setFieldValue }) => (
@@ -232,10 +249,13 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
                           />
                     </div>
                     <div className="flex flex-col">
-                        <h3 className="text-primary-100 text-sm">Captcha</h3>
-                        <div className="flex items-center justify-between">
-                            <Image src={captchaPlaceholder} height={100} width={120} alt="captcha" />
-                            <Input
+                        
+                          {captcha && (
+                          <>
+                          <h3 className="text-primary-100 text-sm">Captcha</h3>
+                          <div className="flex items-center justify-between">
+                              <Image src={captcha} height={100} width={120} alt="captcha" />
+                              <Input
                               className={`ml-3`}
                               // autoFocus
                               placeholder={"Enter Captcha Code"}
@@ -243,14 +263,17 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
                               name="captcha_code"
                               onBlur={handleBlur}
                               onChange={handleChange}
-                             
+                            
                             />
-                        </div>
+                          </div>
+                          </>
+                          )}
                     </div>
                     <div className="flex items-center justify-between">
                         <a
-                            href=""
+                            href="#"
                             className="text-primary-200 text-sm mt-0 underline"
+                            onClick={generateCaptcha}
                         >
                             Generate captcha
                         </a>
@@ -262,9 +285,6 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
                         </a>
                     </div>
 
-                    {/* <Button loading={isSubmitting} type="submit" onClick={()=> console.log(errors)}>
-                      Login with email
-                    </Button> */}
                     
                     <LoginButton loading={isSubmitting} type="submit">
                         <SvgSolidPerson width={20} height={20} />

@@ -77,8 +77,8 @@ public class UserController extends BaseController{
     @Autowired
     private OAuth2AuthorizedClientService clientService;
 
-    
-    
+    @Autowired KafkaDispatcher kafka;
+
 
     @Value("${spring.mail.username}")
     private String from;
@@ -108,7 +108,7 @@ public class UserController extends BaseController{
                 var refreshToken = jwtService.generateRefreshToken(user);
                
                 LoginTokenDto login = new LoginTokenDto(user.getId(), user.getEmail(), jwtToken, refreshToken);
-                KafkaDispatcher.disptach(KafkaTopics.USER_LOGIN_EVENT, user, "user google login", EventEnum.USER_LOGIN);
+                kafka.disptach(KafkaTopics.USER_LOGIN_EVENT, user, "user google login", EventEnum.USER_LOGIN);
                 return success(login);
             }
             // create users
@@ -138,7 +138,7 @@ public class UserController extends BaseController{
             var refreshToken = jwtService.generateRefreshToken(user_saved);
             LoginTokenDto login = new LoginTokenDto(user_saved.getId(), user_saved.getEmail(), jwtToken, refreshToken);
             //  //  disptach event
-            KafkaDispatcher.disptach(KafkaTopics.USER_REGISTER_EVENT, user, "user google register", EventEnum.USER_REGISTER);
+            kafka.disptach(KafkaTopics.USER_REGISTER_EVENT, user, "user google register", EventEnum.USER_REGISTER);
             return success(login);
         } else if ("github".equals(registrationId)) {
             // github sign-in
@@ -160,7 +160,7 @@ public class UserController extends BaseController{
                 var refreshToken = jwtService.generateRefreshToken(user);
                
                 LoginTokenDto login = new LoginTokenDto(user.getId(), user.getEmail(), jwtToken, refreshToken);
-                KafkaDispatcher.disptach(KafkaTopics.USER_LOGIN_EVENT, user, "user github login", EventEnum.USER_LOGIN);
+                kafka.disptach(KafkaTopics.USER_LOGIN_EVENT, user, "user github login", EventEnum.USER_LOGIN);
                 return success(login);
             }
             String avartar = oauth2User.getAttribute("avatar_url");
@@ -184,7 +184,7 @@ public class UserController extends BaseController{
             var refreshToken = jwtService.generateRefreshToken(user_saved);
             LoginTokenDto login = new LoginTokenDto(user_saved.getId(), user_saved.getEmail(), jwtToken, refreshToken);
              //  disptach event
-            KafkaDispatcher.disptach(KafkaTopics.USER_REGISTER_EVENT, user, "user github register", EventEnum.USER_REGISTER);
+            kafka.disptach(KafkaTopics.USER_REGISTER_EVENT, user, "user github register", EventEnum.USER_REGISTER);
             return success(login);
         }
         
@@ -222,7 +222,7 @@ public class UserController extends BaseController{
         if (user_saved == null){
             return error("Activation failed");
         }
-        KafkaDispatcher.disptach(KafkaTopics.USER_REGISTER_EVENT, user_saved, "user password register", EventEnum.USER_REGISTER);
+        kafka.disptach(KafkaTopics.USER_REGISTER_EVENT, user_saved, "user password register", EventEnum.USER_REGISTER);
         // user should login to get tokens
         return success("activation successfull");
     }
@@ -267,7 +267,7 @@ public class UserController extends BaseController{
         ValueOperations valueOperations = template.opsForValue();
         // verify email
         sendRegistrationEmail(valueOperations, user, user.getEmail());
-        KafkaDispatcher.disptach(KafkaTopics.USER_REGISTER_EVENT, user, "user register email sent", EventEnum.USER_REQUEST_REGISTER_EMAIL);
+        kafka.disptach(KafkaTopics.USER_REGISTER_EVENT, user, "user register email sent", EventEnum.USER_REQUEST_REGISTER_EMAIL);
         return success();
     }
 
@@ -293,7 +293,8 @@ public class UserController extends BaseController{
         String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
         helper.setText(html, true);
         // send email
-        javaMailSender.send(mimeMessage);
+        System.out.println(token);
+        // javaMailSender.send(mimeMessage);
         valueOperations.set(token, user, 60, TimeUnit.MINUTES);
     }
 
@@ -332,6 +333,7 @@ public class UserController extends BaseController{
         }
          //TODO: google captcha
 
+
         Users user = userService.login(map.get("email"), map.get("password"));
 
         if(user == null){
@@ -345,7 +347,7 @@ public class UserController extends BaseController{
         // send mail 
         ValueOperations valueOperations = template.opsForValue();
         sentEmail(valueOperations, user, user.getEmail());
-        KafkaDispatcher.disptach(KafkaTopics.USER_LOGIN_EVENT, user, "user login email sent", EventEnum.USER_REQUEST_LOGIN_EMAIL);
+        kafka.disptach(KafkaTopics.USER_LOGIN_EVENT, user, "user login email sent", EventEnum.USER_REQUEST_LOGIN_EMAIL);
         return success();
         
     }
@@ -392,7 +394,7 @@ public class UserController extends BaseController{
         // jwt tokens
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
-        KafkaDispatcher.disptach(KafkaTopics.USER_LOGIN_EVENT, user, "user password login", EventEnum.USER_LOGIN);
+        kafka.disptach(KafkaTopics.USER_LOGIN_EVENT, user, "user password login", EventEnum.USER_LOGIN);
         LoginTokenDto login = new LoginTokenDto(user.getId(), user.getEmail(), jwtToken, refreshToken);
         return success(login);
     }
@@ -413,6 +415,7 @@ public class UserController extends BaseController{
         model.put("ame", user.getDisplayName());
         model.put("token", token);
 
+        System.out.println(token);
 
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_26);
         cfg.setClassForTemplateLoading(this.getClass(), "/templates");
@@ -420,7 +423,7 @@ public class UserController extends BaseController{
         String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
         helper.setText(html, true);
         // send email
-        javaMailSender.send(mimeMessage);
+        // javaMailSender.send(mimeMessage);
         valueOperations.set(user.getId(), token, 5, TimeUnit.MINUTES);
     }
 
@@ -492,7 +495,7 @@ public class UserController extends BaseController{
 		HttpSession session = request.getSession();
 		session.setAttribute(key, sRand);
 		
-        KafkaDispatcher.disptach(KafkaTopics.USER_DETAILS_RESET_EVENT, user, "user password reset code verified", EventEnum.USER_PASSWORD_RESET_CODE_VERIFIED);
+        kafka.disptach(KafkaTopics.USER_DETAILS_RESET_EVENT, user, "user password reset code verified", EventEnum.USER_PASSWORD_RESET_CODE_VERIFIED);
         return success();
     }
 
@@ -549,7 +552,7 @@ public class UserController extends BaseController{
    
         // send email to reset password:
         sentResetPassswordCode(valueOperations, email); 
-        KafkaDispatcher.disptach(KafkaTopics.USER_DETAILS_RESET_EVENT, user, "user password reset email sent", EventEnum.USER_REQUEST_PASSWORD_RESET_EMAIL);
+        kafka.disptach(KafkaTopics.USER_DETAILS_RESET_EVENT, user, "user password reset email sent", EventEnum.USER_REQUEST_PASSWORD_RESET_EMAIL);
         
         return success();
     }
