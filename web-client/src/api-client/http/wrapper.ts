@@ -9,8 +9,10 @@ export interface Response{
 
 export interface LoginResponse extends Response {
     data?: {
-        access: String,
-        refresh: String
+        accessToken: string,
+        refreshToken: string,
+        email: string,
+        id: string
     }
 }
 

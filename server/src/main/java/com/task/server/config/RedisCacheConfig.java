@@ -10,6 +10,7 @@ import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
@@ -25,21 +26,24 @@ public class RedisCacheConfig {
 
     @Bean
     @Primary
-    public RedisTemplate<String, ?> redisTemplate(RedisConnectionFactory connectionFactory) {
+    public RedisTemplate<String, ?> redisTemplate() {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
-        redisTemplate.setConnectionFactory(connectionFactory);
+        redisTemplate.setConnectionFactory(jedisConnectionFactory());
 
         // Set the key serializer
         redisTemplate.setKeySerializer(new StringRedisSerializer());
 
         // Set the value serializer
-        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+        // redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
 
         // Set the hash key serializer
         redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+        redisTemplate.setHashKeySerializer(new JdkSerializationRedisSerializer());
+        redisTemplate.setValueSerializer(new JdkSerializationRedisSerializer());
 
+        redisTemplate.setEnableTransactionSupport(true);
         // Set the hash value serializer
-        redisTemplate.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
+        // redisTemplate.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
 
         redisTemplate.afterPropertiesSet();
         return redisTemplate;

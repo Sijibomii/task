@@ -23,6 +23,11 @@ public class BaseController {
         mr.setData(obj);
         return mr;
     }
+    protected MessageResult success(int code, Object obj) { 
+        MessageResult mr = new MessageResult(code, "SUCCESS");
+        mr.setData(obj);
+        return mr;
+    }
 
     protected MessageResult success(Object obj) {
         MessageResult mr = new MessageResult(0, "SUCCESS");

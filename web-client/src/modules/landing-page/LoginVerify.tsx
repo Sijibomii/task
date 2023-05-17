@@ -48,7 +48,10 @@ export const LoginVerify: React.FC = () => {
                             const email = localStorage.getItem("USER_EMAIL") && localStorage.getItem("USER_EMAIL");
                             if (!email) return
                             const resp = await wrappedClient.loginVerify(code, email)
-                            console.log(resp)
+                            if (resp.code === 200 && resp.message === "SUCCESS"){
+                                
+                                // const { accessToken , refreshToken, email, id } = resp.data;
+                            }
                         
                         }}
                         >

@@ -385,12 +385,10 @@ public class UserController extends BaseController{
         if (user == null){
             throw new Exception("user not found");
         }
-       
+        
         ValueOperations valueOperations = template.opsForValue();
         
         Object token = valueOperations.get(user.getId().toString());
-        
-        
 
         if (!token.equals(map.get("code"))){
            throw new Exception("INVALID CODE");
@@ -401,7 +399,7 @@ public class UserController extends BaseController{
         var refreshToken = jwtService.generateRefreshToken(user);
         kafka.disptach(KafkaTopics.USER_LOGIN_EVENT, user, "user password login", EventEnum.USER_LOGIN);
         LoginTokenDto login = new LoginTokenDto(user.getId(), user.getEmail(), jwtToken, refreshToken);
-        return success(login);
+        return success(200,login);
     }
 
 
