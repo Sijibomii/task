@@ -4,6 +4,7 @@ import { Http } from "./raw";
 export interface Response{
   code?: Number,
   message?: String
+  
 }
 
 export interface LoginResponse extends Response {
@@ -28,8 +29,8 @@ export const wrap = (http: Http) => {
         email, password, captcha
     }) as Promise<Response>,
 
-    loginVerify: (code: String) => http.request("POST", "/login/verify", { 
-       code
+    loginVerify: (code: String, email: String) => http.request("POST", "/login/verify", { 
+       code, email
     }) as Promise<LoginResponse>,
 
     // register

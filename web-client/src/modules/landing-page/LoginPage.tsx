@@ -197,7 +197,7 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
                 }}
                
                 onSubmit={async ({ email, password, captcha_code }) => {
-                  console.log(captcha_code, email)
+                  
                   if (email.length === 0 || password.length ===0) return
 
                   if (captcha_code.length === 0){
@@ -205,8 +205,12 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
                   }
                     
                     const resp = await wrappedClient.login(email, password, captcha_code)
-                    console.log(resp)
-                    console.log(resp.code)
+                    if(resp.code===200 && resp.message==="SUCCESS"){
+                      localStorage.setItem("USER_EMAIL", email);
+                      push('/login-verify')
+                    }else{
+                      alert(resp.message)
+                    }
                 }}
               >
                 {({ isSubmitting, errors, handleChange, handleBlur, setFieldValue }) => (

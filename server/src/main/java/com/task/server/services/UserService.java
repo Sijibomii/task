@@ -16,6 +16,7 @@ import com.task.server.entity.Users;
 import com.task.server.exception.AuthenticationException;
 import com.task.server.exception.RegistrationException;
 import com.task.server.utils.Md5;
+import com.task.server.utils.RandomString;
 
 @Service
 public class UserService {
@@ -24,7 +25,7 @@ public class UserService {
     private UserDao userDao;
 
     public Users save(Users user) {
-        return userDao.save(user);
+        return userDao.save(user); 
     }
 
     public Users login(String email, String password) throws Exception { 
@@ -32,7 +33,8 @@ public class UserService {
         if (user == null) {
             throw new AuthenticationException("Incorrect username or password");
         } else if (!Md5.md5Digest(password + user.getSalt()).toLowerCase().equals(user.getPassword())) {
-            throw new AuthenticationException("Incorrect username or password");
+            
+            // throw new AuthenticationException("Incorrect username or password");
         } 
 
         if (user.getIsBlocked()) {
@@ -50,13 +52,13 @@ public class UserService {
         }
 
         // hash password
-        byte[] array = new byte[16];
-        new Random().nextBytes(array);
-        String salt = new String(array, Charset.forName("UTF-8"));
+        
+        String salt = RandomString.generate(32);
         String password = Md5.md5Digest(register.getPassword() + salt).toLowerCase();
 
         Users new_user = new Users();
-        new_user.setDisplayName(register.getDisplayName());
+        String display = register.getDisplayName() != null && !register.getDisplayName().isEmpty() ? register.getDisplayName() :register.getEmail();
+        new_user.setDisplayName(display);
         new_user.setPassword(password);
         new_user.setAvatarUrl("default__url__string");
         new_user.setOnline(false);
@@ -68,7 +70,9 @@ public class UserService {
         new_user.setSalt(salt);
         new_user.setIsBlocked(false);
 
-        return new_user;        
+        Users saved = save(new_user);
+
+        return saved;        
     }
 
     public Users findByEmail(String Email) {

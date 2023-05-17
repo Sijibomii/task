@@ -10,6 +10,10 @@ public class BaseController {
         return new MessageResult(0, "SUCCESS");
     }
 
+    protected MessageResult success(int code) { 
+        return new MessageResult(code, "SUCCESS");
+    }
+
     protected MessageResult success(String msg) {
         return new MessageResult(0, msg);
     }

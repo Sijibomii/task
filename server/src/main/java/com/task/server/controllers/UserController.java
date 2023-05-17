@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,7 +29,10 @@ import com.task.server.services.UserService;
 import com.task.server.utils.MessageResult;
 import com.task.server.utils.CaptchaUtil;
 import com.task.server.utils.Md5;
+
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -55,7 +60,9 @@ import static org.springframework.util.Assert.isTrue;
 import static org.springframework.util.Assert.notNull;
 import com.task.server.constants.EventEnum;
 import com.task.server.utils.RandomString;
-
+import com.task.server.serializers.UUIDSerializer;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SuppressWarnings({"all"})
 @RestController
@@ -209,20 +216,15 @@ public class UserController extends BaseController{
         if (user == null) {
             return error("invalid link");
         }
-        if (userService.emailIsExist(user.getEmail())) {
-            // user should not be saved in db before activation
-            return error("email already activated");
-        } 
 
         // Delete the key value stored in redis
         valueOperations.getOperations().delete(key);
-   
+        
+        user.setHasActivated(true);
       
-        Users user_saved = userService.save(user);
-        if (user_saved == null){
-            return error("Activation failed");
-        }
-        kafka.disptach(KafkaTopics.USER_REGISTER_EVENT, user_saved, "user password register", EventEnum.USER_REGISTER);
+        // Users user_saved = userService.save(user);
+        
+        kafka.disptach(KafkaTopics.USER_REGISTER_EVENT, user, "user password register", EventEnum.USER_REGISTER);
         // user should login to get tokens
         return success("activation successfull");
     }
@@ -301,7 +303,7 @@ public class UserController extends BaseController{
     @SuppressWarnings({"all"})
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @Transactional(rollbackFor = Exception.class)
-    public MessageResult login(HttpServletRequest request) throws Exception{
+    public MessageResult login(HttpServletRequest request, HttpServletResponse response) throws Exception{
         StringBuilder sb = new StringBuilder();
         BufferedReader reader = request.getReader();
         String line;
@@ -339,29 +341,22 @@ public class UserController extends BaseController{
         if(user == null){
             throw new Exception("user not found");
         }
-		String key_id = "USER_ID";
-        String key_email = "USER_EMAIL";
-		HttpSession session = request.getSession();
-		session.setAttribute(key_id, user.getId());
-		session.setAttribute(key_email, user.getEmail());
+		
+		
         // send mail 
         ValueOperations valueOperations = template.opsForValue();
+        System.out.println("mail sent");
         sentEmail(valueOperations, user, user.getEmail());
         kafka.disptach(KafkaTopics.USER_LOGIN_EVENT, user, "user login email sent", EventEnum.USER_REQUEST_LOGIN_EMAIL);
-        return success();
+        return success(200);
         
     }
 
     @RequestMapping(value = "/login/verify", method = RequestMethod.POST)
     @Transactional(rollbackFor = Exception.class)
     public MessageResult verifyLogin(HttpServletRequest request) throws Exception{
-        // String id = (String) request.getSession().getAttribute("USER_ID");
-        String email = (String) request.getSession().getAttribute("USER_EMAIL");
-        Users user = userService.findByEmail(email);
-        // email should be found but in case
-        if (user == null){
-            throw new Exception("user not found");
-        }
+        
+        
         StringBuilder sb = new StringBuilder();
         BufferedReader reader = request.getReader();
         String line;
@@ -383,9 +378,19 @@ public class UserController extends BaseController{
             map.put(key, val);        
         }  
         Assert.hasText(map.get("code"),"MISSING_CODE");
+        Assert.hasText(map.get("email"), "MISSING EMAIL");
+
+        Users user = userService.findByEmail(map.get("email"));
+        // email should be found but in case
+        if (user == null){
+            throw new Exception("user not found");
+        }
        
         ValueOperations valueOperations = template.opsForValue();
-        Object token = valueOperations.get(user.getId());
+        
+        Object token = valueOperations.get(user.getId().toString());
+        
+        
 
         if (!token.equals(map.get("code"))){
            throw new Exception("INVALID CODE");
@@ -402,8 +407,9 @@ public class UserController extends BaseController{
 
     // send token to email
     @SuppressWarnings({"all"})
-    @Async
+    // @Async
     public void sentEmail(ValueOperations valueOperations, Users user, String email) throws MessagingException, IOException, TemplateException {
+        
         String token = UUID.randomUUID().toString().replace("-", "");
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = null;
@@ -412,9 +418,9 @@ public class UserController extends BaseController{
         helper.setTo(email);
   
         Map<String, Object> model = new HashMap<>(16);
-        model.put("ame", user.getDisplayName());
+        model.put("name", user.getDisplayName());
         model.put("token", token);
-
+        System.out.println("#########################################################################");
         System.out.println(token);
 
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_26);
@@ -424,7 +430,10 @@ public class UserController extends BaseController{
         helper.setText(html, true);
         // send email
         // javaMailSender.send(mimeMessage);
-        valueOperations.set(user.getId(), token, 5, TimeUnit.MINUTES);
+       
+        // I should probably be calling the serializer in the redis config but okay
+        // UUID.fromString()
+        valueOperations.set(user.getId().toString(), token, 5, TimeUnit.MINUTES);
     }
 
     

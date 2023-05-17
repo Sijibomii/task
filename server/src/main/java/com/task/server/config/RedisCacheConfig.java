@@ -4,6 +4,7 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisPassword;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
@@ -24,20 +25,24 @@ public class RedisCacheConfig {
 
     @Bean
     @Primary
-    public RedisTemplate<String, ?> redisTemplate() {
-        RedisTemplate<String, ?> template = new RedisTemplate<>();
-        template.setConnectionFactory(jedisConnectionFactory());
+    public RedisTemplate<String, ?> redisTemplate(RedisConnectionFactory connectionFactory) {
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setConnectionFactory(connectionFactory);
 
-        GenericJackson2JsonRedisSerializer jackson2JsonRedisSerializer = new GenericJackson2JsonRedisSerializer();
-        template.setKeySerializer(new StringRedisSerializer());
-        template.setValueSerializer(jackson2JsonRedisSerializer);
-        template.setHashKeySerializer(new StringRedisSerializer());
-        template.setHashValueSerializer(jackson2JsonRedisSerializer);
+        // Set the key serializer
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
 
-        template.afterPropertiesSet();
+        // Set the value serializer
+        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
 
+        // Set the hash key serializer
+        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
 
-        return template;
+        // Set the hash value serializer
+        redisTemplate.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
+
+        redisTemplate.afterPropertiesSet();
+        return redisTemplate;
     }
 
 }
