@@ -3,18 +3,20 @@ import { Input } from "../../ui/input";
 import { __prod__, } from "../../lib/constants";
 import Image from "next/image";
 import { useTokenStore } from "../auth/useTokenStore";
+import { useUserStore } from "../auth/useUserStore";
 import Key from "../../icons/Key";
 import { Form, Formik } from "formik";
 import { LoginButton } from "../landing-page/LoginPage";
 import SvgSolidGitHub from "../../icons/GitHub";
 import { useHttpClient } from "../../shared-hooks/useHttpClient";
 import { http } from "../../api-client";
+import { useRouter } from "next/router";
 
 export const LoginVerify: React.FC = () => {
 
     const httpClient = useHttpClient();
     const wrappedClient = http.wrap(httpClient)
-
+    const { push } = useRouter();
     return (
         <>
              <div className="flex">
@@ -50,7 +52,19 @@ export const LoginVerify: React.FC = () => {
                             const resp = await wrappedClient.loginVerify(code, email)
                             if (resp.code === 200 && resp.message === "SUCCESS"){
                                 
-                                // const { accessToken , refreshToken, email, id } = resp.data;
+                                if (resp.data){
+                                    const { accessToken, refreshToken, id, email } = resp.data;
+                                    useTokenStore.getState().setTokens({
+                                        accessToken: accessToken,
+                                        refreshToken: refreshToken,
+                                      });
+
+                                      useUserStore.getState().setDetails({
+                                        id, email
+                                      })
+                                    
+                                    push("/dashboard");
+                                }
                             }
                         
                         }}
