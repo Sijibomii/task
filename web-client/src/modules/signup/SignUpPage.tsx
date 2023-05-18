@@ -54,10 +54,6 @@ export const SignUpPage: React.FC = () => {
       }
     }, [hasTokens, push]);
   
-    const queryParams =
-      isStaging && !isServer
-        ? "?redirect_after_base=" + window.location.origin
-        : "";
   
     if (!tokensChecked) return null;
 
