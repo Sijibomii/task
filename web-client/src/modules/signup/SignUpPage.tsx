@@ -221,7 +221,7 @@ export const SignUpPage: React.FC = () => {
                     
                     <LoginButton loading={isSubmitting} type="submit">
                         <SvgSolidPerson width={20} height={20} />
-                        Login with email
+                        Register
                     </LoginButton>
 
 
