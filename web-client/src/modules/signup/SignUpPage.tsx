@@ -1,6 +1,6 @@
 import React, {  useEffect, useState } from "react";
 import { useRouter } from "next/router";
-
+import { Form, Formik } from "formik";
 import { Input } from "../../ui/input";
 import {  isStaging,  __prod__, } from "../../lib/constants";
 import { isServer } from "../../lib/isServer";
@@ -9,13 +9,42 @@ import { useTokenStore } from "../auth/useTokenStore";
 import { LoginButton } from "../landing-page/LoginPage";
 import SvgSolidGitHub from "../../icons/GitHub";
 import SvgSolidPerson from "../../icons/Person";
-import captchaPlaceholder from "../../img/captcha-example.webp";
-
+import { InputErrorMsg } from "../../ui/inputErrorMsg";
+import { useHttpClient } from "../../shared-hooks/useHttpClient";
+import { http } from "../../api-client";
+import { errorObject, usePasswordValidator } from "../../shared-hooks/usePasswordValidator";
 
 export const SignUpPage: React.FC = () => {
     const hasTokens = useTokenStore((s) => !!(s.accessToken && s.refreshToken));
     const { push } = useRouter();
     const [tokensChecked, setTokensChecked] = useState(false);
+    const [captcha, setCaptcha] = useState<string | undefined | null>(undefined);
+    const httpClient = useHttpClient();
+    const wrappedClient = http.wrap(httpClient)
+    const [ isValid, passwordErrors,  setIsValid ] = usePasswordValidator({
+      digits: true,
+      lowercase: true,
+      uppercase: true,
+      symbols: true,
+      spaces: false
+    });
+
+    interface LoginErrors {
+      email?: string | undefined;
+      password?: errorObject[] | undefined;
+      captcha_code?: string | undefined;
+    }
+
+   async function generateCaptcha(){
+      const reader = new FileReader();
+      const resp = await wrappedClient.captcha()
+      reader.onloadend = () => {
+        const dataUrl = reader.result;
+        setCaptcha(dataUrl as string);
+      };
+
+      reader.readAsDataURL(resp);
+    }
   
     useEffect(() => {
       if (hasTokens) {
@@ -63,57 +92,140 @@ export const SignUpPage: React.FC = () => {
                 </div>
                 </div>
             <div className="flex flex-col gap-4">
-                <div className="flex flex-col">
-                    <h3 className="text-primary-100 text-sm text-gray">Email:</h3>
-                    <div className="flex">
-                        <Input
-                        autoFocus
-                        placeholder={"Enter your Email"}
-                        // value={username}
-                        // onChange={(e) => setUsername(e.target.value)}
-                        />
+            <Formik<{
+                email: string;
+                password: string;
+                captcha_code: String;
+              }>
+                initialValues={
+                  {
+                    email: "",
+                    password: "",
+                    captcha_code: ""
+                  }
+                }
+                validateOnChange
+                validateOnBlur 
+
+                validate={({ email, password }): LoginErrors => {
+
+                  const errors: LoginErrors = {};
+
+                  const emailNotValid =  (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+                  if (emailNotValid && email.length !== 0){ 
+                    errors.email = "enter a valid email" 
+                    return errors
+                  }
+                  setIsValid(password)
+                  if(!isValid && password.length !== 0){
+                    errors.password= passwordErrors
+                    return errors
+                  }
+
+                  // had to do this because formik keeps changing my type of errors 
+                  return {};
+                }}
+               
+                onSubmit={async ({ email, password, captcha_code }) => {
+                  
+                  if (email.length === 0 || password.length ===0) return
+
+                  if (captcha_code.length === 0){
+                    alert('generate captcha with the link in the form')
+                  }
+                    
+                    const resp = await wrappedClient.register(email, password, captcha_code)
+                    if(resp.code===200 && resp.message==="SUCCESS"){
+                     
+                    }else{
+                      alert(resp.message)
+                    }
+                }}
+              >
+                {({ isSubmitting, errors, handleChange, handleBlur, setFieldValue }) => (
+                  <Form className={``}>
+                    <div className="flex flex-col gap-4">
+                    <div className="flex flex-col">
+                        <h3 className="text-primary-100 text-sm text-gray">Email:</h3>
+                        {errors.email ? (
+                          <div className={`flex mt-1`}>
+                            <InputErrorMsg>{errors.email}</InputErrorMsg>
+                          </div>
+                        ) : null }
+                          <Input
+                            autoFocus
+                            placeholder={"Enter your Email"}
+                            name="email"
+                            id="email"
+                            type={"email"}
+                            onBlur={handleBlur}
+                            onChange={handleChange}
+                          />
                     </div>
-                </div>
-                <div className="flex flex-col">
-                    <h3 className="text-primary-100 text-sm">Password</h3>
-                    <Input
-                    className={``}
-                    autoFocus
-                    placeholder={"Enter password"}
-                    // value={reason}
-                    // onChange={(e) => setReason(e.target.value)}
-                    />
-                </div>
-                <div className="flex flex-col">
-                    <h3 className="text-primary-100 text-sm">Captcha</h3>
+                    <div className="flex flex-col">
+                        <h3 className="text-primary-100 text-sm">Password</h3>
+                        {errors.password ? (
+                          <div className={`flex flex-col mt-1`}>
+                            {errors.password && errors.password.map(error => 
+                            <InputErrorMsg
+                            key={error.message}>{error.message}</InputErrorMsg>)}
+                          </div>
+                        ) : null}
+                        <Input
+                          className={``}
+                          id="password"
+                          placeholder={"Enter password"}
+                          name="password"
+                          type={"password"}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          />
+                    </div>
+                    <div className="flex flex-col">
+                        
+                          {captcha && (
+                          <>
+                          <h3 className="text-primary-100 text-sm">Captcha</h3>
+                          <div className="flex items-center justify-between">
+                              <Image src={captcha} height={100} width={120} alt="captcha" />
+                              <Input
+                              className={`ml-3`}
+                              // autoFocus
+                              placeholder={"Enter Captcha Code"}
+                              id="captcha_code"                   
+                              name="captcha_code"
+                              onBlur={handleBlur}
+                              onChange={handleChange}
+                            
+                            />
+                          </div>
+                          </>
+                          )}
+                    </div>
                     <div className="flex items-center justify-between">
-                        <Image src={captchaPlaceholder} height={100} width={120} alt="captcha" />
-                        <Input
-                        className={`ml-3`}
-                        autoFocus
-                        placeholder={"Enter Captcha Code"}
-                        // value={reason}
-                        // onChange={(e) => setReason(e.target.value)}
-                        />
+                        <a
+                            href="#"
+                            className="text-primary-200 text-sm mt-0 underline"
+                            onClick={generateCaptcha}
+                        >
+                            Generate captcha
+                        </a>
+                        <a
+                            href=""
+                            className="text-primary-200 text-sm mt-0 underline"
+                        >
+                            Forgot Password?
+                        </a>
                     </div>
-                </div>
-                <div className="flex items-center justify-between">
-                    <a
-                        href=""
-                        className="text-primary-200 text-sm mt-0 underline"
-                    >
-                        Generate captcha
-                    </a>
-                
-                </div>
-                
-                <LoginButton
-                // onClick={}
-                >
-                <SvgSolidPerson width={20} height={20} />
-                    Login 
-                </LoginButton>
-                <h3 className="text-sm text-center">
+
+                    
+                    <LoginButton loading={isSubmitting} type="submit">
+                        <SvgSolidPerson width={20} height={20} />
+                        Login with email
+                    </LoginButton>
+
+
+                    <h3 className="text-sm text-center">
                     <span className="font-normal text-primary-200">have an account?</span>
                     <a
                         href=""
@@ -122,6 +234,11 @@ export const SignUpPage: React.FC = () => {
                         Sign in
                     </a>
                 </h3>
+                </div>
+                  </Form>
+                )}
+            </Formik>
+            
             </div>
           </div>
           <div className="flex flex-row absolute bottom-0 w-full justify-between px-5 py-5 mt-auto items-center sm:px-7">
