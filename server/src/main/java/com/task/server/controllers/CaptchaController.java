@@ -146,7 +146,7 @@ public class CaptchaController extends BaseController {
    
     /** 
      *  
-     * @Description:获取扭曲后的x轴位置 
+     * @Description:
      * @param dPhase 
      * @param dMultValue 
      * @param height 
@@ -176,7 +176,7 @@ public class CaptchaController extends BaseController {
 	}
 
 	/**
-	 * 给定范围获得随机颜色
+	 * 
 	 * 
 	 * @param fc
 	 * @param bc

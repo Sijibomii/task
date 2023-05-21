@@ -4,6 +4,7 @@ package com.task.server.controllers;
 // all projects by userid
 // all categories in projects boards
 // create new projects
+//  archive a proj: decide what this means ltr
 public class ProjectController {
     
 }
