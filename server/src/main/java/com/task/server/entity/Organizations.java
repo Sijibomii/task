@@ -1,21 +1,21 @@
 package com.task.server.entity;
 
+import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import java.util.Date;
+
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.NotNull;
 
-// base entity for the permissions
-@MappedSuperclass
-public class Permissions {
+public class Organizations {
     
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -29,14 +29,14 @@ public class Permissions {
     private String description;
 
     @NotNull
-    private Integer code;
+    private int members_count;
 
-    // user who granted permission
     @ManyToOne
     @NotNull
-    private Users assigned_by;
+    private Users creator;
 
-    // has this permission been suspended?
-    @NotNull
-    private Boolean active;
+    @ManyToMany(mappedBy = "memeberships")
+    // @JsonIgnore
+    private List<Users> members;
+    
 }

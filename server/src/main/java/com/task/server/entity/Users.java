@@ -7,16 +7,21 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+
 import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -95,6 +100,14 @@ public class Users{
     private Boolean isBlocked;
 
     private Boolean twoFactorAuth;
+
+    @ManyToMany
+    @JoinTable(
+    name = "org_membership", 
+    joinColumns = @JoinColumn(name = "users_id", referencedColumnName = "id"), 
+    inverseJoinColumns = @JoinColumn(name = "organizations_id", referencedColumnName = "id"))
+    Set<Organizations> memeberships;
+
 
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
