@@ -12,6 +12,6 @@ import lombok.Data;
 public class UserBoards extends Boards {
     
     @ManyToOne
-    private Users user;
+    private Users user; 
 }
 
