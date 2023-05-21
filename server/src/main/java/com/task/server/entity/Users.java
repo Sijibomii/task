@@ -21,6 +21,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 
+import org.springframework.data.redis.stream.Task;
 import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -124,11 +125,14 @@ public class Users{
 
     @ManyToMany
     @JoinTable(
-    name = "task_assignees",  
+    name = "task_assignee",  
     joinColumns = @JoinColumn(name = "users_id", referencedColumnName = "id"), 
     inverseJoinColumns = @JoinColumn(name = "tasks_id", referencedColumnName = "id"))
-    List<Projects> task_assignees;
+    List<Task> task_assignees;
 
+    @ManyToMany(mappedBy = "tagged_users")
+    // @JsonIgnore
+    private List<TaskComment> tags;
     
 
 
