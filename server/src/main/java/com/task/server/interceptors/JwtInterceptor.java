@@ -34,6 +34,9 @@ public class JwtInterceptor implements HandlerInterceptor {
                 Users user = userService.findByEmail(email);
 
                 if (user != null && jwtService.isTokenValid(token, user)) {
+                    // token is valid 
+                    request.setAttribute("userId", user.getId());
+                    request.setAttribute("displayName", user.getDisplayName());
                     PreAuthenticatedAuthenticationToken auth = new PreAuthenticatedAuthenticationToken(user, "", user.getAuthorities());
                     SecurityContextHolder.getContext().setAuthentication(auth);
                 }
@@ -50,6 +53,10 @@ public class JwtInterceptor implements HandlerInterceptor {
                         // create new access token and write in response
                        String access =  jwtService.generateToken(user);
                        response.addHeader("access", access);
+                       // token is valid
+                       request.setAttribute("userId", user.getId());
+                       request.setAttribute("displayName", user.getDisplayName());
+
                     }else{
                         response.setStatus(HttpStatus.UNAUTHORIZED.value());
                         return false;
