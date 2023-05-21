@@ -122,6 +122,13 @@ public class Users{
     inverseJoinColumns = @JoinColumn(name = "projects_id", referencedColumnName = "id"))
     List<Projects> project_memeberships;
 
+    @ManyToMany
+    @JoinTable(
+    name = "task_assignees",  
+    joinColumns = @JoinColumn(name = "users_id", referencedColumnName = "id"), 
+    inverseJoinColumns = @JoinColumn(name = "tasks_id", referencedColumnName = "id"))
+    List<Projects> task_assignees;
+
     
 
 
