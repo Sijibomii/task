@@ -44,4 +44,10 @@ public class Teams {
     @ManyToMany(mappedBy = "team_memeberships")
     // @JsonIgnore
     private List<Users> members;
+
+    @ManyToMany(mappedBy = "teams_boards")
+    // @JsonIgnore
+    private List<Teams> team_board;
+
+    
 }
