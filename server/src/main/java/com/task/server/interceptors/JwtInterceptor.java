@@ -72,6 +72,8 @@ public class JwtInterceptor implements HandlerInterceptor {
         return true;
     }
 
+    
+
     private Boolean tokenExpired(HttpServletRequest request){
         String header = request.getHeader("Authorization");
         if (header == null || !header.startsWith("Bearer ")) {
