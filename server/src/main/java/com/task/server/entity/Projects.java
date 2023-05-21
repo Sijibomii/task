@@ -41,6 +41,8 @@ public class Projects {
     @NotNull
     private int members_count;
 
+    // a project should have a default board
+
     @ManyToOne
     @NotNull
     private Users creator;
@@ -49,8 +51,6 @@ public class Projects {
     // @JsonIgnore
     private List<Users> members;
 
-    @ManyToMany(mappedBy = "projects_board")
-    // @JsonIgnore
-    private List<Projects> project_board;
+   
 
 }
