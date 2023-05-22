@@ -38,6 +38,9 @@ public class Tasks {
     private String description;
 
     @NotNull
+    private String heading;
+
+    @NotNull
     private int assignee_count;
 
     @Enumerated(EnumType.STRING)

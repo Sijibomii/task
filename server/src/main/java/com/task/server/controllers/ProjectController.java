@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,8 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 
 // note: there should be a default project board
-// all projects by userid
-// all categories in projects boards
+
 // create new projects
 //  archive a proj: decide what this means ltr
 @SuppressWarnings({"all"})
@@ -39,6 +39,13 @@ public class ProjectController extends BaseController {
         List<Map<String, Object>> result = projectService.getAllProjectsByUserId(userId);
 
         return success(200, result);
+    }
+
+    @RequestMapping(value = "/projects/board/{id}", method = RequestMethod.GET)
+    public MessageResult getProjectBoard(@PathVariable Long id) {
+        // projects default board -> all categories -> task under each cat. task tags, comment number 
+        
+        return success();
     }
 
 }
