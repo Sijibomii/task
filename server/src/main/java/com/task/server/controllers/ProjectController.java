@@ -1,10 +1,44 @@
 package com.task.server.controllers;
 
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+import com.task.server.controllers.base.BaseController;
+import com.task.server.services.ProjectService;
+import com.task.server.utils.MessageResult;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+
 // note: there should be a default project board
 // all projects by userid
 // all categories in projects boards
 // create new projects
 //  archive a proj: decide what this means ltr
-public class ProjectController {
+@SuppressWarnings({"all"})
+@RestController
+@Controller
+public class ProjectController extends BaseController {
+
+    @Autowired
+    private ProjectService projectService;
+
     
+    // should return all projects with each project's category
+    @RequestMapping(value = "/projects/all", method = RequestMethod.GET)
+    public MessageResult allProjectsByUser(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        String userId = (String) request.getAttribute("userId");
+        if (userId.isEmpty()){
+            throw new Exception("Auth error");
+        }
+        List<Map<String, Object>> result = projectService.getAllProjectsByUserId(userId);
+
+        return success(200, result);
+    }
+
 }

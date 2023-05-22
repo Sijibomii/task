@@ -23,7 +23,7 @@ import lombok.Data;
 // task in boards are arranged in categories
 @Entity
 @Data
-@Table
+@Table(name="categories")
 public class Categories {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
