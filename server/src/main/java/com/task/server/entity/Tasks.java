@@ -41,6 +41,9 @@ public class Tasks {
     private String heading;
 
     @NotNull
+    private int comment_count;
+
+    @NotNull
     private int assignee_count;
 
     @Enumerated(EnumType.STRING)

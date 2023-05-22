@@ -17,4 +17,8 @@ public class ProjectService {
     public List<Map<String, Object>> getAllProjectsByUserId(String user_id) throws Exception { 
        return projectDao.allProjectsByCatergoryUserId(user_id);
     }
+
+    public List<Map<String, Object>> getBoardDetails(String board_id) throws Exception {
+        return projectDao.projectBoardDetails(board_id);
+    }
 }

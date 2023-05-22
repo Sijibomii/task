@@ -42,9 +42,11 @@ public class ProjectController extends BaseController {
     }
 
     @RequestMapping(value = "/projects/board/{id}", method = RequestMethod.GET)
-    public MessageResult getProjectBoard(@PathVariable Long id) {
+    public MessageResult getProjectBoard(@PathVariable String id) throws Exception {
         // projects default board -> all categories -> task under each cat. task tags, comment number 
-        
+        if (id.isEmpty()){
+            throw new Exception("url error");
+        }
         return success();
     }
 
