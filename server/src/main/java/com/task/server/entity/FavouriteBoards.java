@@ -8,7 +8,13 @@ import lombok.Data;
 @Data
 @Table
 public class FavouriteBoards extends Boards {
-    
+
     private TaskBoards taskboard;
+
     private UserBoards userboard;
+
+    private TeamsBoards teamboard;
+
+    private ProjectBoards projectboard;
+    
 }

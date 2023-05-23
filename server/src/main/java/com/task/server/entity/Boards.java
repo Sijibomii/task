@@ -39,5 +39,4 @@ public  abstract class Boards {
     @Enumerated(EnumType.STRING)
     private BoardType boardType;
 
-
 }

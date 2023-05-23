@@ -2,16 +2,12 @@ package com.task.server.entity;
 
 import java.util.Date;
 import java.util.UUID;
-
 import javax.validation.constraints.NotNull;
 import jakarta.persistence.Id;
 import org.springframework.data.relational.core.mapping.Table;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.task.server.constants.EventEnum;
-
 import org.hibernate.annotations.CreationTimestamp;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
