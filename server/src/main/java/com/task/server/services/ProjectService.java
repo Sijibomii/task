@@ -6,6 +6,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.task.server.dao.ProjectDao;
+import com.task.server.dto.ProjectCreateDto;
+import com.task.server.entity.Projects;
 
 @Service
 public class ProjectService {
@@ -20,5 +22,18 @@ public class ProjectService {
 
     public List<Map<String, Object>> getBoardDetails(String project_id) throws Exception {
         return projectDao.projectBoardDetails(project_id);
+    }
+
+    public Projects create(ProjectCreateDto project) throws Exception { 
+        Projects new_project = new Projects();
+        new_project.setCreator(project.getCreator());
+        new_project.setDescription(project.getDescription());
+        new_project.setLabel(project.getLabel());
+        Projects saved = save(new_project);
+        return saved; 
+    }
+
+    public Projects save(Projects project) {
+        return projectDao.save(project); 
     }
 }
