@@ -30,8 +30,7 @@ public class Tags {
     @NotNull
     private Users creator;
 
-    @NotNull
-    private Boards board;
+    private TaskBoards task_board;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @CreationTimestamp
@@ -41,5 +40,10 @@ public class Tags {
     // name
     @NotNull
     private String name;
+
+    // many to many task board
+    // jointable = tags_tasks_board
+    // many to many user board
+    // many to many team boards
 
 }
