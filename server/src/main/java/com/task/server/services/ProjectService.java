@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.task.server.dao.ProjectDao;
 import com.task.server.dto.ProjectCreateDto;
+import com.task.server.dto.TaskBoardCreateDto;
 import com.task.server.entity.Projects;
 
 @Service
@@ -14,6 +15,9 @@ public class ProjectService {
 
     @Autowired
     private ProjectDao projectDao;
+
+    @Autowired
+    private TaskBoardService tBoardService;
     
     // get all projects by user id left join the categories to
     public List<Map<String, Object>> getAllProjectsByUserId(String user_id) throws Exception { 
@@ -30,6 +34,11 @@ public class ProjectService {
         new_project.setDescription(project.getDescription());
         new_project.setLabel(project.getLabel());
         Projects saved = save(new_project);
+
+        // create a default board task board for the project
+        TaskBoardCreateDto new_tboard = new TaskBoardCreateDto(project.getCreator(), false, saved);
+        tBoardService.create(new_tboard);
+
         return saved; 
     }
 

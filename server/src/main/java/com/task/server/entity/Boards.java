@@ -9,11 +9,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
 
 // base board class
+@Data
 @MappedSuperclass
-public class Boards {
+public  abstract class Boards {
     
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

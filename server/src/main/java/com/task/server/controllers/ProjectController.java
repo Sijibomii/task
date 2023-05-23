@@ -23,9 +23,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.transaction.annotation.Transactional;
 import org.apache.commons.lang3.StringUtils;
 import com.mysema.commons.lang.Assert;
-// note: there should be a default project board
 
-// create new projects
+
 //  archive a proj: decide what this means ltr
 @SuppressWarnings({"all"})
 @RestController
@@ -95,18 +94,10 @@ public class ProjectController extends BaseController {
         if (map.get("label").isEmpty() || map.get("description").isEmpty()){
             throw new Error("empty input not allowed");
         }
-
-
         String user_id = (String) request.getAttribute("userId");
-
         Users creator = userService.findById(user_id);
-
         ProjectCreateDto project = new ProjectCreateDto(map.get("label"), map.get("description"), creator);
-        
         Projects new_project = projectService.create(project);
-
-
-
-        return success();
+        return success(201, new_project);
     }
 }
