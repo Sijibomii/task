@@ -9,6 +9,7 @@ import com.task.server.dao.ProjectDao;
 import com.task.server.dto.ProjectCreateDto;
 import com.task.server.dto.TaskBoardCreateDto;
 import com.task.server.entity.Projects;
+import com.task.server.enums.BoardType;
 
 @Service
 public class ProjectService {
@@ -36,7 +37,7 @@ public class ProjectService {
         Projects saved = save(new_project);
 
         // create a default board task board for the project
-        TaskBoardCreateDto new_tboard = new TaskBoardCreateDto(project.getCreator(), false, saved);
+        TaskBoardCreateDto new_tboard = new TaskBoardCreateDto(project.getCreator(), false, saved, BoardType.TASKBOARD);
         tBoardService.create(new_tboard);
 
         return saved; 

@@ -4,6 +4,10 @@ import java.util.Date;
 import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.task.server.enums.BoardType;
+
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,6 +34,10 @@ public  abstract class Boards {
 
     @NotNull
     private boolean is_private; 
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private BoardType boardType;
 
 
 }

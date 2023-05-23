@@ -8,10 +8,12 @@ import lombok.Setter;
 
 @AllArgsConstructor
 @Getter
-public enum Board {
-    
-    TEAM("TEAM"),
-    ORGANIZATION("ORGANIZATION");
+public enum BoardType {
+
+    USERBOARD("USERBOARD"),
+    TASKBOARD("TASKBOARD"),
+    PROJECTBOARD("PROJECTBOARD"),
+    TEAMBOARD("TEAMBOARD");
 
     @Setter
     private String name;
