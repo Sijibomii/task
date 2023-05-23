@@ -13,8 +13,8 @@ public class TaskBoardService {
     @Autowired
     private TaskBoardDao taskBoardDao;
     
-    public TaskBoards save(TaskBoards project) {
-        return taskBoardDao.save(project); 
+    public TaskBoards save(TaskBoards tb) {
+        return taskBoardDao.save(tb); 
     }
 
     public TaskBoards create(TaskBoardCreateDto taskBoard) throws Exception { 
@@ -24,5 +24,12 @@ public class TaskBoardService {
         tBoards.set_private(false);
         tBoards.setBoardType(taskBoard.getBoardType());
         return save(tBoards);
+    }
+
+    public TaskBoards findById(String id){
+        if (taskBoardDao.findById(Long.parseLong(id)).get() == null){
+            return null;
+        }
+        return taskBoardDao.findById(Long.parseLong(id)).get();
     }
 }

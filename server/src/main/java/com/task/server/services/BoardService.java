@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.task.server.dao.FavouriteBoardDao;
 import com.task.server.entity.Boards;
+import com.task.server.entity.FavouriteBoards;
 
 @Service
 public class BoardService {
@@ -16,5 +17,10 @@ public class BoardService {
 
     public List<? extends Boards> getFavouriteBoards(String UserId) throws Exception{
         return favouriteBoardDao.queryFavouriteBoardsByUserId(UserId);
+    }
+
+    // create favourite board
+    public FavouriteBoards saveFavouriteBoard(FavouriteBoards fb) {
+        return favouriteBoardDao.save(fb); 
     }
 }
