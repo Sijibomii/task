@@ -52,7 +52,7 @@ public class BoardController extends BaseController{
         return success(200, fav);
     }
 
-    @RequestMapping(value = "/boards/favourites/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/boards/favourites", method = RequestMethod.POST)
     public MessageResult addFavouriteBoard(HttpServletRequest request, HttpServletResponse response) throws Exception{
         StringBuilder sb = new StringBuilder();
         BufferedReader reader = request.getReader();
