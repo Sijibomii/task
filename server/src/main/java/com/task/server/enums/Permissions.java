@@ -10,13 +10,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
 @Getter
 public enum Permissions {
     // org permissions
-    CAN_ADD_TASK("CAN_ADD_TASK");
+    CAN_ADD_CHANNEL_ORGANIZATION("channel:create:organization:"),
 
 
     // team permissions
-
+    CAN_ADD_CHANNEL_TEAM("channel:create:team:"),
     // project permissions
-    
+    CAN_ADD_CHANNEL_PROJECT("channel:create:project:");
     @Setter
     private String name;
 

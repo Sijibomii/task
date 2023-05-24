@@ -2,6 +2,9 @@ package com.task.server.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import com.task.server.core.AppRealm;
+
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 
@@ -11,15 +14,14 @@ public class ShiroConfig {
     @Bean
     public SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        securityManager.setRealm(myRealm());
+        securityManager.setRealm(appRealm());
         return securityManager;
     }
 
     @Bean(name="appRealm")
-    public AppRealm adminRealm() {
-        AppRealm appRealm = new appRealm() ;
+    public AppRealm appRealm() {
+        AppRealm appRealm = new AppRealm() ;
         
-        adminRealm.setCacheManager(ehCacheManager);
-        return adminRealm;
+        return appRealm;
     }
 }

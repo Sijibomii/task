@@ -8,12 +8,15 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Date;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -31,16 +34,20 @@ public class Permissions {
     @CreationTimestamp
     private Date createdOn;
 
+    // "create:channel:<id>"
+    @NotBlank(message="NAME CANNOT BE NULL OR BLANK")
+    @NotNull(message="NAME CANNOT BE NULL OR BLANK")
+    private String name; 
+
     @NotNull
     private String description;
 
     @NotNull
     private Integer code;
 
-    // user who granted permission
     @ManyToOne
     @NotNull
-    private Users assigned_by;
+    private Users user;
 
     // has this permission been suspended?
     @NotNull
