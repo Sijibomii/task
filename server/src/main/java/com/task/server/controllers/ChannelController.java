@@ -1,5 +1,6 @@
 package com.task.server.controllers;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,6 +20,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class ChannelController extends BaseController{
     
     // get all channels assigned to this org. Note: return only channels user is a memeber of except user has see all channels perm
+    @RequiresPermissions("channel:create:organization:{orgId}")
     @RequestMapping(value = "/channels/organization/{id}", method = RequestMethod.GET)
     public MessageResult getChannelsOrg(HttpServletRequest request, HttpServletResponse response) throws Exception{
         String userId = (String) request.getAttribute("userId");
