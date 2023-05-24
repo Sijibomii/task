@@ -2,6 +2,9 @@ package com.task.server.interceptors;
 
 import java.util.Date;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.UsernamePasswordToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -56,6 +59,9 @@ public class JwtInterceptor implements HandlerInterceptor {
                        // token is valid
                        request.setAttribute("userId", user.getId());
                        request.setAttribute("displayName", user.getDisplayName());
+                       // for shiro auth
+                       AuthenticationToken _token = new UsernamePasswordToken(user.getEmail(), "");
+                       SecurityUtils.getSubject().login(_token);
 
                     }else{
                         response.setStatus(HttpStatus.UNAUTHORIZED.value());
