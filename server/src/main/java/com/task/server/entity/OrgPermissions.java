@@ -23,5 +23,5 @@ public class OrgPermissions extends Permissions {
     @Enumerated(EnumType.STRING)
     //  name conflicted so...
     private com.task.server.enums.OrgPermissions permission;
-
+    
 }

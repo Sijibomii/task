@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class SearchController extends BaseController{
     
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public MessageResult favouriteBoards(HttpServletRequest request, HttpServletResponse response) throws Exception{
+    public MessageResult search(HttpServletRequest request, HttpServletResponse response) throws Exception{
         String userId = (String) request.getAttribute("userId");
         if (userId.isEmpty()){
             throw new Exception("Auth error");
