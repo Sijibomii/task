@@ -3,6 +3,7 @@ package com.task.server.controllers;
 import java.io.BufferedReader;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import com.mysema.commons.lang.Assert;
 import com.task.server.controllers.base.BaseController;
 import com.task.server.dto.LoginTokenDto;
 import com.task.server.dto.RegisterDto;
+import com.task.server.entity.Boards;
 import com.task.server.entity.Users;
 import com.task.server.services.BoardService;
 import com.task.server.services.JwtService;
@@ -107,9 +109,9 @@ public class UserController extends BaseController{
             throw new Exception("Auth error");
         }
 
+        List<? extends Boards> userBoards = boardService.getAllUserBoards(userId);
 
-
-        return success();
+        return success(200, userBoards);
     }
     
     @GetMapping("/login/oauth/success")
