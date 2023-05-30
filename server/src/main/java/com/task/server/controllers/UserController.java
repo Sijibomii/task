@@ -12,6 +12,7 @@ import freemarker.template.TemplateException;
 
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -92,6 +93,12 @@ public class UserController extends BaseController{
     @Value("${spring.system.host}")
     private String host;
 
+    // get all user boards for this user
+    @GetMapping("/user/boards")
+    public MessageResult getUserBoards(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        // get user from req
+        return success();
+    }
     
     @GetMapping("/login/oauth/success")
     public MessageResult googleCallback(@AuthenticationPrincipal OAuth2User oauth2User, OAuth2AuthenticationToken authentication) throws Exception{

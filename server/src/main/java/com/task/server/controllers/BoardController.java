@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -53,9 +54,19 @@ public class BoardController extends BaseController{
     }
 
     @RequestMapping(value = "/boards/user/{id}", method = RequestMethod.GET)
-    public MessageResult defaultUserBoard(HttpServletRequest request, HttpServletResponse response) throws Exception{
-        
-        return success();
+    public MessageResult defaultUserBoard(HttpServletRequest request, HttpServletResponse response, @PathVariable Long userId) throws Exception{
+        // check if userid in route equals loggedin user
+        String loggedInUserId = (String)request.getAttribute("userId");
+        if (loggedInUserId.isEmpty()){
+            throw new Exception("Auth error");
+        }
+
+        if (loggedInUserId != userId.toString()){
+            throw new Exception("un authorized");
+        }
+
+        List<? extends Boards> userBoard = boardService.getDefaultUserBoard(userId.toString());
+        return success(200, userBoard);
     }
 
     @RequestMapping(value = "/boards/favourites", method = RequestMethod.POST)
