@@ -25,6 +25,7 @@ import com.task.server.controllers.base.BaseController;
 import com.task.server.dto.LoginTokenDto;
 import com.task.server.dto.RegisterDto;
 import com.task.server.entity.Users;
+import com.task.server.services.BoardService;
 import com.task.server.services.JwtService;
 import com.task.server.services.UserService;
 import com.task.server.utils.MessageResult;
@@ -85,6 +86,9 @@ public class UserController extends BaseController{
     @Autowired
     private OAuth2AuthorizedClientService clientService;
 
+    @Autowired
+    private BoardService boardService;
+
     @Autowired KafkaDispatcher kafka;
 
 
@@ -97,6 +101,14 @@ public class UserController extends BaseController{
     @GetMapping("/user/boards")
     public MessageResult getUserBoards(HttpServletRequest request, HttpServletResponse response) throws Exception{
         // get user from req
+        String userId = (String) request.getAttribute("userId");
+
+        if (userId.isEmpty()){
+            throw new Exception("Auth error");
+        }
+
+
+
         return success();
     }
     

@@ -29,7 +29,12 @@ public class BoardService {
     }
 
     // this gets the default user board
+    // this has return type issues. dao shoukd return just one board
     public List<? extends Boards> getDefaultUserBoard(String userId) throws Exception{
         return userBoardDao.queryDefaultUserBoardByUserId(userId);
+    }
+
+    public List<? extends Boards> getAllUserBoards(String userId) throws Exception{
+        return userBoardDao.queryUserBoardsByUserId(userId);
     }
 }
