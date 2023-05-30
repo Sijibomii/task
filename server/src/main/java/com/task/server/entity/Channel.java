@@ -44,7 +44,7 @@ public class Channel {
     @Enumerated(EnumType.STRING)
     private ChannelType channelType;
 
-    @ManyToOne
+    @ManyToOne 
     private Organizations organization;
 
     @ManyToOne
@@ -59,5 +59,5 @@ public class Channel {
     joinColumns = @JoinColumn(name = "channel_id", referencedColumnName = "id"), 
     inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
     List<Users> channel_members;
-    
+
 }

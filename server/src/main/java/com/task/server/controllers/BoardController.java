@@ -52,6 +52,12 @@ public class BoardController extends BaseController{
         return success(200, fav);
     }
 
+    @RequestMapping(value = "/boards/user/{id}", method = RequestMethod.GET)
+    public MessageResult defaultUserBoard(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        
+        return success();
+    }
+
     @RequestMapping(value = "/boards/favourites", method = RequestMethod.POST)
     public MessageResult addFavouriteBoard(HttpServletRequest request, HttpServletResponse response) throws Exception{
         StringBuilder sb = new StringBuilder();
