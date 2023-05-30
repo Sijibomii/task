@@ -63,6 +63,18 @@ public class ProjectController extends BaseController {
         return success(200, board);
     }
 
+    // get people preview list in a project
+    @RequestMapping(value = "/projects/people/{id}", method = RequestMethod.GET)
+    public MessageResult getPeoplePreviewForProject(@PathVariable String id) throws Exception {
+        // projects default board -> all categories -> task under each cat. task tags, comment number 
+        if (id.isEmpty()){
+            throw new Exception("url error"); 
+        }
+
+        List<Map<String, Object>> people = projectService.getPeoplePreviewList(id);
+
+        return success(200, people);
+    }
 
     @SuppressWarnings({"all"})
     @RequestMapping(value = "/projects", method = RequestMethod.POST)

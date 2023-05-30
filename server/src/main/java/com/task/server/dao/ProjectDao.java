@@ -31,15 +31,15 @@ public interface ProjectDao extends BaseDao<Projects> {
     // }
     @Query(value="""
         SELECT 
-        p.name AS name
+        p.name AS name,
         c.id AS category_id, 
-        c.title AS category_title
-        t.id AS task_id
-        t.description AS task_description
-        t.heading AS task_heading
-        t.comment_count AS no_of_comment
-        t.assignee_count AS no_of_assignee
-        tg.name AS tag_name
+        c.title AS category_title,
+        t.id AS task_id,
+        t.description AS task_description,
+        t.heading AS task_heading,
+        t.comment_count AS no_of_comment,
+        t.assignee_count AS no_of_assignee,
+        tg.name AS tag_name,
         tg.id AS tag_id
         FROM project p
         LEFT JOIN project_categories pc ON pc.project_id = p.id
@@ -51,4 +51,16 @@ public interface ProjectDao extends BaseDao<Projects> {
         WHERE p.id = ?1
             """, nativeQuery = true)
     List<Map<String, Object>> projectBoardDetails(String board_id);
+
+    @Query(value="""
+        SELECT 
+        u.id AS id,
+        u.displayName as displayName,
+        u.avatarUrl as avatarUrl,
+        u.online as online
+        FROM project_memeberships pm
+        LEFT JOIN users u ON u.id = pm.users_id
+        WHERE pm.projects_id = ?1
+            """, nativeQuery = true)
+    List<Map<String, Object>> peoplePreviewList(String project_id);
 }

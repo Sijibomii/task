@@ -29,6 +29,10 @@ public class ProjectService {
         return projectDao.projectBoardDetails(project_id);
     }
 
+    public List<Map<String, Object>> getPeoplePreviewList(String project_id) throws Exception {
+        return projectDao.peoplePreviewList(project_id);
+    }
+
     public Projects create(ProjectCreateDto project) throws Exception { 
         Projects new_project = new Projects();
         new_project.setCreator(project.getCreator());
