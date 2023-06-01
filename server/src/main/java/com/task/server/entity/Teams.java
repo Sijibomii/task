@@ -14,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -44,5 +45,9 @@ public class Teams {
     @ManyToMany(mappedBy = "team_memeberships")
     // @JsonIgnore
     private List<Users> members;
+
+    @OneToOne
+    @NotNull
+    private Organizations org;
     
 }

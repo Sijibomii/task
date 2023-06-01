@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public enum Permissions {
     // org permissions
     CAN_ADD_CHANNEL_ORGANIZATION("channel:create:organization:"),
-    
+    CAN_ADD_USER_TO_ORG("user:add:organization"),
 
     // team permissions
     CAN_ADD_CHANNEL_TEAM("channel:create:team:"),
