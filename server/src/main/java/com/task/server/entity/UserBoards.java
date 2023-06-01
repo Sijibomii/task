@@ -1,6 +1,5 @@
 package com.task.server.entity;
 
-import javax.persistence.ManyToOne;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;

@@ -74,7 +74,7 @@ public class ChannelController extends BaseController{
         
         return success();
     }
-
+ 
     @RequiresPermissions("channel:create:project:{projectId}")
     @RequestMapping(value = "/channels/project/{projectId}", method = RequestMethod.POST)
     public MessageResult createChannelsProject(HttpServletRequest request, HttpServletResponse response) throws Exception{
