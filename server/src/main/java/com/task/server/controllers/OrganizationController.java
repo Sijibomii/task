@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mysema.commons.lang.Assert;
 import com.task.server.controllers.base.BaseController;
 import com.task.server.entity.Organizations;
+import com.task.server.entity.Users;
+import com.task.server.enums.Permissions;
 import com.task.server.services.OrganizationService;
 import com.task.server.services.PermissionService;
+import com.task.server.services.UserService;
 import com.task.server.utils.MessageResult;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,6 +32,9 @@ public class OrganizationController extends BaseController{
 
     @Autowired
     private PermissionService permissionService;
+
+    @Autowired
+    private UserService userService;
     
     @RequestMapping(value = "/organization", method = RequestMethod.POST)
     public MessageResult createOrganization(HttpServletRequest request, HttpServletResponse response) throws Exception{
@@ -59,13 +65,13 @@ public class OrganizationController extends BaseController{
 
         Organizations org = orgService.createOrganization(userId, map.get("description"));
 
+        Users user = userService.findById(userId);
+
         // assign permissions to creators
-
-
-    
-
+        permissionService.createOrgPermissions(org,user,Permissions.CAN_ADD_CHANNEL_ORGANIZATION);
+        permissionService.createOrgPermissions(org,user,Permissions.CAN_ADD_USER_TO_ORG);
         
-        return success();
+        return success(201, org);
     }
 
     // add user
