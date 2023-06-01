@@ -30,7 +30,7 @@ public class Tags {
     @NotNull
     private Users creator;
 
-    private TaskBoards task_board;
+    // private TaskBoards task_board;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @CreationTimestamp

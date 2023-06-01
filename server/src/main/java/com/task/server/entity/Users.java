@@ -134,9 +134,9 @@ public class Users{
     private List<TaskComment> tags;
 
 
-    @ManyToMany(mappedBy = "users_boards")
-    // @JsonIgnore
-    private List<Boards> user_boards;
+    // @ManyToMany(mappedBy = "users_boards")
+    // // @JsonIgnore
+    // private List<UserBoards> user_boards;
     
 
 

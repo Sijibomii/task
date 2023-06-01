@@ -11,6 +11,6 @@ import org.springframework.data.jpa.repository.Query;
 @Repository
 public interface FavouriteBoardDao extends BaseDao<FavouriteBoards>{
     
-    @Query(value = "select fb from FavouriteBoards fb where fb.creator_id = :userId")
+    @Query(value = "select fb from FavouriteBoards fb where fb.creator.id = :userId") 
     List<FavouriteBoards> queryFavouriteBoardsByUserId(@Param("userId") String userId);
 }

@@ -30,6 +30,7 @@ public class Categories {
     private UUID id;
 
     @NotNull
+    @ManyToOne
     private Users creator;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")

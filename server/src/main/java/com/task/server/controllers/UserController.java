@@ -91,7 +91,8 @@ public class UserController extends BaseController{
     @Autowired
     private BoardService boardService;
 
-    @Autowired KafkaDispatcher kafka;
+    @Autowired 
+    KafkaDispatcher kafka;
 
 
     @Value("${spring.mail.username}")
@@ -107,7 +108,7 @@ public class UserController extends BaseController{
 
         if (userId.isEmpty()){
             throw new Exception("Auth error");
-        }
+        } 
 
         List<? extends Boards> userBoards = boardService.getAllUserBoards(userId);
 

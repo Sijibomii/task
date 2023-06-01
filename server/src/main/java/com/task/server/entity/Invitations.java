@@ -11,6 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -25,12 +26,15 @@ public class Invitations {
     private UUID id;
 
     @NotNull
+    @ManyToOne
     private Users invitee;
 
     @NotNull
+    @ManyToOne
     private Users creator;
 
     @NotNull
+    @ManyToOne
     private Organizations org;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")

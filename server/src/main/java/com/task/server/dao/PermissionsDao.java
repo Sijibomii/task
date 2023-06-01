@@ -12,6 +12,6 @@ import com.task.server.entity.Permissions;
 @Repository
 public interface PermissionsDao extends BaseDao<Permissions> {
     
-    @Query("SELECT p FROM Permissions u WHERE p.user_id = :userId")
+    @Query("SELECT p FROM Permissions u WHERE p.user.id = :userId")
     List<Permissions> findAllPermissionsByUserId(UUID userId);
 }

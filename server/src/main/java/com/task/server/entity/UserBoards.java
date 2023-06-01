@@ -11,12 +11,9 @@ import lombok.Data;
 @Data
 @Table
 public class UserBoards extends Boards {
-    
-    @ManyToOne
-    private Users user;  
 
     // whether this is the default user board
-    @NotNull
+    @NotNull 
     private Boolean is_default;
 }
 
