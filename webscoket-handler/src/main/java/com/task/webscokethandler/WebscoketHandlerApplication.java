@@ -1,13 +1,13 @@
-package com.task.webscoket.Handler;
+package com.task.webscokethandler;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class HandlerApplication {
+public class WebscoketHandlerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(HandlerApplication.class, args);
+		SpringApplication.run(WebscoketHandlerApplication.class, args);
 	}
 
 }

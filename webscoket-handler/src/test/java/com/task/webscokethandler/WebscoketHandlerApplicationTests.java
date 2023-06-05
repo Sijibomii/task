@@ -1,10 +1,10 @@
-package com.task.webscoket.Handler;
+package com.task.webscokethandler;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class HandlerApplicationTests {
+class WebscoketHandlerApplicationTests {
 
 	@Test
 	void contextLoads() {
