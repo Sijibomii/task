@@ -3,13 +3,13 @@ package com.task.webscokethandler.controllers;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Controller;
-import com.task.webscokethandler.types.TaskMessage;
+import com.task.webscokethandler.types.TaskCreateMessage;
 
 @Controller
 public class TaskController {
     
     @MessageMapping("/task")
-    public void handleMessage(@Payload TaskMessage payload) {
+    public void handleMessage(@Payload TaskCreateMessage payload) {
         // Handle the incoming message from the client
         System.out.println("Received message from client: " +payload.getOp());
         
