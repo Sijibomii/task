@@ -1,4 +1,4 @@
-package com.task.server.config;
+package com.task.webscokethandler.config;
 
 import java.util.HashMap;
 import java.util.Map;
