@@ -92,6 +92,7 @@ public class WebsocketConfig implements WebSocketMessageBrokerConfigurer {
             @Override
             public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Exception exception) {
                 // Empty implementation, no action needed
+                System.out.println("new handshake done");
             }
         };
     }
