@@ -5,12 +5,12 @@ import lombok.Data;
 //  user create new task. server to kafka to handler to connected guys
 
 @Data
-public class TaskMessage {
+public class TaskCreateMessage {
     // operation
     private String op;
     // message id
     private String id;
-    // task id
-    private String task_id;
+   
+    private TaskCreate task;
 }
 
