@@ -12,6 +12,13 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.server.HandshakeInterceptor;
 import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.simp.config.ChannelRegistration;
+import org.springframework.messaging.support.ChannelInterceptor;
+import org.springframework.messaging.support.MessageHeaderAccessor;
+import org.springframework.messaging.simp.stomp.StompCommand;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 
 @Configuration
 @EnableWebSocketMessageBroker
@@ -31,6 +38,27 @@ public class WebsocketConfig implements WebSocketMessageBrokerConfigurer {
                 .addInterceptors(tokenHandshakeInterceptor())
                 .setHandshakeHandler(tokenHandshakeHandler())
                 .withSockJS();
+    }
+
+    @Override
+    public void configureClientInboundChannel(ChannelRegistration registration) {
+        registration.interceptors(new ChannelInterceptor() {
+            @Override
+            public Message<?> preSend(Message<?> message, MessageChannel channel) {
+                StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
+                if (StompCommand.SUBSCRIBE.equals(accessor.getCommand())) {
+                    String destination = accessor.getDestination();
+                    if (destination != null && destination.startsWith("/org/")) {
+                        String orgId = destination.substring(5); // Extract organization ID from the destination
+                        // Perform any necessary logic based on the organization ID
+                        // You can modify the destination or perform other actions accordingly
+                        // For example, you can route the message to a specific handler based on the organization ID
+                        accessor.setDestination("/topic/org/" + orgId);
+                    }
+                }
+                return message;
+            }
+        });
     }
 
     private HandshakeInterceptor tokenHandshakeInterceptor() {
