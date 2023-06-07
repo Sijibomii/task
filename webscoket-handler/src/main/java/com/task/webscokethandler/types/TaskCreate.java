@@ -1,7 +1,6 @@
 package com.task.webscokethandler.types;
 
-import com.task.webscokethandler.entities.Tasks;
-
+import com.github.sijibomii.taskcore.entity.Tasks;
 import lombok.Data;
 
 //  user create new task. server to kafka to handler to connected guys
