@@ -2,6 +2,7 @@ package com.task.webscokethandler.config;
 
 import java.util.Map;
 import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
@@ -19,10 +20,18 @@ import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import java.util.Date;
+
+
 
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebsocketConfig implements WebSocketMessageBrokerConfigurer {
+
+    @Value("${application.security.jwt.secret-key}")
+    private String secretKey;
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
@@ -92,10 +101,20 @@ public class WebsocketConfig implements WebSocketMessageBrokerConfigurer {
     }
 
     private boolean validateToken(String token) {
-        // Implement your token validation logic here
-        // Return true if the token is valid, false otherwise
-        // You can use any token verification mechanism of your choice
-        // such as decoding and validating a JWT token
-        return true; // Placeholder, replace with your logic
+        try {
+            Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(secretKey)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+            // If the token has expired, it is considered invalid
+            if (claims.getExpiration().before(new Date())) {
+                return false;
+            }
+            return true; 
+        } catch (Exception e) {
+            // Token verification failed
+            return false;
+        }
     }
 }

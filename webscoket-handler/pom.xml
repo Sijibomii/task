@@ -54,6 +54,13 @@
 			<artifactId>tyrus-core</artifactId>
 			<version>1.16</version>
 		</dependency>
+
+		<!-- jwt -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-api</artifactId>
+			<version>0.11.2</version>
+		</dependency>
 	</dependencies>
 
 	<build>
