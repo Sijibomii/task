@@ -4,6 +4,7 @@ import WebSocket from "isomorphic-ws";
 import ReconnectingWebSocket from "reconnecting-websocket";
 import { v4 as generateUuid } from "uuid";
 import { UUID, User } from "..";
+import { opcodeToTopicMapping } from "./utils";
 
 const heartbeatInterval = 8000;
 const apiUrl = "ws://localhost:8081/web-handler";
@@ -41,7 +42,7 @@ export type Connection = {
       handler: ListenerHandler<Data>
     ) => () => void;
     user: User;
-    send: (opcode: Opcode, data: unknown, fetchId?: FetchID) => void;
+    send: (opcode: Opcode, data: unknown, topic: string, fetchId?: FetchID) => void;
     sendCall: (
       opcode: Opcode,
       data: unknown,
@@ -83,15 +84,21 @@ export const connect = (
     connectionTimeout,
     WebSocket,
   });
-  const apiSend = (opcode: Opcode, data: unknown, fetchId?: FetchID) => {
+  const apiSend = (opcode: Opcode, data: unknown, topic: string, fetchId?: FetchID) => {
     if (socket.readyState !== socket.OPEN) {
       return;
     }
+
     const raw = `{"op":"${opcode}","d":${JSON.stringify(data)}${
       fetchId ? `,"fetchId":"${fetchId}"` : ""
     }}`;
 
-    socket.send(raw);
+    socket.send(JSON.stringify({
+      command: opcode,
+      destination: topic,
+      message: raw
+    }));
+
     logger("out", opcode, data, fetchId, raw);
   };
 
@@ -184,7 +191,7 @@ export const connect = (
               }, fetchTimeout);
             }
 
-            apiSend(opcode, parameters, ref || undefined);
+            apiSend(opcode, parameters, opcodeToTopicMapping[opcode], ref || undefined);
           }),
       };
 
@@ -213,6 +220,6 @@ export const connect = (
       accessToken: token,
       refreshToken,
       ...getAuthOptions?.(),
-    });
+    }, opcodeToTopicMapping.auth);
   });
 });
