@@ -89,7 +89,7 @@ export const connect = (
       return;
     }
 
-    const raw = `{"op":"${opcode}","d":${JSON.stringify(data)}${
+    const raw = `{"op":"${opcode}","data":${JSON.stringify(data)}${
       fetchId ? `,"fetchId":"${fetchId}"` : ""
     }}`;
 
