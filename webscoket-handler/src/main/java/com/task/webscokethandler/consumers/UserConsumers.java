@@ -5,7 +5,6 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import com.alibaba.fastjson.JSON;
 import java.util.List;
-import com.task.webscokethandler.types.AuthUser;
 import com.task.webscokethandler.utils.WebSocket;
 import java.util.UUID;
 import com.github.sijibomii.taskcore.entity.Users;
@@ -24,7 +23,7 @@ public class UserConsumers {
                 return;
             }
 
-            
+
         }
     }
 

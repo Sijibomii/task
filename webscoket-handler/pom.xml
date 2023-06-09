@@ -76,7 +76,7 @@
 		</dependency>
 
 		<!-- core -->
-		 <dependency>
+		<dependency>
             <groupId>com.github.sijibomii</groupId>
             <artifactId>taskcore</artifactId>
             <version>0.0.1-SNAPSHOT</version>
