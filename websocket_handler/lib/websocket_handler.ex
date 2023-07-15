@@ -1,18 +1,35 @@
 defmodule WebsocketHandler do
-  @moduledoc """
-  Documentation for `WebsocketHandler`.
-  """
+  use Application
 
-  @doc """
-  Hello world.
+  def start(_type, _args) do
 
-  ## Examples
 
-      iex> WebsocketHandler.hello()
-      :world
+  end
 
-  """
-  def hello do
-    :world
+  # socket
+  defp dispatch do
+    [
+      {:_,
+       [
+         {"/socket", Broth.SocketHandler, []},
+         {:_, Plug.Cowboy.Handler, {Broth, []}}
+       ]}
+    ]
+  end
+
+
+  defp start_kafka() do
+    n = Application.get_env(:websocket, :num_comsumers, 1) - 1
+
+    IO.puts("about to start kafka consumers")
+
+    0..n
+    |> Enum.map(&Kousa.Utils.VoiceServerUtils.idx_to_str_id/1)
+    |> Enum.each(fn id ->
+      Onion.VoiceRabbit.start_supervised(id)
+      Onion.VoiceOnlineRabbit.start_supervised(id)
+    end)
+
+    IO.puts("finished rabbits")
   end
 end

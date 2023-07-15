@@ -24,6 +24,7 @@ defmodule WebsocketHandler.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:websockex, "~> 0.4.3", only: :test},
       {:kafka_ex, "~> 2.1"},
+      {:jason, "~> 1.2"},
     ]
   end
 end
