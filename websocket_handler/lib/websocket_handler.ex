@@ -11,8 +11,8 @@ defmodule WebsocketHandler do
     [
       {:_,
        [
-         {"/socket", Broth.SocketHandler, []},
-         {:_, Plug.Cowboy.Handler, {Broth, []}}
+         {"/socket", Websocket.SocketHandler, []},
+         {:_, Plug.Cowboy.Handler, {Websocket, []}}
        ]}
     ]
   end
