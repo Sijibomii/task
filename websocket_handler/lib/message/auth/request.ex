@@ -27,7 +27,6 @@ defmodule Websocket.Message.Auth.Request do
 
     @primary_key {:id, :binary_id, []}
     schema "users" do
-      field(:id, :string)
       field(:email, :string)
     end
   end

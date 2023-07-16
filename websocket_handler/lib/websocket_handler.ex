@@ -6,6 +6,7 @@ defmodule WebsocketHandler do
 
     children = [
       # top-level supervisor for UserSession group
+      worker(Kaffe.Consumer, [])
       WebSocketHandler.Supervisors.UserSession,
 
       Plug.Cowboy.child_spec(

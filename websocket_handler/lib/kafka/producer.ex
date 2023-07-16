@@ -1,7 +1,14 @@
 defmodule Kafka.Producer do
-  use KafkaEx.Producer
 
-  def send_message(topic, message) do
-    KafkaEx.produce(topic, message)
+  def send_my_message({key, value}, topic) do
+    Kaffe.Producer.produce_sync(topic, [{key, value}])
+  end
+
+  def send_my_message(key, value) do
+    Kaffe.Producer.produce_sync(key, value)
+  end
+
+  def send_my_message(value) do
+    Kaffe.Producer.produce_sync("sample_key", value)
   end
 end

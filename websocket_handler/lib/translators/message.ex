@@ -6,7 +6,7 @@ defmodule Websocket.Message do
 
   @primary_key false
   embedded_schema do
-    field(:operator, Websocket.Message.Types.Operator, null: false)
+    field(:operator, Websocket.Message.Types.Operator)
     field(:payload, :map)
     field(:reference, :binary_id)
     field(:inbound_operator, :string)

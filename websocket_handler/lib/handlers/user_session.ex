@@ -11,7 +11,8 @@ defmodule WebSocketHandler.UserSession do
 
     defstruct user_id: nil,
               pid: nil,
-              username: nil
+              username: nil,
+              display_name: nil
   end
 
   # REGISTRY AND SUPERVISION BOILERPLATE
@@ -38,5 +39,41 @@ defmodule WebSocketHandler.UserSession do
 
   def lookup(user_id), do: Registry.lookup(WebSocketHandler.UserSessionRegistry, user_id)
 
+   ###############################################################################
+  ## INITIALIZATION BOILERPLATE
+
+  def start_link(init) do
+    GenServer.start_link(__MODULE__, init, name: via(init[:user_id]))
+  end
+
+  def init(init) do
+    # transfer callers into the running process.
+    Process.put(:"$callers", Keyword.get(init, :callers))
+    {:ok, struct(State, init)}
+  end
+
+
+  ##############################################################################
+  ## API HOOKS
+  ## TODO: CHANGE CASTS TO CALLS
+
+
+  ##############################################################################
+  ## MESSAGING API.
+  ## TODO: change the first one to a call
+
+  defp handle_disconnect(pid, state = %{pid: pid}) do
+
+    {:stop, :normal, state}
+  end
+
+  defp handle_disconnect(_, state), do: {:noreply, state}
+
+  #############################################################################
+  ## ROUTER
+
+
+
+  def handle_info({:DOWN, _ref, :process, pid, _reason}, state), do: handle_disconnect(pid, state)
 
 end
