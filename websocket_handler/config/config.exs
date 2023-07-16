@@ -7,3 +7,5 @@ config :kafka_ex,
   ],
   client_id: "my_app",
   consumer_group_id: "my_consumer_group"
+
+config :handler, websocket_auth_timeout: 10_000

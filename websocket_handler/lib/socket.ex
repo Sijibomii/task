@@ -145,11 +145,6 @@ defmodule Websocket.SocketHandler do
 
   def websocket_handle({:text, command_json}, state) do
     with {:ok, message_map!} <- Jason.decode(command_json),
-         # temporary trap mediasoup direct commands
-         %{"op" => <<not_at>> <> _} when not_at != ?@ <- message_map!,
-         # temporarily trap special cased commands (to go by version 0.3.0)
-         %{"op" => not_special_case} when not_special_case not in @special_cases <- message_map!,
-         # translation from legacy maps to new maps
          message_map! = Websocket.Translator.translate_inbound(message_map!),
          {:ok, message = %{errors: nil}} <- validate(message_map!, state),
          :ok <- auth_check(message, state) do
@@ -197,6 +192,7 @@ defmodule Websocket.SocketHandler do
   import Ecto.Changeset
 
   @spec validate(map, state) :: {:ok, Websocket.Message.t()} | {:error, Ecto.Changeset.t()}
+
   def validate(message, state) do
     message
     |> Websocket.Message.changeset(state)
@@ -330,7 +326,6 @@ defmodule Websocket.SocketHandler do
   end
 
   # ROUTER
-
   @impl true
   def websocket_info({:EXIT, _, _}, state), do: exit_impl(state)
   def websocket_info(:exit, state), do: exit_impl(state)
