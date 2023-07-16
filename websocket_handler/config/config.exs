@@ -5,7 +5,7 @@ config :kafka_ex,
   brokers: [
     {"localhost", 9092}  # Replace with your Kafka broker details
   ],
-  client_id: "my_app",
+  client_id: "websocket",
   consumer_group_id: "my_consumer_group"
 
 config :handler, websocket_auth_timeout: 10_000

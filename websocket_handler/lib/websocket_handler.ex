@@ -2,8 +2,34 @@ defmodule WebsocketHandler do
   use Application
 
   def start(_type, _args) do
+    import Supervisor.Spec, warn: false
+
+    children = [
+      # top-level supervisor for UserSession group
+      WebSocketHandler.Supervisors.UserSession,
+
+      Plug.Cowboy.child_spec(
+        scheme: :http,
+        plug: Broth,
+        options: [
+          port: String.to_integer(System.get_env("PORT") || "6000"),
+          dispatch: dispatch(),
+          protocol_options: [idle_timeout: :infinity]
+        ]
+      )
+    ]
+
+    opts = [strategy: :one_for_one, name: WebsocketHandler.Supervisor]
+    case Supervisor.start_link(children, opts) do
+      {:ok, pid} ->
+        start_kafka()
 
 
+        {:ok, pid}
+
+      error ->
+        error
+    end
   end
 
   # socket
@@ -24,12 +50,10 @@ defmodule WebsocketHandler do
     IO.puts("about to start kafka consumers")
 
     0..n
-    |> Enum.map(&Kousa.Utils.VoiceServerUtils.idx_to_str_id/1)
+    |> Enum.map(&WebsocketHandler.Utils.KafkaIds.idx_to_str_id/1)
     |> Enum.each(fn id ->
-      Onion.VoiceRabbit.start_supervised(id)
-      Onion.VoiceOnlineRabbit.start_supervised(id)
+      Kafka.Consumer.start_supervised(id)
     end)
 
-    IO.puts("finished rabbits")
   end
 end
