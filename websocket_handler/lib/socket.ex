@@ -1,5 +1,5 @@
 defmodule Websocket.SocketHandler do
-
+  import WebsocketHandler.Utils.Version
   @behaviour :cowboy_websocket
   ## initialization boilerplate
 
@@ -18,6 +18,7 @@ defmodule Websocket.SocketHandler do
           version: Version.t(),
           callers: [pid]
         }
+  @type json :: String.t() | number | boolean | nil | [json] | %{String.t() => json}
 
   @impl true
   def init(request, _state) do
@@ -89,7 +90,7 @@ defmodule Websocket.SocketHandler do
   # transitional remote_send message
   def remote_send(socket, message), do: send(socket, {:remote_send, message})
 
-  @spec remote_send_impl(Websocket.json(), state) :: call_result
+  @spec remote_send_impl(json(), state) :: call_result
   defp remote_send_impl(message, state) do
     ws_push(prepare_socket_msg(message, state), state)
   end
@@ -158,17 +159,6 @@ defmodule Websocket.SocketHandler do
 
       dispatch(message, new_state)
     else
-      # special cases: mediasoup operations
-      msg = %{"op" => "@" <> _} ->
-        dispatch_mediasoup_message(msg, state)
-        ws_push(nil, state)
-
-      # legacy special cases
-      msg = %{"op" => special_case} when special_case in @special_cases ->
-        msg
-        |> Websocket.LegacyHandler.process(state)
-        |> ws_push(adopt_version(state, %{version: ~v(0.1.0)}))
-
       {:error, :auth} ->
         ws_push({:close, 4004, "not_authenticated"}, state)
 
