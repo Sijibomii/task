@@ -2,20 +2,16 @@
 
 **TODO: Add description**
 
-## Installation
+kafka topics: user, org, board, group task...
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `websocket_handler` to your list of dependencies in `mix.exs`:
+kafka message:
+`
+fetchId
+operator
+data
+`
 
-```elixir
-def deps do
-  [
-    {:websocket_handler, "~> 0.1.0"}
-  ]
-end
-```
+the consumer also should consume message in the same format
+fetchId should be equal if operator is a reply to an initial message
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/websocket_handler>.
 

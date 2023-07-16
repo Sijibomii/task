@@ -37,7 +37,7 @@ defmodule Websocket.Message.Auth.Request do
     with {:ok, request} <- apply_action(changeset, :validate),
          {:ok, user} <- Websocket.Auth.validate(request) do
 
-      {:reply, user, %{state | user: user, user_ids_i_am_blocking: user_ids_i_am_blocking}}
+      {:reply, user, %{state | user: user}}
     else
       # don't tolerate malformed requests with any response besides closing
       # out websocket.

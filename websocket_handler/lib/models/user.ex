@@ -1,4 +1,4 @@
-defmodule Beef.Schemas.User do
+defmodule Models.Schemas.User do
   use Ecto.Schema
 
   import Ecto.Changeset

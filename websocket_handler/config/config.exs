@@ -9,3 +9,4 @@ config :kafka_ex,
   consumer_group_id: "my_consumer_group"
 
 config :handler, websocket_auth_timeout: 10_000
+config :websocket, access_token_secret: "dnqwkdnsododkpdkpdkoddnnfdnno"

@@ -6,14 +6,12 @@ defmodule WebSocketHandler.UserSession do
             user_id: String.t(),
             username: String.t(),
             display_name: String.t(),
-            ip: String.t(),
             pid: pid()
           }
 
     defstruct user_id: nil,
               pid: nil,
               username: nil,
-              ip: nil
   end
 
   # REGISTRY AND SUPERVISION BOILERPLATE
