@@ -13,7 +13,6 @@ defmodule Websocket.Translator.Inbound do
     |> translate_operation
     |> translate_in_body(operator)
     |> add_in_ref(operator)
-    |> add_version
   end
 
   def translate_operation(message = %{"op" => operator}) do
@@ -29,12 +28,12 @@ defmodule Websocket.Translator.Inbound do
 
   def translate_in_body(message, _op), do: message
 
+  @casts_to_calls ~w(auth)
 
   def add_in_ref(message, op) when op in @casts_to_calls do
     Map.put(message, "fetchId", UUID.uuid4())
   end
 
-  def add_version(message), do: Map.put(message, "version", ~v(0.1.0))
 
   def add_in_ref(message, _op), do: message
 

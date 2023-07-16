@@ -11,7 +11,7 @@ defmodule WebSocketHandler.UserSession do
 
     defstruct user_id: nil,
               pid: nil,
-              username: nil,
+              username: nil
   end
 
   # REGISTRY AND SUPERVISION BOILERPLATE

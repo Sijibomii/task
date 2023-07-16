@@ -21,17 +21,17 @@ defmodule Websocket.Auth do
   defp do_auth(user_id, user_email, username, display_name) do
     alias WebSocketHandler.UserSession
 
-    if user do
+    if user_id do
       # note that this will start the session and will be ignored if the
       # session is already running.
       UserSession.start_supervised(
         user_id: user_id,
-        username: usernam
+        username: username,
         email: user_email,
         display_name: display_name,
       )
 
-      UserSession.set_active_ws(user.id, self())
+      UserSession.set_active_ws(user_id, self())
 
       # get all groups and org user belongs to send them a message to include this user pid when a broadcast is needed
       # send kafka message to get groups and org by user
@@ -44,7 +44,7 @@ defmodule Websocket.Auth do
       }))
 
       # subscribe to chats directed to oneself.
-      PubSub.subscribe("chat:" <> user.id)
+      PubSub.subscribe("chat:" <> user_id)
 
       {:ok, %User{
         id: user_id,
