@@ -1,4 +1,4 @@
-defmodule WebsocketHandler.Utils.Errors do
+defmodule Websocket.Utils.Errors do
   @spec changeset_errors(Ecto.Changeset.t()) :: map
   def changeset_errors(%{errors: errors}) do
     Map.new(errors, fn {k, {message, _}} -> {k, message} end)
@@ -16,7 +16,7 @@ defmodule WebsocketHandler.Utils.Errors do
 
   def changeset_to_first_err_message_with_field_name(%{errors: [{field, {message, values}}]}) do
     error =
-      WebsocketHandler.Utils.Errors.changeset_to_first_err_message(%{errors: [{field, {message, values}}]})
+      Websocket.Utils.Errors.changeset_to_first_err_message(%{errors: [{field, {message, values}}]})
 
     to_string(field) <> " " <> error
   end

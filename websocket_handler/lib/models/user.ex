@@ -22,4 +22,11 @@ defmodule Models.Schemas.User do
     # orgs, groups, teams id
   end
 
+  def changeset(user, attrs) do
+
+    user
+    |> cast(attrs, ~w(username email display_name id)a)
+    |> validate_required([:username, :email])
+  end
+
 end

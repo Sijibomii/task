@@ -58,6 +58,20 @@ defmodule WebSocketHandler.UserSession do
   ## TODO: CHANGE CASTS TO CALLS
 
 
+  def set_active_ws(user_id, pid), do: call(user_id, {:set_active_ws, pid})
+
+  defp set_active_ws(pid, _reply, state) do
+    if state.pid do
+      # terminates another websocket that happened to have been
+      # running.
+      Process.exit(state.pid, :normal)
+    end
+
+    Process.monitor(pid)
+    {:reply, :ok, %{state | pid: pid}}
+  end
+
+
   ##############################################################################
   ## MESSAGING API.
   ## TODO: change the first one to a call

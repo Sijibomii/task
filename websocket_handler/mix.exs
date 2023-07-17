@@ -14,8 +14,8 @@ defmodule WebsocketHandler.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger, :kaffe]
-      mod: {WebsocketHandler, []}
+      extra_applications: [:logger],
+      mod: []
     ]
   end
 
@@ -24,7 +24,7 @@ defmodule WebsocketHandler.MixProject do
     [
       {:plug_cowboy, "~> 2.5"},
       {:websockex, "~> 0.4.3", only: :test},
-      {:kaffe, "~> 1.9"},
+      {:broadway_kafka, "~> 0.3"},
       {:ecto_sql, "~> 3.0"},
       {:ecto_enum, "~> 1.4"},
       {:jason, "~> 1.2"},

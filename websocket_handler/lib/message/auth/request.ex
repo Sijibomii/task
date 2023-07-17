@@ -34,7 +34,7 @@ defmodule Websocket.Message.Auth.Request do
   @impl true
   def execute(changeset, state) do
     with {:ok, request} <- apply_action(changeset, :validate),
-         {:ok, user} <- Websocket.Auth.validate(request) do
+         {:ok, user} <- Websocket.Auth.authenticate(request) do
 
       {:reply, user, %{state | user: user}}
     else

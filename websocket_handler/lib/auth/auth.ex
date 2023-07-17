@@ -2,7 +2,7 @@ defmodule Websocket.Auth do
 
   alias Websocket.Utils.TokenUtils
   alias Models.Schemas.User
-  alias Kafka.Producer
+
   import Jason
 
   @spec authenticate(Websocket.Message.Auth.Request.t()) ::
@@ -28,23 +28,23 @@ defmodule Websocket.Auth do
         user_id: user_id,
         username: username,
         email: user_email,
-        display_name: display_name,
+        display_name: display_name
       )
 
       UserSession.set_active_ws(user_id, self())
 
       # get all groups and org user belongs to send them a message to include this user pid when a broadcast is needed
       # send kafka message to get groups and org by user
-      Producer.send_message("user", Jason.encode!(%{
-        "operator" => "get:user:details",
-        "fetchId" => UUID.uuid4(),
-        "data" => %{
-          "user_id" => user_id,
-        }
-      }))
+      # Producer.send_message("user", Jason.encode!(%{
+      #   "operator" => "get:user:details",
+      #   "fetchId" => UUID.uuid4(),
+      #   "data" => %{
+      #     "user_id" => user_id,
+      #   }
+      # }))
 
       # subscribe to chats directed to oneself.
-      PubSub.subscribe("chat:" <> user_id)
+      # PubSub.subscribe("chat:" <> user_id)
 
       {:ok, %User{
         id: user_id,
