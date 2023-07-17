@@ -10,8 +10,8 @@ defmodule Websocket.Broadway do
         module:
           {BroadwayKafka.Producer,
            [
-             hosts: [localhost: 9092],
-             group_id: "group_1",
+             hosts: [localhost: 29092],
+             group_id: "default-group",
              topics: ["websocket"]
            ]},
         concurrency: 1

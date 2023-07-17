@@ -23,11 +23,22 @@ defmodule WebsocketHandler do
     case Supervisor.start_link(children, opts) do
       {:ok, pid} ->
         IO.inspect(pid, label: "PID")
+        # start broadway
+        start_broadway()
         {:ok, pid}
 
       error ->
         error
     end
+  end
+
+  defp start_broadway() do
+
+    IO.puts("about to broadway")
+
+    Websocket.Broadway.start_link("")
+
+    IO.puts("finished broadway startup")
   end
 
   # socket
