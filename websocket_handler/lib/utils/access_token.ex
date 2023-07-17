@@ -1,7 +1,7 @@
 defmodule Websocket.AccessToken do
 
   def __default_signer__,
-    do: Joken.Signer.create("HS256", Application.fetch_env!(:websocket, :access_token_secret))
+    do: Joken.Signer.create("HS256", Application.fetch_env!(:websocket_handler, :access_token_secret))
 
   use Joken.Config
 

@@ -48,7 +48,7 @@ defmodule Websocket.SocketHandler do
     {:cowboy_websocket, request, state}
   end
 
-  @auth_timeout Application.compile_env(:handler, :websocket_auth_timeout)
+  @auth_timeout Application.compile_env(:websocket_handler, :websocket_auth_timeout)
 
   @impl true
   def websocket_init(state) do

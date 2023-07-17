@@ -12,6 +12,7 @@ defmodule WebsocketHandler do
       Plug.Cowboy.child_spec(
         scheme: :http,
         options: [
+          plug: Broth,
           port: String.to_integer(System.get_env("PORT") || "6000"),
           dispatch: dispatch(),
           protocol_options: [idle_timeout: :infinity]
@@ -22,7 +23,7 @@ defmodule WebsocketHandler do
     opts = [strategy: :one_for_one, name: WebsocketHandler.Supervisor]
     case Supervisor.start_link(children, opts) do
       {:ok, pid} ->
-
+        IO.puts("app running on pid : #{pid}")
         {:ok, pid}
 
       error ->

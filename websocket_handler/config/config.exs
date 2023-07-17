@@ -1,5 +1,5 @@
 import Config
 
 
-config :handler, websocket_auth_timeout: 10_000
-config :websocket, access_token_secret: "dnqwkdnsododkpdkpdkoddnnfdnno"
+config :websocket_handler, websocket_auth_timeout: 10_000
+config :websocket_handler, access_token_secret: "dnqwkdnsododkpdkpdkoddnnfdnno"
