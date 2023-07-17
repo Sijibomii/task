@@ -1,18 +1,19 @@
-defmodule Broth.Routes.Room do
+defmodule WebSocketHandler.Routes.Index do
   import Plug.Conn
-
-  alias Beef.Rooms
-  alias Ecto.UUID
 
   use Plug.Router
 
-  plug(Broth.Plugs.Cors)
+  plug(WebSocketHandler.Plugs.Cors)
   plug(:match)
   plug(:dispatch)
 
   get "/" do
-
-    Jason.encode!(%{message: "websocket handler for task app"})
-
+    conn
+    |> put_resp_content_type("application/json")
+    |> send_resp(
+      200,
+      Jason.encode!(%{message: "websocket handler for task app"})
+    )
   end
+
 end

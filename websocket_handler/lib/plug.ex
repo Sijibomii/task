@@ -26,7 +26,6 @@ defmodule WebSocketHandler.Plug do
     end
   end
 
-  use Sentry.PlugCapture
 
   plug(WebSocketHandler.Plugs.Cors)
   plug(:match)
@@ -36,7 +35,7 @@ defmodule WebSocketHandler.Plug do
     send_resp(conn, 200, "")
   end
 
-
+  forward("/index", to: WebSocketHandler.Routes.Index)
 
   get _ do
     send_resp(conn, 404, "not found")

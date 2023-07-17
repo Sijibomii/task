@@ -8,12 +8,11 @@ defmodule WebsocketHandler do
       # top-level supervisor for UserSession group
 
       WebSocketHandler.Supervisors.UserSession,
-
       Plug.Cowboy.child_spec(
         scheme: :http,
+        plug: WebSocketHandler.Plug,
         options: [
-          plug: Broth,
-          port: String.to_integer(System.get_env("PORT") || "6000"),
+          port: String.to_integer(System.get_env("PORT") || "4001"),
           dispatch: dispatch(),
           protocol_options: [idle_timeout: :infinity]
         ]
@@ -23,7 +22,7 @@ defmodule WebsocketHandler do
     opts = [strategy: :one_for_one, name: WebsocketHandler.Supervisor]
     case Supervisor.start_link(children, opts) do
       {:ok, pid} ->
-        IO.puts("app running on pid : #{pid}")
+        IO.inspect(pid, label: "PID")
         {:ok, pid}
 
       error ->
@@ -37,7 +36,7 @@ defmodule WebsocketHandler do
       {:_,
        [
          {"/socket", Websocket.SocketHandler, []},
-         {:_, Plug.Cowboy.Handler, {Websocket, []}}
+         {:_, Plug.Cowboy.Handler, {WebSocketHandler.Plug, []}}
        ]}
     ]
   end
