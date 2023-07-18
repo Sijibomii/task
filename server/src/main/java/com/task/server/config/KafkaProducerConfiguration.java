@@ -17,24 +17,24 @@ import org.springframework.kafka.core.ProducerFactory;
 @EnableKafka
 public class KafkaProducerConfiguration {
 
-	@Value("${spring.kafka.bootstrap-servers}")
-	private String servers;
-	@Value("${spring.kafka.producer.retries}")
-	private int retries;
-	@Value("${spring.kafka.producer.batch-size}")
-	private int batchSize;
-	@Value("${spring.kafka.producer.properties.linger.ms}")
-	private int linger;
-	@Value("${spring.kafka.producer.buffer-memory}")
-	private int bufferMemory;
+	// @Value("${spring.kafka.bootstrap-servers}")
+	// private String servers;
+	// @Value("${spring.kafka.producer.retries}")
+	// private int retries;
+	// @Value("${spring.kafka.producer.batch-size}")
+	// private int batchSize;
+	// @Value("${spring.kafka.producer.properties.linger.ms}")
+	// private int linger;
+	// @Value("${spring.kafka.producer.buffer-memory}")
+	// private int bufferMemory;
 
 	public Map<String, Object> producerConfigs() {
 		Map<String, Object> props = new HashMap<>();
-		props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, servers);
-		props.put(ProducerConfig.RETRIES_CONFIG, retries);
-		props.put(ProducerConfig.BATCH_SIZE_CONFIG, batchSize);
-		props.put(ProducerConfig.LINGER_MS_CONFIG, linger);
-		props.put(ProducerConfig.BUFFER_MEMORY_CONFIG, bufferMemory);
+		// props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, servers);
+		// props.put(ProducerConfig.RETRIES_CONFIG, retries);
+		// props.put(ProducerConfig.BATCH_SIZE_CONFIG, batchSize);
+		// props.put(ProducerConfig.LINGER_MS_CONFIG, linger);
+		// props.put(ProducerConfig.BUFFER_MEMORY_CONFIG, bufferMemory);
 		props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
 		props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
 		return props;

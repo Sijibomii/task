@@ -1,6 +1,9 @@
 package com.task.server.utils;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -23,9 +26,14 @@ public class KafkaDispatcher {
     private EventService eventService;
 
     @Async
-    public void disptach(String topic, Object data, String description, EventEnum e){
-        // send event
-        kafkaTemplate.send(topic, JSON.toJSONString(data));
+    public void disptach(String topic, Object data, String description, EventEnum e, Operator op){
+        
+        Map<Object,Object> map = new HashMap<>(); 
+        map.put("fetchId", UUID.randomUUID());  
+        map.put("data", data);
+        map.put("operator", op.getOperator());
+
+        kafkaTemplate.send(topic, JSON.toJSONString(map));
 
         // create event obj and store in db
         Events event = new Events();

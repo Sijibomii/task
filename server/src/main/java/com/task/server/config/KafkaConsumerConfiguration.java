@@ -22,32 +22,33 @@ public class KafkaConsumerConfiguration {
 
 	@Value("${spring.kafka.bootstrap-servers}")
 	private String servers;
-	@Value("${spring.kafka.consumer.enable-auto-commit}")
-	private boolean enableAutoCommit;
-	@Value("${spring.kafka.consumer.properties.session.timeout.ms}")
-	private String sessionTimeout;
-	@Value("${spring.kafka.consumer.auto.commit.interval.ms}") 
-	private String autoCommitInterval;
+	// @Value("${spring.kafka.consumer.enable-auto-commit}")
+	// private boolean enableAutoCommit;
+	// @Value("${spring.kafka.consumer.properties.session.timeout.ms}")
+	// private String sessionTimeout;
+	// @Value("${spring.kafka.consumer.auto.commit.interval.ms}") 
+	// private String autoCommitInterval;
 	@Value("${spring.kafka.consumer.group-id}")
 	private String groupId;
-	@Value("${spring.kafka.consumer.auto-offset-reset}")
-	private String autoOffsetReset;
+	// @Value("${spring.kafka.consumer.auto-offset-reset}")
+	// private String autoOffsetReset;
 	@Value("${spring.kafka.consumer.properties.concurrency}")
 	private int concurrency;
-	@Value("${spring.kafka.consumer.max-poll-records}")
-	private int maxPollRecordsConfig;
+	// @Value("${spring.kafka.consumer.max-poll-records}")
+	// private int maxPollRecordsConfig;
 
 	public Map<String, Object> consumerConfigs() {
 		Map<String, Object> propsMap = new HashMap<>();
 		propsMap.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, servers);
-		propsMap.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, enableAutoCommit);
-		propsMap.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, autoCommitInterval);
-		propsMap.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, sessionTimeout);
+		// propsMap.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, enableAutoCommit);
+		// propsMap.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, autoCommitInterval);
+		// propsMap.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, sessionTimeout);
 		propsMap.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
 		propsMap.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
 		propsMap.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
-		propsMap.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, autoOffsetReset);
-		propsMap.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, maxPollRecordsConfig);
+		// propsMap.put(ConsumerConfig., propsMap)
+		// propsMap.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, autoOffsetReset);
+		// propsMap.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, maxPollRecordsConfig);
 		return propsMap;
 	}
 

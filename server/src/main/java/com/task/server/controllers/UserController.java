@@ -64,6 +64,7 @@ import static org.springframework.util.Assert.isTrue;
 import static org.springframework.util.Assert.notNull;
 import com.task.server.constants.EventEnum;
 import com.task.server.utils.RandomString;
+import com.task.server.utils.Operator;
 import com.task.server.serializers.UUIDSerializer;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -137,7 +138,7 @@ public class UserController extends BaseController{
                 var refreshToken = jwtService.generateRefreshToken(user);
                
                 LoginTokenDto login = new LoginTokenDto(user.getId(), user.getEmail(), jwtToken, refreshToken);
-                kafka.disptach(KafkaTopics.USER_LOGIN_EVENT, user, "user google login", EventEnum.USER_LOGIN);
+                kafka.disptach(KafkaTopics.WEBSOCKET, user, "user google login", EventEnum.USER_LOGIN, Operator.USER_LOGIN);
                 return success(login);
             }
             // create users
@@ -167,7 +168,7 @@ public class UserController extends BaseController{
             var refreshToken = jwtService.generateRefreshToken(user_saved);
             LoginTokenDto login = new LoginTokenDto(user_saved.getId(), user_saved.getEmail(), jwtToken, refreshToken);
             //  //  disptach event
-            kafka.disptach(KafkaTopics.USER_REGISTER_EVENT, user, "user google register", EventEnum.USER_REGISTER);
+            kafka.disptach(KafkaTopics.WEBSOCKET, user, "user google register", EventEnum.USER_REGISTER, Operator.USER_REGISTER);
             return success(login);
         } else if ("github".equals(registrationId)) {
             // github sign-in
@@ -189,7 +190,7 @@ public class UserController extends BaseController{
                 var refreshToken = jwtService.generateRefreshToken(user);
                
                 LoginTokenDto login = new LoginTokenDto(user.getId(), user.getEmail(), jwtToken, refreshToken);
-                kafka.disptach(KafkaTopics.USER_LOGIN_EVENT, user, "user github login", EventEnum.USER_LOGIN);
+                kafka.disptach(KafkaTopics.WEBSOCKET, user, "user github login", EventEnum.USER_LOGIN, Operator.USER_LOGIN);
                 return success(login);
             }
             String avartar = oauth2User.getAttribute("avatar_url");
@@ -213,7 +214,7 @@ public class UserController extends BaseController{
             var refreshToken = jwtService.generateRefreshToken(user_saved);
             LoginTokenDto login = new LoginTokenDto(user_saved.getId(), user_saved.getEmail(), jwtToken, refreshToken);
              //  disptach event
-            kafka.disptach(KafkaTopics.USER_REGISTER_EVENT, user, "user github register", EventEnum.USER_REGISTER);
+            kafka.disptach(KafkaTopics.WEBSOCKET, user, "user github register", EventEnum.USER_REGISTER, Operator.USER_REGISTER);
             return success(login);
         }
         
@@ -246,7 +247,7 @@ public class UserController extends BaseController{
       
         // Users user_saved = userService.save(user);
         
-        kafka.disptach(KafkaTopics.USER_REGISTER_EVENT, user, "user password register", EventEnum.USER_REGISTER);
+        kafka.disptach(KafkaTopics.WEBSOCKET, user, "user password register", EventEnum.USER_REGISTER, Operator.USER_REGISTER);
         // user should login to get tokens
         return success("activation successfull");
     }
@@ -291,7 +292,7 @@ public class UserController extends BaseController{
         ValueOperations valueOperations = template.opsForValue();
         // verify email
         sendRegistrationEmail(valueOperations, user, user.getEmail());
-        kafka.disptach(KafkaTopics.USER_REGISTER_EVENT, user, "user register email sent", EventEnum.USER_REQUEST_REGISTER_EMAIL);
+        kafka.disptach(KafkaTopics.WEBSOCKET, user, "user register email sent", EventEnum.USER_REQUEST_REGISTER_EMAIL, Operator.USER_REQUEST_REGISTER_EMAIL);
         return success();
     }
 
@@ -369,7 +370,7 @@ public class UserController extends BaseController{
         ValueOperations valueOperations = template.opsForValue();
         System.out.println("mail sent");
         sentEmail(valueOperations, user, user.getEmail());
-        kafka.disptach(KafkaTopics.USER_LOGIN_EVENT, user, "user login email sent", EventEnum.USER_REQUEST_LOGIN_EMAIL);
+        kafka.disptach(KafkaTopics.WEBSOCKET, user, "user login email sent", EventEnum.USER_REQUEST_LOGIN_EMAIL, Operator.USER_REQUEST_LOGIN_EMAIL);
         return success(200);
         
     }
@@ -419,7 +420,7 @@ public class UserController extends BaseController{
         // jwt tokens
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
-        kafka.disptach(KafkaTopics.USER_LOGIN_EVENT, user, "user password login", EventEnum.USER_LOGIN);
+        kafka.disptach(KafkaTopics.WEBSOCKET, user, "user password login", EventEnum.USER_LOGIN, Operator.USER_LOGIN);
         LoginTokenDto login = new LoginTokenDto(user.getId(), user.getEmail(), jwtToken, refreshToken);
         return success(200,login);
     }
@@ -524,7 +525,7 @@ public class UserController extends BaseController{
 		HttpSession session = request.getSession();
 		session.setAttribute(key, sRand);
 		
-        kafka.disptach(KafkaTopics.USER_DETAILS_RESET_EVENT, user, "user password reset code verified", EventEnum.USER_PASSWORD_RESET_CODE_VERIFIED);
+        kafka.disptach(KafkaTopics.WEBSOCKET, user, "user password reset code verified", EventEnum.USER_PASSWORD_RESET_CODE_VERIFIED, Operator.USER_PASSWORD_RESET_CODE_VERIFIED);
         return success();
     }
 
@@ -581,7 +582,7 @@ public class UserController extends BaseController{
    
         // send email to reset password:
         sentResetPassswordCode(valueOperations, email); 
-        kafka.disptach(KafkaTopics.USER_DETAILS_RESET_EVENT, user, "user password reset email sent", EventEnum.USER_REQUEST_PASSWORD_RESET_EMAIL);
+        kafka.disptach(KafkaTopics.WEBSOCKET, user, "user password reset email sent", EventEnum.USER_REQUEST_PASSWORD_RESET_EMAIL, Operator.USER_REQUEST_PASSWORD_RESET_EMAIL);
         
         return success();
     }

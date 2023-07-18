@@ -15,6 +15,6 @@ public class SampleConsumer {
     @Autowired
     private KafkaTemplate<String,String> kafkaTemplate;
 
-    @KafkaListener(topics = "sample-topic",containerFactory = "kafkaListenerContainerFactory")
+    @KafkaListener(topics = "websocket",containerFactory = "kafkaListenerContainerFactory")
     public void onOrderSubmitted(List<ConsumerRecord<String,String>> records){}
 }

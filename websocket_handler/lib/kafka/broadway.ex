@@ -12,7 +12,20 @@ defmodule Websocket.Broadway do
            [
              hosts: [localhost: 29092],
              group_id: "default-group",
-             topics: ["websocket"]
+             topics: ["websocket"],
+            #  offset_reset_policy: :earliest,
+            #  receive_interval: 0,
+            #  group_config: [
+            #   session_timeout_seconds: 15,
+            #   rebalance_timeout_seconds: 300,
+
+            # ],
+            # fetch_config: [
+
+            # ],
+            # client_config: [
+
+            # ],
            ]},
         concurrency: 1
       ],
