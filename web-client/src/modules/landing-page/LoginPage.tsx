@@ -14,7 +14,7 @@ import captchaPlaceholder from "../../img/captcha-example.webp";
 import { errorObject, usePasswordValidator } from "../../shared-hooks/usePasswordValidator";
 import { InputErrorMsg } from "../../ui/inputErrorMsg";
 import { useHttpClient } from "../../shared-hooks/useHttpClient";
-import { http } from "../../api-client";
+import { http } from "@sijibomi/task-api-client";
 
 interface LoginButtonProps {
     children: React.ReactNode | [React.ReactNode, React.ReactNode];

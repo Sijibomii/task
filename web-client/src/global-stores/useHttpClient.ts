@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { combine } from "zustand/middleware";
-import { http } from "../api-client";
+import { http } from "@sijibomi/task-api-client";
 
 export const useHttpClient = create(
   combine(
