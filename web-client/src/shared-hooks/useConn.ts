@@ -1,4 +1,4 @@
-import { WsRaw } from "@sijibomi/task-api-client";
+import { WsWrap as wrap } from "@sijibomi/task-api-client";
 import { useContext } from "react";
 import { WebSocketContext } from "../modules/ws/WebSocketProvider";
 
@@ -7,5 +7,5 @@ export const useConn = () => {
 };
 
 export const useWrappedConn = () => {
-  return wrap(useContext(WebSocketContext).conn!);
+  return wrap.wrap(useContext(WebSocketContext).conn!);
 };

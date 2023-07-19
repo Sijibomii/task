@@ -36,16 +36,12 @@ var connect = function (token, refreshToken, _a) {
             connectionTimeout: connectionTimeout,
             WebSocket: isomorphic_ws_1.default,
         });
-        var apiSend = function (opcode, data, topic, fetchId) {
+        var apiSend = function (opcode, data, fetchId) {
             if (socket.readyState !== socket.OPEN) {
                 return;
             }
             var raw = "{\"operator\":\"".concat(opcode, "\",\"data\":").concat(JSON.stringify(data)).concat(fetchId ? ",\"fetchId\":\"".concat(fetchId, "\"") : "", "}");
-            socket.send(JSON.stringify({
-                command: opcode,
-                destination: topic,
-                message: raw
-            }));
+            socket.send(raw);
             logger("out", opcode, data, fetchId, raw);
         };
         var listeners = [];
@@ -128,7 +124,7 @@ var connect = function (token, refreshToken, _a) {
                                     rejectFetch(new Error("timed out"));
                                 }, fetchTimeout);
                             }
-                            apiSend(opcode, parameters, utils_1.opcodeToTopicMapping[opcode], ref || undefined);
+                            apiSend(opcode, parameters, ref || undefined);
                         });
                     },
                 };

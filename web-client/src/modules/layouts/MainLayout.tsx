@@ -3,8 +3,8 @@ import React from "react";
 import { TabletSidebar } from "./TabletSidebar";
 import { useScreenType } from "../../shared-hooks/useScreenType";
 import { useConn } from "../../shared-hooks/useConn";
+import { useHostStore } from "../../global-stores/useHostStore";
 import { MainInnerGrid } from "../../ui/MainGrid";
-import { MobileNav } from "../../ui/mobile/MobileNav";
 import { LeftPanel, RightPanel } from "./GridPanels";
 
 
@@ -66,7 +66,6 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
     case "fullscreen":
       prepend = (
         <>
-          <MobileNav items={items}></MobileNav>
         </>
       );
       middle = (
