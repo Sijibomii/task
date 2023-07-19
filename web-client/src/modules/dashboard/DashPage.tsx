@@ -9,11 +9,11 @@ export const DashPage: React.FC<DashPageProps> = () => {
     return (
         <>
         <WaitForWsAndAuth>
-            
+            <DefaultDesktopLayout>
+                <TaskController />
+            </DefaultDesktopLayout>
         </WaitForWsAndAuth>
         </>
     )
 }
-{/* <DefaultDesktopLayout>
-                <TaskController />
-            </DefaultDesktopLayout> */}
+{/*  */}
