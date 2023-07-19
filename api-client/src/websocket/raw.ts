@@ -84,7 +84,7 @@ export const connect = (
     connectionTimeout,
     WebSocket,
   });
-  const apiSend = (opcode: Opcode, data: unknown, topic: string, fetchId?: FetchID) => {
+  const apiSend = (opcode: Opcode, data: unknown, fetchId?: FetchID) => {
     if (socket.readyState !== socket.OPEN) {
       return;
     }
@@ -93,11 +93,7 @@ export const connect = (
       fetchId ? `,"fetchId":"${fetchId}"` : ""
     }}`;
 
-    socket.send(JSON.stringify({
-      command: opcode,
-      destination: topic,
-      message: raw
-    }));
+    socket.send(raw);
 
     logger("out", opcode, data, fetchId, raw);
   };
@@ -194,7 +190,7 @@ export const connect = (
               }, fetchTimeout);
             }
 
-            apiSend(opcode, parameters, opcodeToTopicMapping[opcode], ref || undefined);
+            apiSend(opcode, parameters, ref || undefined);
           }),
       };
 

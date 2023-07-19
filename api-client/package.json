@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "build:types": "tsc --declaration",
-    "build": "npm run build-js-esm && npm run build-js",
+    "build": "npm run build-js",
     "build-js": "npm run build-js-cjs",
     "build-js-esm": "tsc --project tsconfig.json --outDir dist/esm --module esnext",
     "build-js-cjs": "tsc --project tsconfig.json --outDir dist/cjs --module commonjs",

@@ -23,6 +23,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.WsRaw = void 0;
+exports.WsWrap = exports.WsRaw = void 0;
 exports.WsRaw = __importStar(require("./raw"));
-// export * from "./responses";
+exports.WsWrap = __importStar(require("./wrapper"));
