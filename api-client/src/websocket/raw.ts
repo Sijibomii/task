@@ -7,7 +7,7 @@ import { UUID, User } from "..";
 import { opcodeToTopicMapping } from "./utils";
 
 const heartbeatInterval = 8000;
-const apiUrl = "ws://localhost:8081/web-handler";
+const apiUrl = "ws://localhost:4001/socket";
 const connectionTimeout = 15000;
 
 export type Token = string;
@@ -89,7 +89,7 @@ export const connect = (
       return;
     }
 
-    const raw = `{"op":"${opcode}","data":${JSON.stringify(data)}${
+    const raw = `{"operator":"${opcode}","data":${JSON.stringify(data)}${
       fetchId ? `,"fetchId":"${fetchId}"` : ""
     }}`;
 
@@ -141,10 +141,13 @@ export const connect = (
           const listener = { opcode, handler } as Listener<unknown>;
 
           listener.handler = (...params) => {
+            // The params argument is cast to the appropriate type using as Parameters<typeof handler>. 
+            // This ensures that the function is called with the correct number and types of parameters.
             handler(...(params as Parameters<typeof handler>));
+            // remove this actual listener from the array incase it's there already
             listeners.splice(listeners.indexOf(listener), 1);
           };
-
+          // add to arr
           listeners.push(listener);
         },
         addListener: (opcode, handler) => {
