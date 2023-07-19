@@ -29,3 +29,4 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.http = void 0;
 exports.http = __importStar(require("./http"));
 __exportStar(require("./entities"), exports);
+__exportStar(require("./websocket"), exports);
