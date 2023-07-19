@@ -21,7 +21,9 @@ export const WaitForWsAndAuth: React.FC<any> = ({
   return (
     <>
       {domLoaded && (
-       <>{conn === undefined || conn === null ? (<div className="flex">loading...</div>) : (<>{children}</>)}</>
+        <>{children}</>
+        // change this later
+      //  <>{conn === undefined || conn == null ? (<div className="flex">loading...</div>) : (<>{children}</>)}</>
       )}
     </>
   )

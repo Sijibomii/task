@@ -12,7 +12,7 @@ export const DashPage: React.FC<DashPageProps> = () => {
             <DefaultDesktopLayout>
                 <TaskController />
             </DefaultDesktopLayout>
-        </WaitForWsAndAuth>
+        </WaitForWsAndAuth> 
         </>
     )
 }
