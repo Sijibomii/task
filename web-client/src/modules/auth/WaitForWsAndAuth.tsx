@@ -10,13 +10,11 @@ export const WaitForWsAndAuth: React.FC<WaitForWsAndAuthProps> = ({
   const { conn } = useContext(WebSocketContext);
 
   if (!useVerifyLoggedIn()) {
-    return null;
+    return (<></>);
   }
 
-  if (!conn) {
-    // @todo make this better
-    return <div className="flex">loading...</div>;
-  }
-
-  return <>{children}</>;
+  return (<>
+  
+  {conn === undefined || conn === null ? (<div className="flex">loading...</div>) : (<>{children}</>)}
+  </>)
 };
