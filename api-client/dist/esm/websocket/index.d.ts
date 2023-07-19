@@ -1,1 +1,1 @@
-export * from "./raw";
+export * as WsRaw from "./raw";

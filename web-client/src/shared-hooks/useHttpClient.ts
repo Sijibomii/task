@@ -1,4 +1,4 @@
-import { http } from "../api-client";
+import { http } from "@sijibomi/task-api-client";
 import { useHttpClient as useHttp } from "../global-stores/useHttpClient";
 
 // return the http client

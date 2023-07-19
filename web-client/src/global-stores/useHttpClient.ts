@@ -3,15 +3,19 @@ import { combine } from "zustand/middleware";
 import { http } from "@sijibomi/task-api-client";
 
 export const useHttpClient = create(
-  combine(
+  combine( 
     {
-      http: null,
+      http: http.create({
+        baseUrl: "https://localhost:8080/"
+      })
     },
     (set, get) => ({
       set,
       setHttpClient: (http: http.Http) => {
         const client = get().http;
-        set({ http });
+        set({
+          http: http
+        });
       },
     })
   )
