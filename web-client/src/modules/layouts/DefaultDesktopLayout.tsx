@@ -18,7 +18,6 @@ export const DefaultDesktopLayout: React.FC<DefaultDesktopLayoutProps> = ({
         tabletSidebar={<TabletSidebar />}
         // left panel only on lg screens
         leftPanel={<ProjectsController />}
-        rightPanel={<ProfileBlockController />}
       >
         {children}
       </MainLayout>

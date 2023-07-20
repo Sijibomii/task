@@ -18,7 +18,6 @@ interface MainLayoutProps {
 export const MainLayout: React.FC<MainLayoutProps> = ({
   children,
   leftPanel = <div />,
-  rightPanel = <div />,
   tabletSidebar = <TabletSidebar />,
 }) => {
   
@@ -42,7 +41,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
         <>
           <LeftPanel>{leftPanel}</LeftPanel>
           {children}
-          <RightPanel>{rightPanel}</RightPanel>
+          
         </>
       );
       break;
@@ -51,7 +50,6 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
         <>
           <LeftPanel>{tabletSidebar}</LeftPanel>
           {children}
-          <RightPanel>{rightPanel}</RightPanel>
         </>
       );
       break;
