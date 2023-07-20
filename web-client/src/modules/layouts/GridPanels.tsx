@@ -12,14 +12,11 @@ const HeaderWrapper: FC<any> = ({ children }) => (
 export const LeftPanel: React.FC<LeftPanelProps> = ({ children }) => {
   return (
     <FixedGridPanel>
-      <HeaderWrapper>
-        
-      </HeaderWrapper>
       {children}
     </FixedGridPanel>
   );
 };
-
+ 
 export const MiddlePanel: React.FC<
   LeftPanelProps & { stickyChildren?: React.ReactNode }
 > = ({ stickyChildren, children }) => {

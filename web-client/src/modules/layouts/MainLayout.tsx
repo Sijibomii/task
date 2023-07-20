@@ -39,7 +39,10 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
     case "3-cols":
       middle = (
         <>
-          <LeftPanel>{leftPanel}</LeftPanel>
+          <LeftPanel>
+            {tabletSidebar}
+            {leftPanel}
+          </LeftPanel>
           {children}
           
         </>
