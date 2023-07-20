@@ -20,7 +20,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
   leftPanel = <div />,
   tabletSidebar = <TabletSidebar />,
 }) => {
-  
+   
   const screenType = useScreenType();
   const conn = useConn()!;
   const me = conn ? conn.user : undefined;
@@ -39,7 +39,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
     case "3-cols":
       middle = (
         <>
-          <LeftPanel>
+          <LeftPanel className="flex">
             {tabletSidebar}
             {leftPanel}
           </LeftPanel>

@@ -166,3 +166,6 @@ p.small {
     outline: none;
   }
   
+  .border-ri{
+    border-right: 1px solid white;
+  }

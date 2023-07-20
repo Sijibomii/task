@@ -6,7 +6,7 @@ export const GridPanel: React.FC<any> = ({ children }) => {
 
 export const FixedGridPanel: React.FC<any> = ({ children }) => {
   return (
-    <div className={`flex pt-5 flex-col flex-1 sticky top-0 h-screen`}>
+    <div className={`flex pt-5 flex-1 sticky top-0 h-screen`}>
       {children}
     </div>
   );

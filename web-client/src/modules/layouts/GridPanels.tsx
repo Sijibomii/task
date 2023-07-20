@@ -3,15 +3,18 @@ import { useScreenType } from "../../shared-hooks/useScreenType";
 import { FixedGridPanel, GridPanel } from "../../ui/GridPanel";
 import { WebSocketContext } from "../ws/WebSocketProvider";
 
-interface LeftPanelProps {}
+interface LeftPanelProps {
+  className?: string
+  children?: any
+}
 
 const HeaderWrapper: FC<any> = ({ children }) => (
   <div className={`flex mb-7 h-6 items-center`}>{children}</div>
 );
 
-export const LeftPanel: React.FC<LeftPanelProps> = ({ children }) => {
+export const LeftPanel: React.FC<LeftPanelProps> = ({ children, className }) => {
   return (
-    <FixedGridPanel>
+    <FixedGridPanel className={`${className}`}>
       {children}
     </FixedGridPanel>
   );
