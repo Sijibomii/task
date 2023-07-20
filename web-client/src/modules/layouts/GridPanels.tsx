@@ -30,9 +30,7 @@ export const MiddlePanel: React.FC<
             : ""
         }>
         {screenType !== "fullscreen" ? (
-          <HeaderWrapper>
-           
-          </HeaderWrapper>
+          <></>
         ) : (
           ""
         )}
