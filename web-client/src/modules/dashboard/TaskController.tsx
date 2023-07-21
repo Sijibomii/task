@@ -58,28 +58,31 @@ export const TaskController: React.FC<any> = ({}) => {
       </div>
 
       {/* header */}
-      <div className="">
-        <div className="">
-          <div className="">
-            <h4>Discussion</h4>
-            {/* not */}
-            <div className="bg-[#F85058] ml-4 prj-not absolute right-3">
-              <div className=" text-white">3</div>
+      <div className="flex items-center justify-between tc-b mt-3">
+        <div className="px-12 flex items-center justify-between w-full">
+          <div className="flex items-center">
+            <div className="flex items-center relative mr-6 px-6">
+              <h4 className="text-[#434344] text-sm">Discussion</h4>
+              {/* not */}
+              <div className="bg-[#F85058] ml-4 prj-not absolute right-0">
+                <div className=" text-white">3</div>
+              </div>
+            </div>
+            <div className="flex items-center relative mr-6 px-6 py-3 tc-active">
+              <h4 className="text-white text-sm mr-6">Tasks</h4>
+            </div>
+
+            <div className="flex items-center relative mr-6 px-6">
+              <h4 className="text-[#434344] text-sm mr-6">Overview</h4>
+            </div>
+
+            <div className="flex items-center relative mr-6 px-6">
+              <h4 className="text-[#434344] text-sm mr-6">Timelines</h4>
             </div>
           </div>
-          <div className="">
-            <h4>Tasks</h4>
+          <div className="pr-10">
+            <MultipleUsers  srcArray={srcArr}/>
           </div>
-          <div className="">
-            <h4>Timelines</h4>
-          </div>
-
-          <div className="">
-            <h4>Overview</h4>
-          </div>
-        </div>
-        <div className="">
-          <MultipleUsers  srcArray={srcArr}/>
         </div>
       </div>
     </div>

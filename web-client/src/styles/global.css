@@ -184,3 +184,11 @@ p.small {
     border-radius: 1000px;
     font-size: 8.5px!important;
   }
+
+  .tc-b{
+    border-bottom: 1px solid #434344;
+  }
+
+  .tc-active{
+    border-bottom: 3px solid white;
+  }
