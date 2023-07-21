@@ -13,7 +13,7 @@ export const TabletSidebar: React.FC<any> = ({}) => {
   return (
     <>
       <div className="border-ri h-screen mr-4">
-        <div className="flex flex-col py-10 px-5">
+        <div className="flex flex-col py-20 px-5">
           <CheckSquare className="text-white my-6" width={28} height={28} />
           <Chat className="text-[#434344] my-6" width={28} height={28} />
           <Bell className="text-[#434344] my-6" width={28} height={28} />

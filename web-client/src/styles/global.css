@@ -169,3 +169,7 @@ p.small {
   .border-ri{
     border-right: 1px solid #434344;
   }
+  input[type="text"]{
+    background: transparent;
+    border: none;
+  }

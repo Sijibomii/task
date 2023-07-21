@@ -22,7 +22,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         {...(props as any)}
       />
     ) : (
-      <input ref={ref} className={cn} data-testid="input" {...props} />
+      <input ref={ref} className={cn} data-testid="input" {...props} type="text" />
     );
   }
 );

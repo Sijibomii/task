@@ -7,7 +7,10 @@ export interface SearchBarProps
   extends React.ComponentPropsWithoutRef<"input"> {
   inputClassName?: string;
   mobile?: boolean;
-  isLoading?: boolean;
+  isLoading?: boolean; 
+  iconClassName?: string
+  iconHeight?: number
+  iconWidth?: number
 }
 
 export const SearchBar: React.FC<SearchBarProps> = ({
@@ -15,6 +18,9 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   inputClassName = "",
   isLoading = false,
   mobile = false,
+  iconClassName="",
+  iconWidth,
+  iconHeight,
   ...props
 }) => {
   return (
@@ -25,7 +31,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     >
       {!mobile && (
         <div className="h-full mx-4 flex items-center pointer-events-none">
-          <SvgSolidSearch />
+          <SvgSolidSearch className={iconClassName} width={iconWidth} height={iconHeight} />
         </div>
       )}
       <Input

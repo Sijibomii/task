@@ -1,14 +1,21 @@
 import * as React from "react";
 
-function SvgSolidSearch(props: React.SVGProps<SVGSVGElement>) {
+interface SolidSearchProps {
+  width?: number
+  height?: number
+  className?: string
+}
+
+const SvgSolidSearch: React.FC<SolidSearchProps> =({
+  width= 16, height=16, className
+}) => {
   return (
     <svg
-      width={16}
-      height={16}
+      width={`${width}`} height={`${height}`}
       viewBox="0 0 16 16"
       fill="currentColor"
       xmlns="http://www.w3.org/2000/svg"
-      {...props}
+      className={`bi bi-chevron-down ${className}`}
     >
       <g
         clipPath="url(#sm-solid-search_svg__clip0)"
