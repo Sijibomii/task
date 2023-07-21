@@ -173,3 +173,14 @@ p.small {
     background: transparent;
     border: none;
   }
+
+  .prj-active{
+    background-color: #1B1D1F;
+    border-radius: 5px;
+  }
+
+  .prj-not{
+    padding: 0.1rem 0.4rem;
+    border-radius: 1000px;
+    font-size: 8.5px!important;
+  }
