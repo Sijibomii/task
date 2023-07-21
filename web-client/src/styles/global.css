@@ -192,3 +192,10 @@ p.small {
   .tc-active{
     border-bottom: 3px solid white;
   }
+
+  .ts-d{
+    height: 5px;
+    width: 5px;
+    border-radius: 10px;
+    /* background-color: red; */
+  }

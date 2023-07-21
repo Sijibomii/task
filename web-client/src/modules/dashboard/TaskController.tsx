@@ -3,6 +3,7 @@ import Star from "@/icons/Star";
 import ThreeDots from "@/icons/ThreeDots";
 import { MultipleUsers } from "@/ui/UserAvatar/MultipleUsers";
 import React, { useState } from "react";
+import Draggable from 'react-draggable';
 
 const Page: React.FC<{}> = () => {
   
@@ -82,6 +83,74 @@ export const TaskController: React.FC<any> = ({}) => {
           </div>
           <div className="pr-10">
             <MultipleUsers  srcArray={srcArr}/>
+          </div>
+        </div>
+      </div>
+
+      {/* tasks */}
+      <div className="w-full overflow-scroll fixed">
+        {/* task heading */}
+        <div className="task-headings flex items-center px-8 py-4">
+          <div className="task-heading-1 flex items-center px-4 justify-between w-full">
+            <div className="task-heading-l flex items-center">
+              <div className="ts-d bg-red-600"></div>
+              <h4 className="text-white text-sm font-thin ml-3">New Request</h4>
+              <p className="text-[#434344] text-sm font-thin ml-3">6</p>
+            </div>
+            <div className="task-heading-r flex items-center">
+              <ThreeDots className="text-white" width={18} height={18} />
+            </div>
+          </div>
+
+          <div className="task-heading-2 flex items-center px-4 justify-between w-full">
+            <div className="task-heading-l flex items-center">
+              <div className="ts-d bg-green-500"></div>
+              <h4 className="text-white text-sm font-thin ml-3">New Request</h4>
+              <p className="text-[#434344] text-sm font-thin ml-3">6</p>
+            </div>
+            <div className="task-heading-r flex items-center">
+              <ThreeDots className="text-white" width={18} height={18} />
+            </div>
+          </div>
+
+          <div className="task-heading-3 flex items-center px-4 justify-between w-full">
+            <div className="task-heading-l flex items-center">
+              <div className="ts-d bg-yellow-500"></div>
+              <h4 className="text-white text-sm font-thin ml-3">New Request</h4>
+              <p className="text-[#434344] text-sm font-thin ml-3">6</p>
+            </div>
+            <div className="task-heading-r flex items-center">
+              <ThreeDots className="text-white" width={18} height={18} />
+            </div>
+          </div>
+
+          <div className="task-heading-4 flex items-center px-4 justify-between w-full">
+            <div className="task-heading-l flex items-center">
+              <div className="ts-d bg-white"></div>
+              <h4 className="text-white text-sm font-thin ml-3">New Request</h4>
+              <p className="text-[#434344] text-sm font-thin ml-3">6</p>
+            </div>
+            <div className="task-heading-r flex items-center">
+              <ThreeDots className="text-white" width={18} height={18} />
+            </div>
+          </div>
+
+          <div className="task-heading-5 flex items-center px-4 justify-between w-full">
+            <div className="task-heading-l flex items-center">
+              <div className="ts-d bg-blue-500"></div>
+              <h4 className="text-white text-sm font-thin ml-3">New Request</h4>
+              <p className="text-[#434344] text-sm font-thin ml-3">6</p>
+            </div>
+            <div className="task-heading-r flex items-center">
+              <ThreeDots className="text-white" width={18} height={18} />
+            </div>
+          </div>
+        </div>
+        <div className="task-sections flex flex-col">
+          <div className="task-section overflow-scroll">
+            <Draggable>
+              <div>I can now be moved around!</div>
+            </Draggable>
           </div>
         </div>
       </div>
