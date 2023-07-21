@@ -26,7 +26,7 @@ export default function App({ Component, pageProps }: AppProps) {
             <link rel="apple-touch-startup-image" href="" />
           </Head>
         <Component {...pageProps} />
-        <ErrorToastController />
+        {/* <ErrorToastController /> */}
     </QueryClientProvider>
   )
   

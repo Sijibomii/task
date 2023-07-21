@@ -81,12 +81,12 @@ export const ProjectsController: React.FC<any> = ({}) => {
           </div>
 
           <div className="">
-          <div className="flex items-center py-3 px-4 mt-3 prj-active">
+          <div className="flex items-center py-3 px-4 mt-3 prj-active relative">
               <Star className="text-[yellow]" />
               <h4 className="text-[#434344] ml-4 text-sm">Essential Bottle</h4>
 
               {/* notification */}
-              <div className="bg-[#F85058] ml-4 prj-not">
+              <div className="bg-[#F85058] ml-4 prj-not absolute right-3">
                 <div className=" text-white">3</div>
               </div>
             </div>
