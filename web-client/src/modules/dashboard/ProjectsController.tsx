@@ -30,8 +30,8 @@ export const ProjectsController: React.FC<any> = ({}) => {
 
   return (
     <>
-      <div className="text-white">
-        <h2>Hello world</h2>
+      <div className="">
+        
       </div>
     </>
   );
