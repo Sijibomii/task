@@ -8,3 +8,5 @@ setting means settings for board
 
 
 TODO: indicate the board name on every page i.e its on task, indicate on chat, bell, notes e.t.c
+
+clicking the group icon takes to default channel automatically

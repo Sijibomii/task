@@ -11,9 +11,8 @@ export const DashPage: React.FC<DashPageProps> = () => {
         <WaitForWsAndAuth>
             <DefaultDesktopLayout>
                 {/* if task is choosen */}
-
-                <TaskController />
-
+                {/* <TaskController /> */}
+                
 
             </DefaultDesktopLayout>
         </WaitForWsAndAuth> 
