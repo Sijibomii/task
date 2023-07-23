@@ -36,11 +36,11 @@ export const TaskCard: React.FC<TaskCardProps> = ({ tags, heading, imagesSrc, co
                 <ThreeDots className="text-gray-400" />
             </div>
         </div>
-        <div className="mb-5">
-            <h4 className="text-lg leading-5 text-gray-400 font-light">{heading}</h4>
+        <div className="mb-3">
+            <h4 className="text-lg leading-5 text-gray-100 font-light">{heading}</h4>
         </div>
         {children}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between mt-4">
             <div className="">
                 <MultipleUsers srcArray={imagesSrc} />
             </div>

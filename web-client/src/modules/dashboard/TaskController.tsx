@@ -119,7 +119,9 @@ export const TaskController: React.FC<any> = ({}) => {
                 imagesSrc={srcArr}
                 comment={7}
                 files={4}
-                />
+                >
+                  <p className="text-gray-400">All the details are in the file. I am sure it will turn out cool!</p>
+                </TaskCard>
               </Draggable>
 
               <Draggable>

@@ -127,7 +127,7 @@ export const ProjectsController: React.FC<any> = ({}) => {
         <div className="mt-10">
           <div className="flex items-center">
             <CaretUp className="text-[#434344]"/>
-            <h4 className="uppercase text-[#434344] ml-4 text-sm">archive</h4>
+            <h4 className="uppercase text-[#434344] ml-4 text-sm">Channels</h4>
           </div>
 
           <div className="">
