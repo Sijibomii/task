@@ -9,7 +9,9 @@ interface TagProps {
 
 export const Tag: React.FC<TagProps> = ({ color, label, text }) => {
   return (
-    <div className={`bg-[${color}] text-${text}`}>
+    <div className={`text-${text} mr-4 px-2 rounded-xl`} style={
+      {backgroundColor: color}
+    }>
         <h4 className={`text-${text}`}>{label}</h4>
     </div>
   );

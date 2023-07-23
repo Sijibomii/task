@@ -1,6 +1,7 @@
 import SvgSolidSearch from "@/icons/SolidSearch";
 import Star from "@/icons/Star";
 import ThreeDots from "@/icons/ThreeDots";
+import { TaskCard } from "@/ui/TaskCard";
 import { MultipleUsers } from "@/ui/UserAvatar/MultipleUsers";
 import React, { useState } from "react";
 import Draggable from 'react-draggable';
@@ -88,19 +89,582 @@ export const TaskController: React.FC<any> = ({}) => {
       </div>
 
       {/* tasks */}
-      <div className="w-full overflow-scroll fixed">
-        {/* task heading */}
-        <div className="task-headings flex items-center px-8 py-4">
-          <div className="task-heading-1 flex items-center px-4 justify-between w-full">
-            <div className="task-heading-l flex items-center">
-              <div className="ts-d bg-red-600"></div>
-              <h4 className="text-white text-sm font-thin ml-3">New Request</h4>
-              <p className="text-[#434344] text-sm font-thin ml-3">6</p>
+      <div className="overflow-x-auto">
+        {/* tasks section */}
+        <div className="tasks flex items-center px-8 py-4  w-screen">
+          <div className="task">
+            <div className="task-heading-1 flex items-center px-4 justify-between w-full">
+              <div className="task-heading-l flex items-center">
+                <div className="ts-d bg-red-600"></div>
+                <h4 className="text-white text-sm font-thin ml-3">New sRequest</h4>
+                <p className="text-[#434344] text-sm font-thin ml-3">6</p>
+              </div>
+              <div className="task-heading-r flex items-center">
+                <ThreeDots className="text-white" width={18} height={18} />
+              </div>
             </div>
-            <div className="task-heading-r flex items-center">
-              <ThreeDots className="text-white" width={18} height={18} />
+
+            <div className="task-section h-screen overflow-scroll">
+              <Draggable>
+                <TaskCard tags={[
+                  {
+                    color: "#B4D6FE",
+                    label: "Website"
+                  },
+                  {
+                    color: "#E9FE90",
+                    label:"Design"
+                  }
+                ]} heading="Planning meeting for second version of app" 
+                imagesSrc={srcArr}
+                comment={7}
+                files={4}
+                />
+              </Draggable>
+
+              <Draggable>
+                <TaskCard tags={[
+                  {
+                    color: "#B4D6FE",
+                    label: "Website"
+                  },
+                  {
+                    color: "#E9FE90",
+                    label:"Design"
+                  }
+                ]} heading="Planning meeting for second version of app" 
+                imagesSrc={srcArr}
+                comment={7}
+                files={4}
+                />
+              </Draggable>
+              <Draggable>
+                <TaskCard tags={[
+                  {
+                    color: "#B4D6FE",
+                    label: "Website"
+                  },
+                  {
+                    color: "#E9FE90",
+                    label:"Design"
+                  }
+                ]} heading="Planning meeting for second version of app" 
+                imagesSrc={srcArr}
+                comment={7}
+                files={4}
+                />
+              </Draggable>
+              <Draggable>
+                <TaskCard tags={[
+                  {
+                    color: "#B4D6FE",
+                    label: "Website"
+                  },
+                  {
+                    color: "#E9FE90",
+                    label:"Design"
+                  }
+                ]} heading="Planning meeting for second version of app" 
+                imagesSrc={srcArr}
+                comment={7}
+                files={4}
+                />
+              </Draggable>
+              <Draggable>
+                <TaskCard tags={[
+                  {
+                    color: "#B4D6FE",
+                    label: "Website"
+                  },
+                  {
+                    color: "#E9FE90",
+                    label:"Design"
+                  }
+                ]} heading="Planning meeting for second version of app" 
+                imagesSrc={srcArr}
+                comment={7}
+                files={4}
+                />
+              </Draggable>
+              <Draggable>
+                <TaskCard tags={[
+                  {
+                    color: "#B4D6FE",
+                    label: "Website"
+                  },
+                  {
+                    color: "#E9FE90",
+                    label:"Design"
+                  }
+                ]} heading="Planning meeting for second version of app" 
+                imagesSrc={srcArr}
+                comment={7}
+                files={4}
+                />
+              </Draggable>
             </div>
           </div>
+
+          {/* task - 2 */}
+          <div className="task ">
+            <div className="task-heading-1 flex items-center px-4 justify-between w-full">
+              <div className="task-heading-l flex items-center">
+                <div className="ts-d bg-red-600"></div>
+                <h4 className="text-white text-sm font-thin ml-3">New Request</h4>
+                <p className="text-[#434344] text-sm font-thin ml-3">6</p>
+              </div>
+              <div className="task-heading-r flex items-center">
+                <ThreeDots className="text-white" width={18} height={18} />
+              </div>
+            </div>
+
+            <div className="task-section h-screen overflow-scroll">
+              <Draggable>
+                <TaskCard tags={[
+                  {
+                    color: "#B4D6FE",
+                    label: "Website"
+                  },
+                  {
+                    color: "#E9FE90",
+                    label:"Design"
+                  }
+                ]} heading="Planning meeting for second version of app" 
+                imagesSrc={srcArr}
+                comment={7}
+                files={4}
+                />
+              </Draggable>
+
+              <Draggable>
+                <TaskCard tags={[
+                  {
+                    color: "#B4D6FE",
+                    label: "Website"
+                  },
+                  {
+                    color: "#E9FE90",
+                    label:"Design"
+                  }
+                ]} heading="Planning meeting for second version of app" 
+                imagesSrc={srcArr}
+                comment={7}
+                files={4}
+                />
+              </Draggable>
+              <Draggable>
+                <TaskCard tags={[
+                  {
+                    color: "#B4D6FE",
+                    label: "Website"
+                  },
+                  {
+                    color: "#E9FE90",
+                    label:"Design"
+                  }
+                ]} heading="Planning meeting for second version of app" 
+                imagesSrc={srcArr}
+                comment={7}
+                files={4}
+                />
+              </Draggable>
+              <Draggable>
+                <TaskCard tags={[
+                  {
+                    color: "#B4D6FE",
+                    label: "Website"
+                  },
+                  {
+                    color: "#E9FE90",
+                    label:"Design"
+                  }
+                ]} heading="Planning meeting for second version of app" 
+                imagesSrc={srcArr}
+                comment={7}
+                files={4}
+                />
+              </Draggable>
+              <Draggable>
+                <TaskCard tags={[
+                  {
+                    color: "#B4D6FE",
+                    label: "Website"
+                  },
+                  {
+                    color: "#E9FE90",
+                    label:"Design"
+                  }
+                ]} heading="Planning meeting for second version of app" 
+                imagesSrc={srcArr}
+                comment={7}
+                files={4}
+                />
+              </Draggable>
+              <Draggable>
+                <TaskCard tags={[
+                  {
+                    color: "#B4D6FE",
+                    label: "Website"
+                  },
+                  {
+                    color: "#E9FE90",
+                    label:"Design"
+                  }
+                ]} heading="Planning meeting for second version of app" 
+                imagesSrc={srcArr}
+                comment={7}
+                files={4}
+                />
+              </Draggable>
+            </div>
+          </div>
+
+          {/* task -3 */}
+          <div className="task ">
+            <div className="task-heading-1 flex items-center px-4 justify-between w-full">
+              <div className="task-heading-l flex items-center">
+                <div className="ts-d bg-red-600"></div>
+                <h4 className="text-white text-sm font-thin ml-3">New Request</h4>
+                <p className="text-[#434344] text-sm font-thin ml-3">6</p>
+              </div>
+              <div className="task-heading-r flex items-center">
+                <ThreeDots className="text-white" width={18} height={18} />
+              </div>
+            </div>
+
+            <div className="task-section h-screen overflow-scroll">
+              <Draggable>
+                <TaskCard tags={[
+                  {
+                    color: "#B4D6FE",
+                    label: "Website"
+                  },
+                  {
+                    color: "#E9FE90",
+                    label:"Design"
+                  }
+                ]} heading="Planning meeting for second version of app" 
+                imagesSrc={srcArr}
+                comment={7}
+                files={4}
+                />
+              </Draggable>
+
+              <Draggable>
+                <TaskCard tags={[
+                  {
+                    color: "#B4D6FE",
+                    label: "Website"
+                  },
+                  {
+                    color: "#E9FE90",
+                    label:"Design"
+                  }
+                ]} heading="Planning meeting for second version of app" 
+                imagesSrc={srcArr}
+                comment={7}
+                files={4}
+                />
+              </Draggable>
+              <Draggable>
+                <TaskCard tags={[
+                  {
+                    color: "#B4D6FE",
+                    label: "Website"
+                  },
+                  {
+                    color: "#E9FE90",
+                    label:"Design"
+                  }
+                ]} heading="Planning meeting for second version of app" 
+                imagesSrc={srcArr}
+                comment={7}
+                files={4}
+                />
+              </Draggable>
+              <Draggable>
+                <TaskCard tags={[
+                  {
+                    color: "#B4D6FE",
+                    label: "Website"
+                  },
+                  {
+                    color: "#E9FE90",
+                    label:"Design"
+                  }
+                ]} heading="Planning meeting for second version of app" 
+                imagesSrc={srcArr}
+                comment={7}
+                files={4}
+                />
+              </Draggable>
+              <Draggable>
+                <TaskCard tags={[
+                  {
+                    color: "#B4D6FE",
+                    label: "Website"
+                  },
+                  {
+                    color: "#E9FE90",
+                    label:"Design"
+                  }
+                ]} heading="Planning meeting for second version of app" 
+                imagesSrc={srcArr}
+                comment={7}
+                files={4}
+                />
+              </Draggable>
+              <Draggable>
+                <TaskCard tags={[
+                  {
+                    color: "#B4D6FE",
+                    label: "Website"
+                  },
+                  {
+                    color: "#E9FE90",
+                    label:"Design"
+                  }
+                ]} heading="Planning meeting for second version of app" 
+                imagesSrc={srcArr}
+                comment={7}
+                files={4}
+                />
+              </Draggable>
+            </div>
+          </div>
+
+          {/* task -4 */}
+
+          <div className="task ">
+            <div className="task-heading-1 flex items-center px-4 justify-between w-full">
+              <div className="task-heading-l flex items-center">
+                <div className="ts-d bg-red-600"></div>
+                <h4 className="text-white text-sm font-thin ml-3">New Request</h4>
+                <p className="text-[#434344] text-sm font-thin ml-3">6</p>
+              </div>
+              <div className="task-heading-r flex items-center">
+                <ThreeDots className="text-white" width={18} height={18} />
+              </div>
+            </div>
+
+            <div className="task-section h-screen overflow-scroll">
+              <Draggable>
+                <TaskCard tags={[
+                  {
+                    color: "#B4D6FE",
+                    label: "Website"
+                  },
+                  {
+                    color: "#E9FE90",
+                    label:"Design"
+                  }
+                ]} heading="Planning meeting for second version of app" 
+                imagesSrc={srcArr}
+                comment={7}
+                files={4}
+                />
+              </Draggable>
+
+              <Draggable>
+                <TaskCard tags={[
+                  {
+                    color: "#B4D6FE",
+                    label: "Website"
+                  },
+                  {
+                    color: "#E9FE90",
+                    label:"Design"
+                  }
+                ]} heading="Planning meeting for second version of app" 
+                imagesSrc={srcArr}
+                comment={7}
+                files={4}
+                />
+              </Draggable>
+              <Draggable>
+                <TaskCard tags={[
+                  {
+                    color: "#B4D6FE",
+                    label: "Website"
+                  },
+                  {
+                    color: "#E9FE90",
+                    label:"Design"
+                  }
+                ]} heading="Planning meeting for second version of app" 
+                imagesSrc={srcArr}
+                comment={7}
+                files={4}
+                />
+              </Draggable>
+              <Draggable>
+                <TaskCard tags={[
+                  {
+                    color: "#B4D6FE",
+                    label: "Website"
+                  },
+                  {
+                    color: "#E9FE90",
+                    label:"Design"
+                  }
+                ]} heading="Planning meeting for second version of app" 
+                imagesSrc={srcArr}
+                comment={7}
+                files={4}
+                />
+              </Draggable>
+              <Draggable>
+                <TaskCard tags={[
+                  {
+                    color: "#B4D6FE",
+                    label: "Website"
+                  },
+                  {
+                    color: "#E9FE90",
+                    label:"Design"
+                  }
+                ]} heading="Planning meeting for second version of app" 
+                imagesSrc={srcArr}
+                comment={7}
+                files={4}
+                />
+              </Draggable>
+              <Draggable>
+                <TaskCard tags={[
+                  {
+                    color: "#B4D6FE",
+                    label: "Website"
+                  },
+                  {
+                    color: "#E9FE90",
+                    label:"Design"
+                  }
+                ]} heading="Planning meeting for second version of app" 
+                imagesSrc={srcArr}
+                comment={7}
+                files={4}
+                />
+              </Draggable>
+            </div>
+          </div>
+
+          {/* task 5 */}
+          <div className="task ">
+            <div className="task-heading-1 flex items-center px-4 justify-between w-full">
+              <div className="task-heading-l flex items-center">
+                <div className="ts-d bg-red-600"></div>
+                <h4 className="text-white text-sm font-thin ml-3">New 5Request</h4>
+                <p className="text-[#434344] text-sm font-thin ml-3">6</p>
+              </div>
+              <div className="task-heading-r flex items-center">
+                <ThreeDots className="text-white" width={18} height={18} />
+              </div>
+            </div>
+
+            <div className="task-section h-screen overflow-scroll">
+              <Draggable>
+                <TaskCard tags={[
+                  {
+                    color: "#B4D6FE",
+                    label: "Website"
+                  },
+                  {
+                    color: "#E9FE90",
+                    label:"Design"
+                  }
+                ]} heading="Planning meeting for second version of app" 
+                imagesSrc={srcArr}
+                comment={7}
+                files={4}
+                />
+              </Draggable>
+
+              <Draggable>
+                <TaskCard tags={[
+                  {
+                    color: "#B4D6FE",
+                    label: "Website"
+                  },
+                  {
+                    color: "#E9FE90",
+                    label:"Design"
+                  }
+                ]} heading="Planning meeting for second version of app" 
+                imagesSrc={srcArr}
+                comment={7}
+                files={4}
+                />
+              </Draggable>
+              <Draggable>
+                <TaskCard tags={[
+                  {
+                    color: "#B4D6FE",
+                    label: "Website"
+                  },
+                  {
+                    color: "#E9FE90",
+                    label:"Design"
+                  }
+                ]} heading="Planning meeting for second version of app" 
+                imagesSrc={srcArr}
+                comment={7}
+                files={4}
+                />
+              </Draggable>
+              <Draggable>
+                <TaskCard tags={[
+                  {
+                    color: "#B4D6FE",
+                    label: "Website"
+                  },
+                  {
+                    color: "#E9FE90",
+                    label:"Design"
+                  }
+                ]} heading="Planning meeting for second version of app" 
+                imagesSrc={srcArr}
+                comment={7}
+                files={4}
+                />
+              </Draggable>
+              <Draggable>
+                <TaskCard tags={[
+                  {
+                    color: "#B4D6FE",
+                    label: "Website"
+                  },
+                  {
+                    color: "#E9FE90",
+                    label:"Design"
+                  }
+                ]} heading="Planning meeting for second version of app" 
+                imagesSrc={srcArr}
+                comment={7}
+                files={4}
+                />
+              </Draggable>
+              <Draggable>
+                <TaskCard tags={[
+                  {
+                    color: "#B4D6FE",
+                    label: "Website"
+                  },
+                  {
+                    color: "#E9FE90",
+                    label:"Design"
+                  }
+                ]} heading="Planning meeting for second version of app" 
+                imagesSrc={srcArr}
+                comment={7}
+                files={4}
+                />
+              </Draggable>
+            </div>
+          </div>
+        </div>
+{/* 
+        <div className="task-headings flex items-center px-8 py-4">
+          
 
           <div className="task-heading-2 flex items-center px-4 justify-between w-full">
             <div className="task-heading-l flex items-center">
@@ -145,14 +709,112 @@ export const TaskController: React.FC<any> = ({}) => {
               <ThreeDots className="text-white" width={18} height={18} />
             </div>
           </div>
-        </div>
-        <div className="task-sections flex flex-col">
-          <div className="task-section overflow-scroll">
+        </div> */}
+        {/* <div className="task-sections flex items-center px-8 py-4">
+          <div className="task-section h-screen overflow-scroll max-w-[320px]">
             <Draggable>
-              <div>I can now be moved around!</div>
+              <TaskCard tags={[
+                {
+                  color: "#B4D6FE",
+                  label: "Website"
+                },
+                {
+                  color: "#E9FE90",
+                  label:"Design"
+                }
+              ]} heading="Planning meeting for second version of app" 
+              imagesSrc={srcArr}
+              comment={7}
+              files={4}
+              />
+            </Draggable>
+
+            <Draggable>
+              <TaskCard tags={[
+                {
+                  color: "#B4D6FE",
+                  label: "Website"
+                },
+                {
+                  color: "#E9FE90",
+                  label:"Design"
+                }
+              ]} heading="Planning meeting for second version of app" 
+              imagesSrc={srcArr}
+              comment={7}
+              files={4}
+              />
+            </Draggable>
+
+            <Draggable>
+              <TaskCard tags={[
+                {
+                  color: "#B4D6FE",
+                  label: "Website"
+                },
+                {
+                  color: "#E9FE90",
+                  label:"Design"
+                }
+              ]} heading="Planning meeting for second version of app" 
+              imagesSrc={srcArr}
+              comment={7}
+              files={4}
+              />
+            </Draggable>
+
+            <Draggable>
+              <TaskCard tags={[
+                {
+                  color: "#B4D6FE",
+                  label: "Website"
+                },
+                {
+                  color: "#E9FE90",
+                  label:"Design"
+                }
+              ]} heading="Planning meeting for second version of app" 
+              imagesSrc={srcArr}
+              comment={7}
+              files={4}
+              />
+            </Draggable>
+
+            <Draggable>
+              <TaskCard tags={[
+                {
+                  color: "#B4D6FE",
+                  label: "Website"
+                },
+                {
+                  color: "#E9FE90",
+                  label:"Design"
+                }
+              ]} heading="Planning meeting for second version of app" 
+              imagesSrc={srcArr}
+              comment={7}
+              files={4}
+              />
+            </Draggable>
+
+            <Draggable>
+              <TaskCard tags={[
+                {
+                  color: "#B4D6FE",
+                  label: "Website"
+                },
+                {
+                  color: "#E9FE90",
+                  label:"Design"
+                }
+              ]} heading="Planning meeting for second version of app" 
+              imagesSrc={srcArr}
+              comment={7}
+              files={4}
+              />
             </Draggable>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

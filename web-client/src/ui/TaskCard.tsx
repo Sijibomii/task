@@ -5,9 +5,14 @@ import React from "react";
 import { Tag }from "./Tag"
 import { MultipleUsers } from "./UserAvatar/MultipleUsers";
 
+type tag =  {
+    color: string
+    label: string
+}
+
 interface TaskCardProps {
     children?: any
-    tags?: string[]
+    tags?: tag[]
     heading: string
     imagesSrc: string[]
     comment: number
@@ -16,29 +21,38 @@ interface TaskCardProps {
 
 
 export const TaskCard: React.FC<TaskCardProps> = ({ tags, heading, imagesSrc, comment, files, children }) => {
+
   return (
 
-    <div className="bg-[#1D1F21] mt-2 px-2 py-2">
-        <div className="">
-            <div className="">
-                <Tag label="Website" color="#B4D6FE" text="sm" />
-                <Tag label="Design" color="#E9FE90" text="sm" />  
+    <div className="bg-[#1D1F21] mt-2 px-5 pt-6 pb-4 rounded-xl">
+        <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center">
+                {tags && tags.map((tag) => (
+                        <Tag label={tag.label} color={tag.color} text="sm" key={tag.label} />
+                    ))}
+                
             </div>
             <div className="">
-                <ThreeDots />
+                <ThreeDots className="text-gray-400" />
             </div>
         </div>
-        <div className="">
-            <h4 className="">Pages About and carrers</h4>
+        <div className="mb-5">
+            <h4 className="text-lg leading-5 text-gray-400 font-light">{heading}</h4>
         </div>
         {children}
-        <div className="">
+        <div className="flex items-center justify-between">
             <div className="">
-                <MultipleUsers />
+                <MultipleUsers srcArray={imagesSrc} />
             </div>
-            <div className="">
-                <Message />
-                <Attachment />
+            <div className="flex items-center">
+                <div className="flex items-center mr-2">
+                    <Message className="text-gray-400 mr-2" />
+                    <p className="text-gray-400">{comment}</p>
+                </div>
+                <div className="flex items-center">
+                    <Attachment className="text-gray-400" />
+                    <p className="text-gray-400">{files}</p>
+                </div>
             </div>
         </div>
     </div>  
