@@ -1,18 +1,25 @@
-import React from "react";
+import React, { ReactNode } from "react";
 
 interface TagProps {
-    children?: any
+    children?: ReactNode
     label: string
+    labelClass?: string
     color: string
-    text: 'xm' | 'sm' |'lg' 
+    text: 'xm' | 'sm' |'lg' | 'md'
 }
 
-export const Tag: React.FC<TagProps> = ({ color, label, text }) => {
+export const Tag: React.FC<TagProps> = ({ color, label, text, children, labelClass }) => {
   return (
     <div className={`text-${text} mr-4 px-2 rounded-xl`} style={
       {backgroundColor: color}
     }>
-        <h4 className={`text-${text}`}>{label}</h4>
+        {children ? (
+          <>
+            {children}
+          </>
+        ): 
+        <h4 className={`text-${text} ${labelClass}`}>{label}</h4>
+        }
     </div>
   );
 };

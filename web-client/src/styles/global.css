@@ -185,7 +185,8 @@ p.small {
     font-size: 8.5px!important;
   }
 
-  .tc-b{
+  .tc-b,
+  .channel-header{
     border-bottom: 1px solid #434344;
   }
 
