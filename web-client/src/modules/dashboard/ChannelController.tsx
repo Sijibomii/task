@@ -1,9 +1,11 @@
 import People from "@/icons/People";
 import PersonPlus from "@/icons/PersonPlus";
+import Send from "@/icons/Send";
 import SvgSolidSearch from "@/icons/SolidSearch";
 import Telephone from "@/icons/Telephone";
 import ThreeHorizontalDots from "@/icons/ThreeDotsHor";
 import Video from "@/icons/Video";
+import { Input } from "@/ui/input";
 import { Message } from "@/ui/Message";
 import { Tag } from "@/ui/Tag";
 import React from "react";
@@ -20,7 +22,7 @@ export const ChannelController: React.FC<ChannelProps> = ({ children }) => {
 
   return (
     <div className="flex bg-[#101214]">
-        <div className="basis-4/6 py-4 ">
+        <div className="basis-4/6 py-4 relative">
             {/* header */}
             <div className="pl-10 channel-header pb-2">
                 <div className="flex items-center justify-between">
@@ -52,6 +54,12 @@ export const ChannelController: React.FC<ChannelProps> = ({ children }) => {
                 <Message name="Ben Ten" me={false} />
                 <Message name="Ben Ten" me={false} />
 
+                <div className="message-input absolute bottom-5 w-full px-3 pr-8 flex items-center">
+                    <Input placeholder="Message..." className="text-[#686E76] msg-input rounded-lg py-4 mr-4" />
+                    <div className="p-4 rounded-lg bg-[#6E43FB]">
+                        <Send className="text-white" width={24} height={24} />
+                    </div>
+                </div>
             </div>
         </div>
 
