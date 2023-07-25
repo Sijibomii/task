@@ -89,10 +89,10 @@ export const TaskController: React.FC<any> = ({}) => {
       </div>
 
       {/* tasks */}
-      <div className="overflow-x-auto">
+      <div className="overflow-auto pr-12">
         {/* tasks section */}
-        <div className="tasks flex items-center px-8 py-4  w-screen">
-          <div className="task">
+        <div className="tasks flex items-center px-8 py-4 w-screen">
+          <div className="task overflow-auto h-full">
             <div className="task-heading-1 flex items-center px-4 justify-between w-full">
               <div className="task-heading-l flex items-center">
                 <div className="ts-d bg-red-600"></div>
@@ -104,7 +104,7 @@ export const TaskController: React.FC<any> = ({}) => {
               </div>
             </div>
 
-            <div className="task-section h-screen overflow-scroll">
+            <div className="task-section h-screen overflow-auto">
               <Draggable>
                 <TaskCard tags={[
                   {
@@ -198,7 +198,7 @@ export const TaskController: React.FC<any> = ({}) => {
                     color: "#E9FE90",
                     label:"Design"
                   }
-                ]} heading="Planning meeting for second version of app" 
+                ]} heading="Planningggg meeting for second version of app" 
                 imagesSrc={srcArr}
                 comment={7}
                 files={4}

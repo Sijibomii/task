@@ -211,7 +211,9 @@ p.small {
 
   }
 
-
+  .task-section{
+    padding-bottom: 15rem;
+  }
   .msg-div{
     height: 80vw;
   }
