@@ -204,8 +204,14 @@ p.small {
   .tasks-sect{
     width: 100rem!important;
   }
-
+  
   .msg-input{
     border: 1px solid #434344!important;
     width: 90%;
+
+  }
+
+
+  .msg-div{
+    height: 80vw;
   }

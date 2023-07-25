@@ -21,12 +21,12 @@ export const Message: React.FC<MessageProps> = ({ name, me }) => {
         </div>
         <div className="flex flex-col">
             <div className={`flex items-center ${me ? "flex-row-reverse":"" }`}>
-                <h4 className={`text-white font-light text-md ${me ? "ml-3":"mr-2" }`}>{name}</h4>
+                <h4 className={`text-gray-200 font-light text-md ${me ? "ml-3":"mr-2" }`}>{name}</h4>
                 <p className="text-white text-sm font-thin">11:25 AM</p>
             </div>
 
             <div className="mt-2 px-2 py-2 bg-[#222325] rounded-lg">
-                <p className="text-white">Hi everyone! can we get an update on the progress of the web design project?</p>
+                <p className="text-gray-300">Hi everyone! can we get an update on the progress of the web design project?</p>
             </div>
         </div>
    </div>

@@ -33,8 +33,8 @@ export const ChannelDescriptionController: React.FC<ChannelDescriptionProps> = (
                 />
             </div>
               <div className="">
-                <h6 className="text-white">Mark Roll</h6>
-                <p className="text-white">Creative Director</p>
+                <h6 className="text-gray-300">Mark Roll</h6>
+                <p className="text-gray-300">Creative Director</p>
               </div>
           </div>
 
@@ -47,8 +47,8 @@ export const ChannelDescriptionController: React.FC<ChannelDescriptionProps> = (
               />
           </div>
             <div className="">
-              <h6 className="text-white">Mark Roll</h6>
-              <p className="text-white">Creative Director</p>
+              <h6 className="text-gray-300">Mark Roll</h6>
+              <p className="text-gray-300">Creative Director</p>
             </div>
         </div>
 
@@ -61,8 +61,8 @@ export const ChannelDescriptionController: React.FC<ChannelDescriptionProps> = (
               />
           </div>
             <div className="">
-              <h6 className="text-white">Mark Roll</h6>
-              <p className="text-white">Creative Director</p>
+              <h6 className="text-gray-300">Mark Roll</h6>
+              <p className="text-gray-300">Creative Director</p>
             </div>
         </div>
 
@@ -75,8 +75,8 @@ export const ChannelDescriptionController: React.FC<ChannelDescriptionProps> = (
               />
           </div>
             <div className="">
-              <h6 className="text-white">Mark Roll</h6>
-              <p className="text-white">Creative Director</p>
+              <h6 className="text-gray-300">Mark Roll</h6>
+              <p className="text-gray-300">Creative Director</p>
             </div>
         </div>
 
@@ -89,8 +89,8 @@ export const ChannelDescriptionController: React.FC<ChannelDescriptionProps> = (
               />
           </div>
             <div className="">
-              <h6 className="text-white">Mark Roll</h6>
-              <p className="text-white">Creative Director</p>
+              <h6 className="text-gray-300">Mark Roll</h6>
+              <p className="text-gray-300">Creative Director</p>
             </div>
         </div>
         </div>

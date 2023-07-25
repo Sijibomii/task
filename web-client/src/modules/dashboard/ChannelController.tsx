@@ -22,7 +22,7 @@ export const ChannelController: React.FC<ChannelProps> = ({ children }) => {
 
   return (
     <div className="flex bg-[#101214]">
-        <div className="basis-4/6 py-4 relative">
+        <div className="basis-4/6 py-4 ">
             {/* header */}
             <div className="pl-10 channel-header pb-2">
                 <div className="flex items-center justify-between">
@@ -46,17 +46,29 @@ export const ChannelController: React.FC<ChannelProps> = ({ children }) => {
                 </div>
             </div>
 
-            <div className="py-8 px-4">
-                <Message name="Ben Ten" me={false} />
-                <Message name="Ben Ken" me={false} />
-                <Message name="Ben sssn" me={false} />
-                <Message name="Ben Ten" me={true} />
-                <Message name="Ben Ten" me={false} />
-                <Message name="Ben Ten" me={false} />
+            <div className="py-8 px-4 h-screen relative">
+                <div className="h-5/6 overflow-y-scroll">
+                    <Message name="Ben Ten" me={false} />
+                    <Message name="Ben Ken" me={false} />
+                    <Message name="Ben sssn" me={false} />
+                    <Message name="Ben Ten" me={true} />
+                    <Message name="Ben Ten" me={false} />
+                    <Message name="Ben Ten" me={false} />
+                    <Message name="Ben Ten" me={true} />
+                    <Message name="Ben Ten" me={true} />
+                    <Message name="Ben Ten" me={false} />
+                    <Message name="Ben Ten" me={false} />
+                    <Message name="Ben Ten" me={false} />
+                    <Message name="Ben Ten" me={false} />
+                    <Message name="Ben Ten" me={false} />
+                    <Message name="Ben Ten" me={false} />
+                    <Message name="Ben Ten" me={true} />
+                </div>
+                
 
-                <div className="message-input absolute bottom-5 w-full px-3 pr-8 flex items-center">
+                <div className="message-input absolute w-full px-3 pr-8 flex items-center">
                     <Input placeholder="Message..." className="text-[#686E76] msg-input rounded-lg py-4 mr-4" />
-                    <div className="p-4 rounded-lg bg-[#6E43FB]">
+                    <div className="p-4 rounded-lg bg-[#6E43FB] msg-send">
                         <Send className="text-white" width={24} height={24} />
                     </div>
                 </div>
