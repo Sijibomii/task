@@ -116,6 +116,7 @@ public class UserController extends BaseController{
         return success(200, userBoards);
     }
     
+
     @GetMapping("/login/oauth/success")
     public MessageResult googleCallback(@AuthenticationPrincipal OAuth2User oauth2User, OAuth2AuthenticationToken authentication) throws Exception{
         

@@ -1,5 +1,6 @@
 import Announcements from "@/icons/Announcements";
 import Bell from "@/icons/Bell";
+import Board from "@/icons/Boards";
 import Chat from "@/icons/Chat";
 import CheckSquare from "@/icons/CheckSquare";
 import Notes from "@/icons/Notes";
@@ -18,6 +19,7 @@ export const TabletSidebar: React.FC<any> = ({}) => {
           <Chat className="text-[#434344] my-6" width={28} height={28} />
           <Bell className="text-[#434344] my-6" width={28} height={28} />
           <Notes className="text-[#434344] my-6" width={28} height={28} />
+          <Board className="text-[#434344] my-6" width={28} height={28} />
           <Announcements className="text-[#434344] my-6" width={28} height={28} />
           <People className="text-[#434344] my-6" width={28} height={28} />
           <Settings className="text-[#434344] my-6" width={28} height={28} />

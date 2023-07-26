@@ -12,7 +12,8 @@ type Request = (
   method: string,
   endpoint: string,
   body?: unknown,
-  opts?: Options
+  opts?: Options,
+  headers?: any
 ) => Promise<unknown>;
 
 export type Http = {
@@ -21,6 +22,7 @@ export type Http = {
 
 export const create = (baseOpts: Options): Http => {
   return {
+
     request: async (
       method: string,
       endpoint: string,

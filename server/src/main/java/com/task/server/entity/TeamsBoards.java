@@ -6,7 +6,7 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 // shows projects
-@Entity
+@Entity 
 @Data
 @Table
 public class TeamsBoards extends Boards {
