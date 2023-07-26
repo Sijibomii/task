@@ -49,10 +49,10 @@ export const wrap = (http: Http) => {
 
     favouriteBoards: () => http.request("GET", "/boards/favourites") as Promise<Response>,
 
-    // /boards/favourites (post)
-    addFavouriteBoard: () => http.request("POST", "/boards/favourites", {
-
+    addFavouriteBoard: (board_type: string, board_id: string) => http.request("POST", "/boards/favourites", {
+      board_id, board_type
     }),
+
 
     testUser: (username: string) =>
       http.request("GET", `/dev/test-info?username=${username}`) as Promise<{
