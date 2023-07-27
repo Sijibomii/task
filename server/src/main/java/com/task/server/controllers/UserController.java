@@ -290,10 +290,10 @@ public class UserController extends BaseController{
         } 
         RegisterDto register = new RegisterDto(map.get("display_name"), map.get("password"), map.get("email")); 
         Users user = userService.register(register);
-        ValueOperations valueOperations = template.opsForValue();
+        // ValueOperations valueOperations = template.opsForValue();
         // verify email
-        sendRegistrationEmail(valueOperations, user, user.getEmail());
-        kafka.disptach(KafkaTopics.WEBSOCKET, user, "user register email sent", EventEnum.USER_REQUEST_REGISTER_EMAIL, Operator.USER_REQUEST_REGISTER_EMAIL);
+        // sendRegistrationEmail(valueOperations, user, user.getEmail());
+        // kafka.disptach(KafkaTopics.WEBSOCKET, user, "user register email sent", EventEnum.USER_REQUEST_REGISTER_EMAIL, Operator.USER_REQUEST_REGISTER_EMAIL);
         return success();
     }
 
@@ -366,64 +366,12 @@ public class UserController extends BaseController{
             throw new Exception("user not found");
         }
 		
-		
-        // send mail 
-        ValueOperations valueOperations = template.opsForValue();
-        System.out.println("mail sent");
-        sentEmail(valueOperations, user, user.getEmail());
-        kafka.disptach(KafkaTopics.WEBSOCKET, user, "user login email sent", EventEnum.USER_REQUEST_LOGIN_EMAIL, Operator.USER_REQUEST_LOGIN_EMAIL);
-        return success(200);
-        
-    }
-
-    @RequestMapping(value = "/login/verify", method = RequestMethod.POST)
-    @Transactional(rollbackFor = Exception.class)
-    public MessageResult verifyLogin(HttpServletRequest request) throws Exception{
-        
-        
-        StringBuilder sb = new StringBuilder();
-        BufferedReader reader = request.getReader();
-        String line;
-        while ((line = reader.readLine()) != null) {
-        sb.append(line);
-        }
-        String requestBody = sb.toString();
-        String value = StringUtils.substringBetween(requestBody, "{", "}"); 
-        String[] keyValuePairs = value.split(",");         
-        Map<String,String> map = new HashMap<>();               
-
-        for(String pair : keyValuePairs)    
-        {
-            String[] entry = pair.split(":");    
-            String _key = entry[0].trim(); 
-            String key = _key.substring(1, _key.length() - 1);
-            String _val = entry[1].trim();
-            String val = _val.substring(1, _val.length() - 1);
-            map.put(key, val);        
-        }  
-        Assert.hasText(map.get("code"),"MISSING_CODE");
-        Assert.hasText(map.get("email"), "MISSING EMAIL");
-
-        Users user = userService.findByEmail(map.get("email"));
-        // email should be found but in case
-        if (user == null){
-            throw new Exception("user not found");
-        }
-        
-        ValueOperations valueOperations = template.opsForValue();
-        
-        Object token = valueOperations.get(user.getId().toString());
-
-        if (!token.equals(map.get("code"))){
-           throw new Exception("INVALID CODE");
-        }
-
-        // jwt tokens
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
         kafka.disptach(KafkaTopics.WEBSOCKET, user, "user password login", EventEnum.USER_LOGIN, Operator.USER_LOGIN);
         LoginTokenDto login = new LoginTokenDto(user.getId(), user.getEmail(), jwtToken, refreshToken);
         return success(200,login);
+        
     }
 
 

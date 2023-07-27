@@ -16,19 +16,19 @@ public class TaskController {
     private TaskService taskService;
 
     // fetch task from backend
-    @RequestMapping(value = "/tasks/{taskId}", method = RequestMethod.GET)
-    public MessageResult favouriteBoards(HttpServletRequest request, HttpServletResponse response) throws Exception{
+    // @RequestMapping(value = "/tasks/{taskId}", method = RequestMethod.GET)
+    // public MessageResult favouriteBoards(HttpServletRequest request, HttpServletResponse response) throws Exception{
 
-        String userId = (String) request.getAttribute("userId");
+    //     String userId = (String) request.getAttribute("userId");
 
-        if (userId.isEmpty()){
-            throw new Exception("Auth error");
-        }
+    //     if (userId.isEmpty()){
+    //         throw new Exception("Auth error");
+    //     }
 
-        Object fav = taskService.getTaskAndCommentByTaskId(userId);
-        
-        return success(200, fav);
-    }
+    //     Object fav = taskService.getTaskAndCommentByTaskId(userId);
+
+    //     return success(200, fav);
+    // }
     // - swtich task category from backend
     // - add task comment to backend and connect with frontend
 }
