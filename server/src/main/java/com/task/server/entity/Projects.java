@@ -51,6 +51,8 @@ public class Projects {
     // @JsonIgnore
     private List<Users> members;
 
-   
+    // team
+    @NotNull
+    private Teams team;
 
 }
