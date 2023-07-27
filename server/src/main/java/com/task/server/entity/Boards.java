@@ -39,9 +39,5 @@ public  abstract class Boards {
     @NotNull
     private boolean is_private; 
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    private BoardType boardType;
-
 }
  

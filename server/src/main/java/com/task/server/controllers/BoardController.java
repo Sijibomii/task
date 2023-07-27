@@ -103,7 +103,6 @@ public class BoardController extends BaseController{
                 TaskBoards tb = tBoardService.findById(board_id);
                 Users user = userService.findById((String) request.getAttribute("userId"));
                 FavouriteBoards fb = new FavouriteBoards();
-                fb.setBoardType(BoardType.TASKBOARD);
                 fb.setCreator(user);
                 fb.setTaskboard(tb);
                 fb.set_private(false);
