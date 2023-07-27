@@ -73,9 +73,6 @@ public class Users{
     @NotNull
     private Boolean hasLoggenIn;
 
-    // hasActivated
-    @NotNull
-    private Boolean hasActivated;
 
     // email
     @NotNull
@@ -98,7 +95,7 @@ public class Users{
 
     private Boolean isBlocked;
 
-    private Boolean twoFactorAuth;
+    private Boolean seedUser;
 
     @ManyToMany
     @JoinTable(
