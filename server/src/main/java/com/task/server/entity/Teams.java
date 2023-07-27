@@ -22,7 +22,7 @@ import lombok.Data;
 @Entity
 @Data
 @Table
-public class Teams {
+public class Teams { 
     
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
