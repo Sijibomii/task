@@ -152,11 +152,11 @@ public class UserController extends BaseController{
             user.setEmail(email);
             user.setAvatarUrl(avartar);
             user.setDisplayName(first_name);
-            user.setHasActivated(false);
+            
             user.setOnline(false);
             user.setIsStaff(false);
             user.setHasLoggenIn(false);
-            user.setHasActivated(false);
+            
             user.setLastUpdateAt(new Date());
             user.setIsBlocked(false);
             user.setGoogleId(googleId);
@@ -199,7 +199,7 @@ public class UserController extends BaseController{
             user.setEmail(email);
             user.setAvatarUrl(avartar);
             user.setDisplayName(oauth2User.getAttribute("login"));
-            user.setHasActivated(true);
+            
             user.setOnline(false);
             user.setIsStaff(false);
             user.setHasLoggenIn(true);
@@ -244,7 +244,7 @@ public class UserController extends BaseController{
         // Delete the key value stored in redis
         valueOperations.getOperations().delete(key);
         
-        user.setHasActivated(true);
+        
       
         // Users user_saved = userService.save(user);
         

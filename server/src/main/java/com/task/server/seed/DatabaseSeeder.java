@@ -22,7 +22,7 @@ public class DatabaseSeeder implements CommandLineRunner {
     @Override
     public void run(String... args) { 
         // Define your table names
-        String[] tables = new String[]{"users", "organizations","teams","projects","categories",
+        String[] tables = new String[]{"users", "organizations","teams","projects","categories", "memeberships",
         "tasks","task_comment","teams_boards","task_media","channels", "permissions","favourite_boards", "tags", "project_boards"};
 
         // Check if the tables are empty
