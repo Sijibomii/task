@@ -18,7 +18,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Entity
-@Data
+@Data 
 @Table
 public class TaskComment {
     
