@@ -22,7 +22,6 @@ public class TaskBoardService {
         tBoards.setProject(taskBoard.getProject());
         tBoards.setCreator(taskBoard.getCreator());
         tBoards.set_private(false);
-        tBoards.setBoardType(taskBoard.getBoardType());
         return save(tBoards);
     }
 

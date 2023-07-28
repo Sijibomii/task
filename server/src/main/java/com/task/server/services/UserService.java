@@ -64,7 +64,7 @@ public class UserService {
         new_user.setOnline(false);
         new_user.setIsStaff(false);
         new_user.setHasLoggenIn(false);
-        new_user.setHasActivated(false);
+        // new_user.setHasActivated(false);
         new_user.setEmail(register.getEmail());
         new_user.setLastUpdateAt(new Date());
         new_user.setSalt(salt);

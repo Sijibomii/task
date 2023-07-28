@@ -37,23 +37,15 @@ public class Categories {
     @CreationTimestamp
     private Date createdOn;
 
-    // task board categories
-    @ManyToOne
-    private TaskBoards task_board;
-
     // project categories
     @ManyToOne
-    private ProjectBoards projects_board;
-
-    // teams categories
-    @ManyToOne
-    private TeamsBoards teams_board;
+    private ProjectBoards projects_board; 
 
     // user categories
     @ManyToOne
     private UserBoards user_board;
 
-
+ 
     // for task boards or user boards
     @ManyToMany
     @JoinTable(
