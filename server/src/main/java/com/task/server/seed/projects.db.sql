@@ -21,9 +21,9 @@ VALUES
   ('uuid_user4', 'uuid_project1'),
   ('uuid_user3', 'uuid_project1'),
 
-  ('uuid_user2', 'uuid_project1'),
-  ('uuid_user4', 'uuid_project1'),
-  ('uuid_user5', 'uuid_project1'),
+  ('uuid_user2', 'uuid_project2'),
+  ('uuid_user4', 'uuid_project2'),
+  ('uuid_user5', 'uuid_project2'),
 
   ('uuid_user2', 'uuid_project3'),
   ('uuid_user6', 'uuid_project3'),

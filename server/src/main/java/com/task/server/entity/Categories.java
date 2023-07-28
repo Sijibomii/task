@@ -30,6 +30,9 @@ public class Categories {
     private UUID id;
 
     @NotNull
+    private String label;
+
+    @NotNull
     @ManyToOne
     private Users creator;
 
