@@ -41,7 +41,7 @@ public class Channel {
     @CreationTimestamp
     private Date createdOn;
 
-    @NotNull
+    @NotNull 
     @Enumerated(EnumType.STRING)
     private ChannelType channelType;
 
