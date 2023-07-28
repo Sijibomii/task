@@ -57,12 +57,13 @@ public class Tasks {
     private Users creator;
 
 
+    @ManyToOne
+    @NotNull
+    private Categories category;
+
+
     @ManyToMany(mappedBy = "task_assignees")
     // @JsonIgnore
     private List<Users> members;
-
-    @ManyToMany(mappedBy = "task_categories")
-    // @JsonIgnore
-    private List<Categories> categories;
 
 }

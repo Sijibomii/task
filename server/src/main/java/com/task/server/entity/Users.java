@@ -121,7 +121,7 @@ public class Users{
 
     @ManyToMany
     @JoinTable(
-    name = "task_assignee",  
+    name = "task_assignees",  
     joinColumns = @JoinColumn(name = "users_id", referencedColumnName = "id"), 
     inverseJoinColumns = @JoinColumn(name = "tasks_id", referencedColumnName = "id"))
     List<Tasks> task_assignees;

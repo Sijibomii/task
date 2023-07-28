@@ -48,13 +48,4 @@ public class Categories {
     @ManyToOne
     private UserBoards user_board;
 
- 
-    // for task boards or user boards
-    @ManyToMany
-    @JoinTable(
-    name = "task_categories",  
-    joinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id"), 
-    inverseJoinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id"))
-    List<Tasks> task_categories;
-
 }
