@@ -5,7 +5,7 @@
 INSERT INTO tasks (id, createdOn, description, heading, comment_count, assignee_count, status, supervised, creator_id, category_id)
 VALUES
 
-  -- user board 1 tasks
+  -- project_board 1 tasks
   ('uuid_task1', '2023-07-18 12:34:56', 'Task 1 description', 'Task 1 heading', 3, 2, 'uuid_status1', true, 'uuid_user1', 'uuid_category1'),
   ('uuid_task2', '2023-07-18 12:34:56', 'Task 2 description', 'Task 2 heading', 3, 2, 'uuid_status2', true, 'uuid_user4', 'uuid_category2'),
   ('uuid_task3', '2023-07-18 12:34:56', 'Task 3 description', 'Task 3 heading', 3, 2, 'uuid_status4', true, 'uuid_user3', 'uuid_category3'),
@@ -24,14 +24,46 @@ VALUES
   ('uuid_task16', '2023-07-18 12:34:56', 'Task 16 description', 'Task 16 heading', 3, 2, 'uuid_status4', true, 'uuid_user1', 'uuid_category8'),
   ('uuid_task17', '2023-07-18 12:34:56', 'Task 17 description', 'Task 17 heading', 3, 2, 'uuid_status1', true, 'uuid_user1', 'uuid_category1'),
 
-
-  ('uuid_task2', '2023-07-18 12:34:56', 'Task 2 description', 'Task 2 heading', 1, 1, 'uuid_status2', true, 'uuid_user2'),
+   -- project_board 2 tasks
+  ('uuid_task18', '2023-07-18 12:34:56', 'Task 18 description', 'Task 18 heading', 1, 1, 'uuid_status2', true, 'uuid_user2'),
   -- Add more rows as needed
 ;
 
 
 INSERT INTO task_assignees (users_id, tasks_id)
 VALUES
-  ('uuid_user1', 'uuid_task1'),
-  
+  ('uuid_user4', 'uuid_task1'),
+  ('uuid_user3', 'uuid_task1'),
+  ('uuid_user1', 'uuid_task2'),
+  ('uuid_user3', 'uuid_task2'),
+  ('uuid_user1', 'uuid_task3'),
+  ('uuid_user4', 'uuid_task3'),
+  ('uuid_user3', 'uuid_task4'),
+  ('uuid_user1', 'uuid_task4'),
+  ('uuid_user3', 'uuid_task5'),
+  ('uuid_user1', 'uuid_task5'),
+  ('uuid_user1', 'uuid_task6'),
+  ('uuid_user4', 'uuid_task6'),
+  ('uuid_user1', 'uuid_task7'),
+  ('uuid_user4', 'uuid_task7'),
+  ('uuid_user4', 'uuid_task8'),
+  ('uuid_user3', 'uuid_task8'),
+  ('uuid_user4', 'uuid_task9'),
+  ('uuid_user3', 'uuid_task9'),
+  ('uuid_user4', 'uuid_task10'),
+  ('uuid_user3', 'uuid_task10'),
+  ('uuid_user4', 'uuid_task11'),
+  ('uuid_user3', 'uuid_task11'),
+  ('uuid_user1', 'uuid_task12'),
+  ('uuid_user3', 'uuid_task12'),
+  ('uuid_user4', 'uuid_task13'),
+  ('uuid_user1', 'uuid_task13'),
+  ('uuid_user1', 'uuid_task14'),
+  ('uuid_user3', 'uuid_task14'),
+  ('uuid_user4', 'uuid_task15'),
+  ('uuid_user3', 'uuid_task15'),
+  ('uuid_user4', 'uuid_task16'),
+  ('uuid_user3', 'uuid_task16'),
+  ('uuid_user4', 'uuid_task17'),
+  ('uuid_user3', 'uuid_task17'),
 ;
