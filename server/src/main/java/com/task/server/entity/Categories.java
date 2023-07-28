@@ -57,20 +57,4 @@ public class Categories {
     inverseJoinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id"))
     List<Tasks> task_categories;
 
-    // for project boards
-    @ManyToMany
-    @JoinTable(
-    name = "project_categories",  
-    joinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id"), 
-    inverseJoinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id"))
-    List<Projects> projects_categories;
-
-    // for teams categories
-    @ManyToMany
-    @JoinTable(
-    name = "teams_categories",  
-    joinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id"), 
-    inverseJoinColumns = @JoinColumn(name = "teams_id", referencedColumnName = "id"))
-    List<Teams> teams_categories;
-
 }
