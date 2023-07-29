@@ -1,9 +1,8 @@
 
-1. change id back to string
-2. uncomment app realm code
-3. add a seed data in every table to identify seeded data
-4. change uuid and login functionality to first check if data is seeded if yes, apply less strict rules
-
+1. test all routes and dao db code through routes
+2. connect to frontend
+3. update api client
+4. websocket
 
 
 

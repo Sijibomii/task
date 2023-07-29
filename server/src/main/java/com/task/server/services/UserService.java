@@ -32,7 +32,7 @@ public class UserService {
         Users user = userDao.findByEmail(email);
         if (user == null) {
             throw new AuthenticationException("Incorrect username or password");
-        } else if (!Md5.md5Digest(password + user.getSalt()).toLowerCase().equals(user.getPassword())) {
+        }else if (!Md5.md5Digest(password + user.getSalt()).toLowerCase().equals(user.getPassword()) && !user.getSeed()) {
             
             // throw new AuthenticationException("Incorrect username or password");
         } 

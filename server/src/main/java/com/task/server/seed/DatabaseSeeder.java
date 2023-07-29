@@ -24,26 +24,7 @@ public class DatabaseSeeder implements CommandLineRunner {
 // ,"channel"
     @Override
     public void run(String... args) {  
-        // tables available
-
-    //    String q = "SELECT table_name"+
-    //                 "FROM information_schema.tables"+
-    //                 "WHERE table_schema = 'public'";
-
-    //     Query query = entityManager.createNativeQuery(q);
-
-
-    //     List<Object[]> resultList = query.getResultList();
-
-    //     // Print the results
-    //     for (Object[] row : resultList) {
-    //         // Process each row as needed
-    //         for (Object column : row) {
-    //             System.out.print(column.toString() + " ");
-    //         }
-    //         System.out.println();
-    //     }
-
+       
         // Define your table names
         String[] tables = new String[]{"users", "organizations","teams","projects", "user_boards", "project_boards", "categories", "status", 
         "tasks","task_comment","task_media", "favourite_boards"};
