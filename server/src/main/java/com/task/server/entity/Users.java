@@ -130,13 +130,7 @@ public class Users{
     // @JsonIgnore
     private List<TaskComment> tags;
 
-
-    // @ManyToMany(mappedBy = "users_boards")
-    // // @JsonIgnore
-    // private List<UserBoards> user_boards;
     
-
-
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();

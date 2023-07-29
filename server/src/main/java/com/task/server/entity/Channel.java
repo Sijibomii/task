@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.task.server.enums.ChannelType;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -43,6 +44,7 @@ public class Channel {
 
     @NotNull 
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "VARCHAR")
     private ChannelType channelType;
 
     @ManyToOne 

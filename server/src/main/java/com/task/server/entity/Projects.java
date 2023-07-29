@@ -52,7 +52,7 @@ public class Projects {
     private List<Users> members;
 
     // team
-    @NotNull
-    private Teams team;
+    // @NotNull
+    // private Teams team;
 
 }

@@ -31,5 +31,6 @@ public class Chat {
     @CreationTimestamp
     private Date createdOn;
 
+    @ManyToOne
     private Channel channel;
 }

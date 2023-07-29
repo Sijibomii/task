@@ -46,6 +46,7 @@ public class Teams {
     private List<Users> members;
 
     @NotNull
+    @ManyToOne
     private Organizations org;
     
 }

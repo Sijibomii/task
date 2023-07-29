@@ -1,8 +1,9 @@
 package com.task.server.entity;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 // shows tasks peculiar to a particluar project
@@ -12,6 +13,7 @@ import lombok.Data;
 public class TaskBoards extends Boards {
     
     // one task board to one project
-    @OneToOne
-    private Projects project;
+    // @ManyToOne
+    // @NotNull
+    // private Projects project;
 }
