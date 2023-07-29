@@ -2,16 +2,13 @@ package com.task.server.seed;
 
 import jakarta.persistence.Query;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.jdbc.core.JdbcTemplate;
+
 import org.springframework.stereotype.Component;
 
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.TypedQuery;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
+
 
 @Component
 public class DatabaseSeeder implements CommandLineRunner {
@@ -20,14 +17,14 @@ public class DatabaseSeeder implements CommandLineRunner {
     private EntityManager entityManager;
 
     @Override
-    public void run(String... args) { 
+    public void run(String... args) {  
         // Define your table names
-        String[] tables = new String[]{"users", "organizations","teams","projects","categories", "memeberships",
-        "tasks","task_comment","teams_boards","task_media","channels", "permissions","favourite_boards", "tags", "project_boards"};
+        String[] tables = new String[]{"users", "organizations","teams","projects", "user_boards", "project_boards", "categories", "status", 
+        "tasks","task_comment","task_media","channels","favourite_boards", "tags",  "chat"};
 
         // Check if the tables are empty
         for (int i=0; i<tables.length; i++ ){
-            if (isTableEmpty(tables[i])) {
+            if (isTableEmpty(tables[i])) { 
                     // Execute SQL scripts to seed the database
                     System.out.println("SEEDING....");
                     // executeSeedSQLScripts();

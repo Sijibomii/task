@@ -14,6 +14,4 @@ public class TaskBoards extends Boards {
     // one task board to one project
     @OneToOne
     private Projects project;
-
-     
 }
