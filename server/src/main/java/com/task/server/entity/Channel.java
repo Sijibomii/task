@@ -56,6 +56,8 @@ public class Channel {
     @ManyToOne
     private Projects project;
 
+    private Boolean seed;
+
     @ManyToMany
     @JoinTable(
     name = "channel_members",  

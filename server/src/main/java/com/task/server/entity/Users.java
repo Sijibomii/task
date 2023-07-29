@@ -95,7 +95,7 @@ public class Users{
 
     private Boolean isBlocked;
 
-    private Boolean seedUser;
+    private Boolean seed;
 
     @ManyToMany
     @JoinTable(

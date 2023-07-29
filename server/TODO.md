@@ -1,12 +1,8 @@
 
-1. start up the app and check that kafka works well
-2. modify api client to connect with web socket
-3. check that the websocket handler routes messages as expected
-4. continue building frontend
-
-
-
-
+1. change id back to string
+2. uncomment app realm code
+3. add a seed data in every table to identify seeded data
+4. change uuid and login functionality to first check if data is seeded if yes, apply less strict rules
 
 
 

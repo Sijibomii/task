@@ -21,7 +21,7 @@ import lombok.Data;
 @Entity
 @Data
 @Table()
-public class Organizations {
+public class Organizations { 
     
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -40,6 +40,8 @@ public class Organizations {
     @ManyToOne
     @NotNull
     private Users creator;
+
+    private Boolean seed;
 
     @ManyToMany(mappedBy = "memeberships")
     // @JsonIgnore

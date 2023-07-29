@@ -14,5 +14,7 @@ public class UserBoards extends Boards {
     // whether this is the default user board
     @NotNull 
     private Boolean is_default;
+
+    private Boolean seed;
 }
 

@@ -33,4 +33,6 @@ public class Chat {
 
     @ManyToOne
     private Channel channel;
+
+    private Boolean seed;
 }

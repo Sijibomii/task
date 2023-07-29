@@ -66,4 +66,6 @@ public class Tasks {
     // @JsonIgnore
     private List<Users> members;
 
+
+    private Boolean seed;
 }

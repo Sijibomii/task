@@ -35,9 +35,13 @@ public class TaskComment {
 
     private Boolean supervised;
 
+   
+
     @ManyToOne
     @NotNull
     private Users creator;
+
+    private Boolean seed;
 
     @ManyToMany
     @JoinTable(

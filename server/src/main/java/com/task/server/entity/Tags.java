@@ -41,6 +41,8 @@ public class Tags {
     @NotNull
     private String name;
 
+    private Boolean seed;
+
     // many to many task board
     // jointable = tags_tasks_board
     // many to many user board

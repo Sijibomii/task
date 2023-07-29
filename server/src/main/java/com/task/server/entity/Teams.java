@@ -48,5 +48,7 @@ public class Teams {
     @NotNull
     @ManyToOne
     private Organizations org;
+
+    private Boolean seed;
     
 }

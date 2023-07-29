@@ -48,4 +48,5 @@ public class Categories {
     @ManyToOne
     private UserBoards user_board;
 
+    private Boolean seed;
 }

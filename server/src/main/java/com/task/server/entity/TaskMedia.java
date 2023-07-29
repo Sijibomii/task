@@ -51,5 +51,6 @@ public class TaskMedia {
     @CreationTimestamp
     private Date createdOn;
     
+    private Boolean seed;
 }
  

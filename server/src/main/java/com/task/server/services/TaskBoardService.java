@@ -19,7 +19,7 @@ public class TaskBoardService {
 
     public TaskBoards create(TaskBoardCreateDto taskBoard) throws Exception { 
         TaskBoards tBoards = new TaskBoards();
-        tBoards.setProject(taskBoard.getProject());
+        // tBoards.setProject(taskBoard.getProject());
         tBoards.setCreator(taskBoard.getCreator());
         tBoards.set_private(false);
         return save(tBoards);

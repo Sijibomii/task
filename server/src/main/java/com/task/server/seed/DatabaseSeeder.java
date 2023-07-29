@@ -27,12 +27,21 @@ public class DatabaseSeeder implements CommandLineRunner {
         String[] tables = new String[]{"users", "organizations","teams","projects", "user_boards", "project_boards", "categories", "status", 
         "tasks","task_comment","task_media","favourite_boards", "tags"};
 
+        String currentDirectory = System.getProperty("user.dir");
+
+        // Print the current directory
+        System.out.println("Current Directory: " + currentDirectory);
+
+        Path seedFolderPath = Paths.get(currentDirectory, "/src/main/java/com/task/server/seed");
+
+       
         // Check if the tables are empty
         for (int i=0; i<tables.length; i++ ){
-            if (isTableEmpty(tables[i])) { 
+            if (isTableEmpty(tables[i]) || tables[i] == "users") { 
                     // Execute SQL scripts to seed the database
                     System.out.println("SEEDING....");
-                    // executeSeedSQLScripts(tables[i]+".db.sql");
+                    Path filePath = seedFolderPath.resolve(tables[i]+".db.sql");
+                    executeSeedSQLScripts(filePath);
                 }
         }
         
@@ -54,8 +63,7 @@ public class DatabaseSeeder implements CommandLineRunner {
         return count == 0;
     }
 
-    private void executeSeedSQLScripts(String seedFile) {
-        Path filePath = Paths.get(seedFile);
+    private void executeSeedSQLScripts(Path filePath) {
 
         try {
             // Read the content of the file into a byte array

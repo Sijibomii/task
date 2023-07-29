@@ -40,4 +40,6 @@ public class Status {
 
     @ManyToOne
     private UserBoards user_board;
+
+    private Boolean seed;
 }

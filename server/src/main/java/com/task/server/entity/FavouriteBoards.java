@@ -22,5 +22,6 @@ public class FavouriteBoards extends Boards {
     @ManyToOne
     private ProjectBoards projectboard;
     
+    private Boolean seed;
    
 }

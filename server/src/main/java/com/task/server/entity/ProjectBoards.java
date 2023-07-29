@@ -16,4 +16,6 @@ public class ProjectBoards extends Boards {
     @NotNull
     @ManyToOne
     private Projects project;
+
+    private Boolean seed;
 }
