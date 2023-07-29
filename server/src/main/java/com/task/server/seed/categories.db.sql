@@ -2,6 +2,9 @@
 -- Records of categories
 -- ----------------------------
 
+
+
+
 INSERT INTO categories (id, label, creator_id, created_on, projects_board_id, user_board_id, seed)
 VALUES
   ('4c7e9033-92d6-4399-ba27-11c14df6a2ac', 'cat1', '08e32d91-d5c9-44f8-84fb-c9f4979c7531', '2023-07-18 12:34:56', '4f303daf-51c8-4c63-8f2d-0c7c2e5ddfb6', NULL, true),

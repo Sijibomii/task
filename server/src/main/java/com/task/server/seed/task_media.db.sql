@@ -2,6 +2,7 @@
 -- Records of task media
 -- ----------------------------
 
+
 INSERT INTO task_media (id, media_url, comment_id, task_id, deleted, banned, created_on, seed)
 VALUES
   ('7b150ce9-122c-4ea3-87c5-233190d1f746', 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1480&q=80', '6622b75f-9f52-4183-80d0-275f8e9e09e0', '53c5c5cc-d70f-4399-882d-18161e1c3d35', false, false, '2023-07-18 12:34:56', true),

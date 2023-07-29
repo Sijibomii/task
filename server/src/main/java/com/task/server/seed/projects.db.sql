@@ -2,6 +2,7 @@
 -- Records of projects
 -- ----------------------------
 
+
 INSERT INTO projects (id, created_on, description, label, members_count, creator_id, team_id, seed)
 VALUES
   ('3d37f6c1-4b7b-404e-8e5d-649d90f8498c', '2023-07-18 12:34:56', 'Project 1 description', 'Project 1 label', 3, '08e32d91-d5c9-44f8-84fb-c9f4979c7531', '53c5c5cc-d70f-4399-882d-18161e1c3d35', true),
@@ -13,6 +14,7 @@ VALUES
   ('83544f2a-652d-4b5b-8834-d06cd496d360', '2023-07-18 12:34:56', 'Project 5 description', 'Project 5 label', 3, '292aa3b9-07e9-4cf1-8d9c-74253c5a0b2b', 'f3e5806b-17c5-4440-96c5-5720a912e48d', true),
   
   ('b14a488c-e7df-4cc2-a423-562a4bf3df7c', '2023-07-18 12:34:56', 'Project 6 description', 'Project 6 label', 2, '68fb1179-62d9-48f6-b6d8-683146fc739f', '7c79d37b-25cb-48e6-b2ac-8f4d7da9cc65', true);
+
 
 INSERT INTO project_memeberships (users_id, projects_id)
 VALUES

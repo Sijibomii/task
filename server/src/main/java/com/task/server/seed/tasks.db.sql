@@ -2,6 +2,7 @@
 -- Records of tasks
 -- ----------------------------
 
+
 INSERT INTO tasks (id, created_on, description, heading, comment_count, assignee_count, status, supervised, creator_id, category_id, seed)
 VALUES
 

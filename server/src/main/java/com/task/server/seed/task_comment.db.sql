@@ -2,6 +2,7 @@
 -- Records of tasks comments
 -- ----------------------------
 
+
 INSERT INTO task_comment (id, created_on, comment, supervised, creator_id, seed)
 VALUES
   ('6622b75f-9f52-4183-80d0-275f8e9e09e0', '2023-07-18 12:34:56', 'Task Comment 1', true, '08e32d91-d5c9-44f8-84fb-c9f4979c7531', true),
@@ -38,6 +39,7 @@ VALUES
   ('9a10f46b-39a0-4e71-8aa6-89606d6bc4af', '2023-07-18 12:34:56', 'Task Comment 32', false, '60393bc7-0fcd-46c7-8db0-4ee66a5de7e6', true),
   ('913f587e-3f62-40c5-97e5-9e001e031e19', '2023-07-18 12:34:56', 'Task Comment 33', false, 'c75a2b32-98b3-45e0-91db-4f1c843d45f8', true),
   ('2a01b4f1-0b75-4136-9e47-968bf831f058', '2023-07-18 12:34:56', 'Task Comment 34', false, '60393bc7-0fcd-46c7-8db0-4ee66a5de7e6', true);
+
 
 INSERT INTO comment_tags (taskcomment_id, users_id)
 VALUES

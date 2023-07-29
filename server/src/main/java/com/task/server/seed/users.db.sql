@@ -3,7 +3,6 @@
 -- ----------------------------
 
 
-
 INSERT INTO users (id, github_id, github_access_token, google_id, google_access_token, display_name, avatar_url, password, online, is_staff, has_loggen_in, email, created_at, last_update_at, token, salt, is_blocked, seed)
 VALUES
   ('08e32d91-d5c9-44f8-84fb-c9f4979c7531', 'githubId1', 'githubAccessToken1', 'googleId1', 'googleAccessToken1', 'User 1', 'https://images.unsplash.com/photo-1480429370139-e0132c086e2a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=988&q=80', 'password1', true, true, true, 'user1@example.com', '2023-07-18 12:34:56', '2023-07-18 12:34:56', 'token1', 'salt1', false, true),

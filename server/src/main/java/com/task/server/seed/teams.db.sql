@@ -11,6 +11,7 @@ VALUES
   ('7c79d37b-25cb-48e6-b2ac-8f4d7da9cc65', '2023-07-18 12:34:56', 'Team 4 description', 3, '60393bc7-0fcd-46c7-8db0-4ee66a5de7e6', '00e02cc5-d52b-48e0-b49a-b8f5c97a0eab', true);
 
 
+
 INSERT INTO team_memeberships (users_id, teams_id)
 VALUES
   ('08e32d91-d5c9-44f8-84fb-c9f4979c7531', '53c5c5cc-d70f-4399-882d-18161e1c3d35'),

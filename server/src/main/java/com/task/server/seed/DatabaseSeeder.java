@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 import org.springframework.boot.CommandLineRunner;
 
@@ -23,9 +24,29 @@ public class DatabaseSeeder implements CommandLineRunner {
 // ,"channel"
     @Override
     public void run(String... args) {  
+        // tables available
+
+    //    String q = "SELECT table_name"+
+    //                 "FROM information_schema.tables"+
+    //                 "WHERE table_schema = 'public'";
+
+    //     Query query = entityManager.createNativeQuery(q);
+
+
+    //     List<Object[]> resultList = query.getResultList();
+
+    //     // Print the results
+    //     for (Object[] row : resultList) {
+    //         // Process each row as needed
+    //         for (Object column : row) {
+    //             System.out.print(column.toString() + " ");
+    //         }
+    //         System.out.println();
+    //     }
+
         // Define your table names
         String[] tables = new String[]{"users", "organizations","teams","projects", "user_boards", "project_boards", "categories", "status", 
-        "tasks","task_comment","task_media","favourite_boards", "tags"};
+        "tasks","task_comment","task_media", "favourite_boards"};
 
         String currentDirectory = System.getProperty("user.dir");
 
@@ -37,7 +58,7 @@ public class DatabaseSeeder implements CommandLineRunner {
        
         // Check if the tables are empty
         for (int i=0; i<tables.length; i++ ){
-            if (isTableEmpty(tables[i]) || tables[i] == "users") { 
+            if (isTableEmpty(tables[i])) { 
                     // Execute SQL scripts to seed the database
                     System.out.println("SEEDING....");
                     Path filePath = seedFolderPath.resolve(tables[i]+".db.sql");
@@ -73,9 +94,9 @@ public class DatabaseSeeder implements CommandLineRunner {
             String sql = new String(fileBytes, "UTF-8");
             Query query = entityManager.createNativeQuery(sql);
 
-            Object result = query.getSingleResult();
+            // Object result = query.getSingleResult();
 
-            System.out.printf("\n QUERY SUCCESSFULLY EXECUTED WITH RESULT: ", result);
+            System.out.printf("\n QUERY SUCCESSFULLY EXECUTED WITH RESULT: ");
 
         } catch (IOException e) {
             // Handle any exceptions that occur during file reading

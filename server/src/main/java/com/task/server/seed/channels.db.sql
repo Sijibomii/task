@@ -3,6 +3,7 @@
 -- ----------------------------
 
 
+
 INSERT INTO channel (id, creator_id, created_on, channel_type, organization_id, team_id, project_id, seed)
 VALUES
   ('7d8ab8bf-8cf4-42d8-983b-100b9d33eac5', '08e32d91-d5c9-44f8-84fb-c9f4979c7531', '2023-07-18 12:34:56', 'TEAM', NULL, '53c5c5cc-d70f-4399-882d-18161e1c3d35', NULL, true),
@@ -24,6 +25,7 @@ VALUES
 
   ('3c0e2b37-44b8-434c-80c6-9e916be78947', '08e32d91-d5c9-44f8-84fb-c9f4979c7531', '2023-07-18 12:34:56', 'ORGANIZATION', '10d68df8-7c78-4d58-b392-1c95d073a2d1', NULL, NULL, true),
   ('34c70d75-5f65-441b-bdbd-2e0480f5f61d', 'c468e82e-07a0-4426-9b56-7d06d515e554', '2023-07-18 12:34:56', 'ORGANIZATION', '00e02cc5-d52b-48e0-b49a-b8f5c97a0eab', NULL, NULL, true);
+
 
 
 INSERT INTO channel_members (channel_id, user_id)

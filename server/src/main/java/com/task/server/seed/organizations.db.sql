@@ -2,10 +2,12 @@
 -- Records of organizations
 -- ----------------------------
 
+
 INSERT INTO organizations (id, created_on, description, members_count, creator_id, seed)
 VALUES
   ('10d68df8-7c78-4d58-b392-1c95d073a2d1', '2023-07-18 12:34:56', 'Organization 1 description', 8, '08e32d91-d5c9-44f8-84fb-c9f4979c7531', true),
   ('00e02cc5-d52b-48e0-b49a-b8f5c97a0eab', '2023-07-18 12:34:56', 'Organization 2 description', 7, '754a17aa-8353-4fc3-b1db-6a48211cd87b', true);
+
 
 INSERT INTO memeberships (users_id, organizations_id, true)
 VALUES
