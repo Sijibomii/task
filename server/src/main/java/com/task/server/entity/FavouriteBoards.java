@@ -17,7 +17,7 @@ public class FavouriteBoards extends Boards {
     private UserBoards userboard;
 
     @ManyToOne
-    private TeamsBoards teamboard;
+    private TeamsBoards teamboard; 
 
     @ManyToOne
     private ProjectBoards projectboard;

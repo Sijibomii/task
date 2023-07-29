@@ -15,3 +15,4 @@ public class TeamsBoards extends Boards {
     @OneToOne
     private Organizations organization;
 }
+ 
