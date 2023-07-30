@@ -29,6 +29,7 @@ public class UserService {
     }
 
     public Users login(String email, String password) throws Exception { 
+        System.out.println(email);
         Users user = userDao.findByEmail(email);
         if (user == null) {
             throw new AuthenticationException("Incorrect username or password");

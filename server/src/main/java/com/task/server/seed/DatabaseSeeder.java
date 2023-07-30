@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.boot.CommandLineRunner;
-
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Component;
 
 import jakarta.persistence.PersistenceContext;
@@ -23,6 +23,7 @@ public class DatabaseSeeder implements CommandLineRunner {
     private EntityManager entityManager;
 // ,"channel"
     @Override
+    @Transactional
     public void run(String... args) {  
        
         // Define your table names
@@ -64,7 +65,9 @@ public class DatabaseSeeder implements CommandLineRunner {
         }
         return count == 0;
     }
+    
 
+    @Transactional
     private void executeSeedSQLScripts(Path filePath) {
 
         try {
@@ -73,11 +76,14 @@ public class DatabaseSeeder implements CommandLineRunner {
 
             // Convert the byte array to a string using the appropriate character encoding (e.g., UTF-8)
             String sql = new String(fileBytes, "UTF-8");
+
+            entityManager.joinTransaction();
+
             Query query = entityManager.createNativeQuery(sql);
 
-            // Object result = query.getSingleResult();
+            int rowsAffected = query.executeUpdate();
 
-            System.out.printf("\n QUERY SUCCESSFULLY EXECUTED WITH RESULT: ");
+            System.out.printf("\n QUERY SUCCESSFULLY EXECUTED. ROWS AFFECTED: ", +rowsAffected);
 
         } catch (IOException e) {
             // Handle any exceptions that occur during file reading

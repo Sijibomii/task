@@ -26,7 +26,7 @@ VALUES
   ('68fb1179-62d9-48f6-b6d8-683146fc739f', '2023-07-18 12:34:56', 'Task 17 description', 'Task 17 heading', 3, 2, '1c5c5b2a-01fc-41f0-b98d-03f361c6b84c', true, '08e32d91-d5c9-44f8-84fb-c9f4979c7531', '4c7e9033-92d6-4399-ba27-11c14df6a2ac', true),
 
    -- project_board 2 tasks
-  ('49b256f1-84d5-46e9-a03c-20f1839465e1', '2023-07-18 12:34:56', 'Task 18 description', 'Task 18 heading', 1, 1, 'd44c2e42-30c8-4917-a227-95afcd3b0ee9', true, '754a17aa-8353-4fc3-b1db-6a48211cd87b', true);
+  ('49b256f1-84d5-46e9-a03c-20f1839465e1', '2023-07-18 12:34:56', 'Task 18 description', 'Task 18 heading', 1, 1, 'd44c2e42-30c8-4917-a227-95afcd3b0ee9', true, '754a17aa-8353-4fc3-b1db-6a48211cd87b', '4c7e9033-92d6-4399-ba27-11c14df6a2ac', true);
 
 
 INSERT INTO task_assignees (users_id, tasks_id)

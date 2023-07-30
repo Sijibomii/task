@@ -106,7 +106,7 @@ public class Users{
 
     @ManyToMany
     @JoinTable(
-    name = "team_membership",  
+    name = "team_membership",   
     joinColumns = @JoinColumn(name = "users_id", referencedColumnName = "id"), 
     inverseJoinColumns = @JoinColumn(name = "teams_id", referencedColumnName = "id"))
     List<Teams> team_memeberships;

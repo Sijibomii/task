@@ -12,7 +12,7 @@ VALUES
 
 
 
-INSERT INTO team_memeberships (users_id, teams_id)
+INSERT INTO team_membership (users_id, teams_id)
 VALUES
   ('08e32d91-d5c9-44f8-84fb-c9f4979c7531', '53c5c5cc-d70f-4399-882d-18161e1c3d35'),
   ('754a17aa-8353-4fc3-b1db-6a48211cd87b', '53c5c5cc-d70f-4399-882d-18161e1c3d35'),

@@ -54,7 +54,8 @@ public class Projects {
     private Boolean seed;
 
     // team
-    // @NotNull
-    // private Teams team;
+    @NotNull
+    @ManyToOne
+    private Teams team;
 
 }
