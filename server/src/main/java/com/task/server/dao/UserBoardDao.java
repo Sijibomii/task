@@ -30,7 +30,7 @@ public interface UserBoardDao extends BaseDao<UserBoards> {
         t.assignee_count AS no_of_assignee
         FROM user_boards ub
         LEFT JOIN categories c ON c.user_board_id = ub.id
-        LEFT JOIN tasks t on t.category_id = c.id
+        LEFT JOIN tasks t ON t.category_id = c.id
         WHERE ub.creator_id = CAST(?1 AS uuid) AND ub.is_default = true
             """, nativeQuery = true)
         List<Object[]> queryDefaultUserBoardByUserId(String userId);

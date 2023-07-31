@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.task.server.connverters.QueryProjectBoardDtoConverter;
 import com.task.server.dao.ProjectDao;
 import com.task.server.dto.ProjectCreateDto;
 import com.task.server.dto.TaskBoardCreateDto;
@@ -19,17 +21,23 @@ public class ProjectService {
 
     @Autowired
     private TaskBoardService tBoardService;
+
+    @Autowired
+    private QueryProjectBoardDtoConverter converter;
     
     // get all projects by user id left join the categories to
-    public List<Map<String, Object>> getAllProjectsByUserId(String user_id) throws Exception { 
+    public List<Object[]> getAllProjectsByUserId(String user_id) throws Exception { 
        return projectDao.allProjectsByCatergoryUserId(user_id);
     }
 
-    public List<Map<String, Object>> getBoardDetails(String project_id) throws Exception {
-        return projectDao.projectBoardDetails(project_id);
+    public List<?> getBoardDetails(String project_id) throws Exception {
+
+        List<Object[]> resultList = projectDao.projectBoardDetails(project_id);
+
+        return converter.convertToDtoList(resultList);
     }
 
-    public List<Map<String, Object>> getPeoplePreviewList(String project_id) throws Exception {
+    public List<Object[]> getPeoplePreviewList(String project_id) throws Exception {
         return projectDao.peoplePreviewList(project_id);
     }
 

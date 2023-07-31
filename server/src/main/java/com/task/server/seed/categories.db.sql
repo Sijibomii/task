@@ -3,7 +3,7 @@
 -- ----------------------------
 
 
-
+ 
 
 INSERT INTO categories (id, label, creator_id, created_on, projects_board_id, user_board_id, seed)
 VALUES

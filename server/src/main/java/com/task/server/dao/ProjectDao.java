@@ -16,7 +16,7 @@ public interface ProjectDao extends BaseDao<Projects> {
 
     // wrote the sql myself to avoid qurerydsl problems
     @Query(value="SELECT p.id AS project_id, p.name AS project_name, c.id AS category_id, c.title AS category_title FROM project p LEFT JOIN project_categories pc ON pc.project_id = p.id LEFT JOIN category c ON c.id = pc.category_id WHERE p.user_id=?1", nativeQuery = true)
-    List<Map<String, Object>> allProjectsByCatergoryUserId(String user_id);
+    List<Object[]> allProjectsByCatergoryUserId(String user_id);
 
     
     
@@ -31,26 +31,20 @@ public interface ProjectDao extends BaseDao<Projects> {
     // }
     @Query(value="""
         SELECT 
-        p.name AS name,
+        pb.id AS board_id,
         c.id AS category_id, 
-        c.title AS category_title,
+        c.label AS category_label,
         t.id AS task_id,
         t.description AS task_description,
         t.heading AS task_heading,
         t.comment_count AS no_of_comment,
-        t.assignee_count AS no_of_assignee,
-        tg.name AS tag_name,
-        tg.id AS tag_id
-        FROM project p
-        LEFT JOIN project_categories pc ON pc.project_id = p.id
-        LEFT JOIN category c ON c.id = pc.category_id
-        LEFT JOIN task_categories tc ON tc.category_id = c.id
-        LEFT JOIN tasks t on t.id = tc.id
-        LEFT JOIN task_tags ttg on ttg.task_id = t.id
-        LEFT JOIN tags tg on tg.id = ttg.tag_id
-        WHERE p.id = ?1
+        t.assignee_count AS no_of_assignee
+        FROM project_boards pb
+        LEFT JOIN categories c ON c.projects_board_id = pb.id
+        LEFT JOIN tasks t ON t.category_id = c.id
+        WHERE pb.id = CAST(?1 AS uuid)
             """, nativeQuery = true)
-    List<Map<String, Object>> projectBoardDetails(String board_id);
+    List<Object[]> projectBoardDetails(String board_id);
 
     @Query(value="""
         SELECT 
@@ -62,5 +56,5 @@ public interface ProjectDao extends BaseDao<Projects> {
         LEFT JOIN users u ON u.id = pm.users_id
         WHERE pm.projects_id = ?1
             """, nativeQuery = true)
-    List<Map<String, Object>> peoplePreviewList(String project_id);
+    List<Object[]> peoplePreviewList(String project_id);
 }

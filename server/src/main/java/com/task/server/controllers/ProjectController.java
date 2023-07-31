@@ -45,12 +45,12 @@ public class ProjectController extends BaseController {
         if (userId.isEmpty()){
             throw new Exception("Auth error");
         }
-        List<Map<String, Object>> result = projectService.getAllProjectsByUserId(userId);
+        List<Object[]> result = projectService.getAllProjectsByUserId(userId);
 
         return success(200, result);
     }
 
-    // project boards alone
+    // project boards shows the tasks in the project
     @RequestMapping(value = "/projects/board/{id}", method = RequestMethod.GET)
     public MessageResult getProjectBoard(@PathVariable String id) throws Exception {
         // projects default board -> all categories -> task under each cat. task tags, comment number 
@@ -58,7 +58,7 @@ public class ProjectController extends BaseController {
             throw new Exception("url error"); 
         }
 
-        List<Map<String, Object>> board = projectService.getBoardDetails(id);
+        List<?> board = projectService.getBoardDetails(id);
 
         return success(200, board);
     }
@@ -71,7 +71,7 @@ public class ProjectController extends BaseController {
             throw new Exception("url error"); 
         }
 
-        List<Map<String, Object>> people = projectService.getPeoplePreviewList(id);
+        List<Object[]> people = projectService.getPeoplePreviewList(id);
 
         return success(200, people);
     }
