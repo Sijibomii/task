@@ -8,11 +8,12 @@ import java.util.Date;
 import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-// shows tasks but only specific to user
+
 
 @Entity
 @Data
@@ -28,7 +29,7 @@ public class UserBoards {
     private Users creator;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    @CreationTimestamp
+    @CreationTimestamp 
     private Date createdOn;
 
     @NotNull

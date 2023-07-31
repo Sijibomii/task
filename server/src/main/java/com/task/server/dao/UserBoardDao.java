@@ -1,10 +1,12 @@
 package com.task.server.dao;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import com.task.server.dao.base.BaseDao;
+import com.task.server.dto.QueryUserBoardDto;
 import com.task.server.entity.UserBoards;
 
 
@@ -14,7 +16,7 @@ public interface UserBoardDao extends BaseDao<UserBoards> {
     // LEFT JOIN tags tg on tg.id = ttg.tag_id
     // tg.name AS tag_name,
     // tg.id AS tag_id
-    
+
     // DTOs
     @Query(value="""
         SELECT 
@@ -31,7 +33,7 @@ public interface UserBoardDao extends BaseDao<UserBoards> {
         LEFT JOIN tasks t on t.category_id = c.id
         WHERE ub.creator_id = CAST(?1 AS uuid) AND ub.is_default = true
             """, nativeQuery = true)
-    List<UserBoards> queryDefaultUserBoardByUserId(String userId);
+        List<Object[]> queryDefaultUserBoardByUserId(String userId);
 
     @Query(value="""
         SELECT 
