@@ -1,6 +1,7 @@
 package com.task.server.entity;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -11,6 +12,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
@@ -43,9 +45,9 @@ public class Tags {
 
     private Boolean seed;
 
-    // many to many task board
-    // jointable = tags_tasks_board
-    // many to many user board
-    // many to many team boards
+    @ManyToMany(mappedBy = "tags")
+    // @JsonIgnore
+    private List<Tasks> tasks;
 
 }
+ 

@@ -16,9 +16,11 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.JoinColumn;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -57,7 +59,7 @@ public class Tasks {
     private Users creator;
 
 
-    @ManyToOne
+    @ManyToOne 
     @NotNull
     private Categories category;
 
@@ -65,6 +67,14 @@ public class Tasks {
     @ManyToMany(mappedBy = "task_assignees")
     // @JsonIgnore
     private List<Users> members;
+
+
+    @ManyToMany
+    @JoinTable(
+    name = "task_tags",  
+    joinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id"), 
+    inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"))
+    List<Tags> tags;
 
 
     private Boolean seed;
