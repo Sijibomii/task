@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -54,18 +55,16 @@ public class BoardController extends BaseController{
     }
 
     @RequestMapping(value = "/boards/user/{id}", method = RequestMethod.GET)
-    public MessageResult defaultUserBoard(HttpServletRequest request, HttpServletResponse response, @PathVariable Long userId) throws Exception{
+    public MessageResult defaultUserBoard(HttpServletRequest request, HttpServletResponse response) throws Exception{
         // check if userid in route equals loggedin user
-        String loggedInUserId = (String)request.getAttribute("userId");
-        if (loggedInUserId.isEmpty()){ 
+        UUID loggedInUserId = (UUID) request.getAttribute("userId");
+
+        if (loggedInUserId.toString() == ""){ 
             throw new Exception("Auth error");
         }
 
-        if (loggedInUserId != userId.toString()){
-            throw new Exception("un authorized");
-        }
 
-        List<?> userBoard = boardService.getDefaultUserBoard(userId.toString());
+        List<?> userBoard = boardService.getDefaultUserBoard(loggedInUserId.toString());
         return success(200, userBoard);
     }
 
