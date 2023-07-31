@@ -111,7 +111,7 @@ public class UserController extends BaseController{
             throw new Exception("Auth error");
         } 
 
-        List<? extends Boards> userBoards = boardService.getAllUserBoards(userId);
+        List<?> userBoards = boardService.getAllUserBoards(userId);
 
         return success(200, userBoards);
     }
@@ -361,15 +361,17 @@ public class UserController extends BaseController{
 
 
         Users user = userService.login(map.get("email"), map.get("password"));
-
+       
         if(user == null){
             throw new Exception("user not found");
         }
 		
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
-        kafka.disptach(KafkaTopics.WEBSOCKET, user, "user password login", EventEnum.USER_LOGIN, Operator.USER_LOGIN);
+        
+        // kafka.disptach(KafkaTopics.WEBSOCKET, user, "user password login", EventEnum.USER_LOGIN, Operator.USER_LOGIN);
         LoginTokenDto login = new LoginTokenDto(user.getId(), user.getEmail(), jwtToken, refreshToken);
+        System.out.println("user gotten");
         return success(200,login);
         
     }

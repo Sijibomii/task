@@ -9,30 +9,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-
 import com.task.server.entity.Users;
 import com.task.server.services.JwtService;
 import com.task.server.services.UserService;
-
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import jakarta.servlet.http.HttpServletRequest;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletResponse;
 
+@Component
 public class JwtInterceptor implements HandlerInterceptor {
     
     @Autowired
     private UserService userService;
+
     @Autowired
     private JwtService jwtService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = extractToken(request);
+        
         if (token != null) {
             try {
+ 
                 String email = jwtService.extractEmail(token);
                 Users user = userService.findByEmail(email);
 
@@ -75,13 +78,14 @@ public class JwtInterceptor implements HandlerInterceptor {
                 } 
             }
         }
-        return true;
+        return false;
     }
 
     
 
     private Boolean tokenExpired(HttpServletRequest request){
         String header = request.getHeader("Authorization");
+        
         if (header == null || !header.startsWith("Bearer ")) {
             return false;
         }

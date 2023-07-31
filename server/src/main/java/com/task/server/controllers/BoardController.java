@@ -49,7 +49,7 @@ public class BoardController extends BaseController{
         if (userId.isEmpty()){
             throw new Exception("Auth error");
         }
-        List<? extends Boards> fav =  boardService.getFavouriteBoards(userId);
+        List<?> fav =  boardService.getFavouriteBoards(userId);
         return success(200, fav);
     }
 
@@ -57,7 +57,7 @@ public class BoardController extends BaseController{
     public MessageResult defaultUserBoard(HttpServletRequest request, HttpServletResponse response, @PathVariable Long userId) throws Exception{
         // check if userid in route equals loggedin user
         String loggedInUserId = (String)request.getAttribute("userId");
-        if (loggedInUserId.isEmpty()){
+        if (loggedInUserId.isEmpty()){ 
             throw new Exception("Auth error");
         }
 
@@ -65,7 +65,7 @@ public class BoardController extends BaseController{
             throw new Exception("un authorized");
         }
 
-        List<? extends Boards> userBoard = boardService.getDefaultUserBoard(userId.toString());
+        List<?> userBoard = boardService.getDefaultUserBoard(userId.toString());
         return success(200, userBoard);
     }
 

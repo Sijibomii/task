@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.task.server.dao.FavouriteBoardDao;
 import com.task.server.dao.UserBoardDao;
-import com.task.server.entity.Boards;
 import com.task.server.entity.FavouriteBoards;
 
 @Service
@@ -19,7 +18,7 @@ public class BoardService {
     @Autowired
     private UserBoardDao userBoardDao;
 
-    public List<? extends Boards> getFavouriteBoards(String UserId) throws Exception{
+    public List<?> getFavouriteBoards(String UserId) throws Exception{
         return favouriteBoardDao.queryFavouriteBoardsByUserId(UserId);
     }
 
@@ -30,11 +29,11 @@ public class BoardService {
 
     // this gets the default user board
     // this has return type issues. dao shoukd return just one board
-    public List<? extends Boards> getDefaultUserBoard(String userId) throws Exception{
+    public List<?> getDefaultUserBoard(String userId) throws Exception{
         return userBoardDao.queryDefaultUserBoardByUserId(userId);
     }
 
-    public List<? extends Boards> getAllUserBoards(String userId) throws Exception{
+    public List<?> getAllUserBoards(String userId) throws Exception{
         return userBoardDao.queryUserBoardsByUserId(userId);
     }
 }
