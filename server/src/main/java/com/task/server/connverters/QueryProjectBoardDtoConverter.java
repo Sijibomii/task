@@ -1,29 +1,44 @@
 package com.task.server.connverters;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.stream.Collectors;
 import com.task.server.dto.QueryProjectBoardDto;
+import com.task.server.dto.TasksDto;
+import com.task.server.dto.CategoryDto;
 
 @Component
 public class QueryProjectBoardDtoConverter {
-    public List<QueryProjectBoardDto> convertToDtoList(List<Object[]> resultList) {
-        return resultList.stream().map(this::convertToDto).collect(Collectors.toList());
+    
+    @Autowired
+    private TasksDtoConverter taskscoConverter;
+
+    @Autowired
+    private CategoriesDtoConverter catconverter;
+
+    public QueryProjectBoardDto convertToDtoList(List<Object[]> resultList) {
+
+        Object[] obj = resultList.get(0);
+        UUID board_id = (UUID) obj[0];
+
+        List<Object[]> taskList = resultList.stream().map((Object[] o) -> {
+            return Arrays.copyOfRange(o, 1, o.length);
+        }).collect(Collectors.toList());
+
+        List<Object[]> catList = resultList.stream().map((Object[] o) -> {
+            return Arrays.copyOfRange(o, 0, 3);
+        }).collect(Collectors.toList());
+
+        List<TasksDto> tasks = taskscoConverter.convertToDtoList(taskList);
+
+        List<CategoryDto> cats = catconverter.convertToDtoList(catList);
+
+        return new QueryProjectBoardDto(board_id, tasks, cats);
     }
 
-    private QueryProjectBoardDto convertToDto(Object[] result) {
-
-        UUID board_id = (result[0] != null) ? (UUID) result[0] : null;
-        UUID categoryId = (result[1] != null) ? (UUID) result[1] : null;
-        String categoryLabel = (result[2] != null) ? (String) result[2] : ""; 
-        UUID taskId = (result[3] != null) ? (UUID) result[3] : null;
-        String taskDescription = (result[4] != null) ? (String) result[4] : ""; 
-        String taskHeading = (result[5] != null) ? (String) result[5] : ""; 
-        Integer noOfComment = (result[6] != null) ? (Integer) result[6] : 0; 
-        Integer noOfAssignee = (result[7] != null) ? (Integer) result[7] : 0;
-
-        return new QueryProjectBoardDto(board_id, categoryId, categoryLabel, taskId, taskDescription, taskHeading, noOfComment, noOfAssignee);
-    }
+   
 }

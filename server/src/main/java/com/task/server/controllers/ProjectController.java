@@ -58,7 +58,7 @@ public class ProjectController extends BaseController {
             throw new Exception("url error"); 
         }
 
-        List<?> board = projectService.getBoardDetails(id);
+        Object board = projectService.getBoardDetails(id);
 
         return success(200, board);
     }

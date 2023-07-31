@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.task.server.connverters.QueryProjectBoardDtoConverter;
 import com.task.server.dao.ProjectDao;
 import com.task.server.dto.ProjectCreateDto;
+import com.task.server.dto.QueryProjectBoardDto;
 import com.task.server.dto.TaskBoardCreateDto;
 import com.task.server.entity.Projects;
 import com.task.server.enums.BoardType;
@@ -30,7 +31,7 @@ public class ProjectService {
        return projectDao.allProjectsByCatergoryUserId(user_id);
     }
 
-    public List<?> getBoardDetails(String project_id) throws Exception {
+    public QueryProjectBoardDto getBoardDetails(String project_id) throws Exception {
 
         List<Object[]> resultList = projectDao.projectBoardDetails(project_id);
 
