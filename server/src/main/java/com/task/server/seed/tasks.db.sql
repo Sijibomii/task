@@ -28,6 +28,16 @@ VALUES
    -- project_board 2 tasks
   ('49b256f1-84d5-46e9-a03c-20f1839465e1', '2023-07-18 12:34:56', 'Task 18 description', 'Task 18 heading', 1, 1, 'd44c2e42-30c8-4917-a227-95afcd3b0ee9', true, '754a17aa-8353-4fc3-b1db-6a48211cd87b', '4c7e9033-92d6-4399-ba27-11c14df6a2ac', true);
 
+INSERT INTO task_tags (tag_id, task_id)
+VALUES
+  ('1c5c5b2a-01fc-41f0-b98d-03f361c6b84c6', '7b150ce9-122c-4ea3-87c5-233190d1f746'),
+  ('d44c2e42-30c8-4917-a227-95afcd3b0ee9', '7b150ce9-122c-4ea3-87c5-233190d1f746'),
+  ('15a4e823-2bc0-4ae2-8fc5-9efc0f03f05d', '53c5c5cc-d70f-4399-882d-18161e1c3d35'),
+  ('2a0e3c45-90b1-44da-93a3-3df0b7c70c68', '53c5c5cc-d70f-4399-882d-18161e1c3d35'),
+  ('89eb0806-5a46-499b-9cbb-b81c42e845a8', '159e1b65-33d2-45b9-9bfe-aa798a3a9d24'),
+  ('e23e0b12-c5be-4b26-8f8d-8f6c2491a58f', '159e1b65-33d2-45b9-9bfe-aa798a3a9d24'),
+  ('1c5c5b2a-01fc-41f0-b98d-03f361c6b84c6', 'c93b36d8-3d09-4e80-999c-4a78122a5ed9');
+
 
 INSERT INTO task_assignees (users_id, tasks_id)
 VALUES

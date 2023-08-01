@@ -45,6 +45,9 @@ public class Tags {
 
     private Boolean seed;
 
+    @ManyToOne
+    private ProjectBoards projects_board; 
+
     @ManyToMany(mappedBy = "tags")
     // @JsonIgnore
     private List<Tasks> tasks;
