@@ -27,7 +27,7 @@ public class DatabaseSeeder implements CommandLineRunner {
     public void run(String... args) {  
        
         // Define your table names
-        String[] tables = new String[]{"users", "organizations","teams","projects", "user_boards", "project_boards", "categories", "status", 
+        String[] tables = new String[]{"users", "organizations","teams","projects", "user_boards", "project_boards", "categories", "status",  "tags",
         "tasks","task_comment","task_media", "favourite_boards"};
 
         String currentDirectory = System.getProperty("user.dir");

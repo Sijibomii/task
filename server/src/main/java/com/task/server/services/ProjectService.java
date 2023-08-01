@@ -30,9 +30,10 @@ public class ProjectService {
     public List<Object[]> getAllProjectsByUserId(String user_id) throws Exception { 
        return projectDao.allProjectsByCatergoryUserId(user_id);
     }
+    // QueryProjectBoardDto
+    public QueryProjectBoardDto   getBoardDetails(String project_id) throws Exception {
 
-    public QueryProjectBoardDto getBoardDetails(String project_id) throws Exception {
-
+        // return projectDao.projectBoardDetails(project_id);
         List<Object[]> resultList = projectDao.projectBoardDetails(project_id);
 
         return converter.convertToDtoList(resultList);

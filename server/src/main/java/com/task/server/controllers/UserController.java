@@ -351,7 +351,7 @@ public class UserController extends BaseController{
         Assert.hasText(map.get("email"),"MISSING_USERNAME");
         Assert.hasText(map.get("password"), "MISSING_PASSWORD");
         Assert.hasText(map.get("captcha"), "MISSING_CAPTCHA");
-
+        
         Boolean validated = CaptchaUtil.validate(request.getSession(), "", map.get("captcha"));
 
         if(!validated){

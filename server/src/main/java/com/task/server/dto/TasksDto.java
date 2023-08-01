@@ -1,4 +1,5 @@
 package com.task.server.dto;
+import java.util.List;
 import java.util.UUID;
 
 import lombok.AllArgsConstructor;
@@ -19,5 +20,7 @@ public class TasksDto {
     private int comment;
 
     private int no_of_assignee;
+
+    private List<TagDto> tags;
     
 }

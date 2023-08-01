@@ -18,17 +18,6 @@ public interface ProjectDao extends BaseDao<Projects> {
     @Query(value="SELECT p.id AS project_id, p.name AS project_name, c.id AS category_id, c.title AS category_title FROM project p LEFT JOIN project_categories pc ON pc.project_id = p.id LEFT JOIN category c ON c.id = pc.category_id WHERE p.user_id=?1", nativeQuery = true)
     List<Object[]> allProjectsByCatergoryUserId(String user_id);
 
-    
-    
-    // i need a way where each tags assigned to each task should be in its obj
-    // {
-        // ... other task fields
-    //     tags:[
-    //         {
-    //             ....
-    //         }
-    //     ]
-    // }
     @Query(value="""
         SELECT 
         pb.id AS board_id,
@@ -38,10 +27,16 @@ public interface ProjectDao extends BaseDao<Projects> {
         t.description AS task_description,
         t.heading AS task_heading,
         t.comment_count AS no_of_comment,
-        t.assignee_count AS no_of_assignee
+        t.assignee_count AS no_of_assignee,
+        tg.name AS tag_name,
+        tg.id AS tag_id,
+        ttg.tag_id AS ttg_tag_id,
+        ttg.task_id AS ttg_task_id
         FROM project_boards pb
         LEFT JOIN categories c ON c.projects_board_id = pb.id
         LEFT JOIN tasks t ON t.category_id = c.id
+        LEFT JOIN task_tags ttg ON ttg.task_id = t.id
+        LEFT JOIN tags tg ON tg.id = ttg.tag_id
         WHERE pb.id = CAST(?1 AS uuid)
             """, nativeQuery = true)
     List<Object[]> projectBoardDetails(String board_id);
