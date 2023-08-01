@@ -22,5 +22,7 @@ public class TasksDto {
     private int no_of_assignee;
 
     private List<TagDto> tags;
+
+    private List<TasKUserDto> assignees;
     
 }

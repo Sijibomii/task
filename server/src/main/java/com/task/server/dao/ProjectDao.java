@@ -28,6 +28,9 @@ public interface ProjectDao extends BaseDao<Projects> {
         t.heading AS task_heading,
         t.comment_count AS no_of_comment,
         t.assignee_count AS no_of_assignee,
+        u.id AS user_id,
+        u.display_name AS name,
+        u.avatar_url AS avatar,
         tg.name AS tag_name,
         tg.id AS tag_id,
         ttg.tag_id AS ttg_tag_id,
@@ -37,6 +40,8 @@ public interface ProjectDao extends BaseDao<Projects> {
         LEFT JOIN tasks t ON t.category_id = c.id
         LEFT JOIN task_tags ttg ON ttg.task_id = t.id
         LEFT JOIN tags tg ON tg.id = ttg.tag_id
+        LEFT JOIN task_assignees ta ON ta.tasks_id = t.id
+        LEFT JOIN users u ON u.id = ta.users_id
         WHERE pb.id = CAST(?1 AS uuid)
             """, nativeQuery = true)
     List<Object[]> projectBoardDetails(String board_id);

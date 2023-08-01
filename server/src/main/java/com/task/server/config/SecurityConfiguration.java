@@ -26,10 +26,10 @@ public class SecurityConfiguration{
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    // http
+    http
         // disables Cross-Site Request Forgery (CSRF) protection for this application.
-        // .csrf()
-        // .disable()
+        .csrf()
+        .disable();
         // // configures authorization rules for incoming HTTP requests.
         // .authorizeHttpRequests()
         // // specifies the request matchers to which the following authorization rules will apply. In this case, the listed URL patterns are used as request matchers.
@@ -48,13 +48,13 @@ public class SecurityConfiguration{
         //   // applies the following authorization rules to all other requests.
         //   .anyRequest()
         //   // requires authentication for the specified URLs.
-        //   .authenticated()
-        //   .and()
-        //   // configures OAuth2 login for this application.
-        //   .oauth2Login()
-        //   // // specifies the URL for the login page.
-        //   .defaultSuccessUrl("/login/oauth/success", true)
-        //   .failureUrl("/login?error=true");
+        //   .authenticated();
+          // .and()
+          // // configures OAuth2 login for this application.
+          // .oauth2Login()
+          // // // specifies the URL for the login page.
+          // .defaultSuccessUrl("/login/oauth/success", true)
+          // .failureUrl("/login?error=true");
           
 
     return http.build();

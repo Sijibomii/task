@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.stream.Collectors;
 
 import com.task.server.dto.TagDto;
+import com.task.server.dto.TasKUserDto;
 import com.task.server.dto.TasksDto;
 
 
@@ -17,6 +18,8 @@ import com.task.server.dto.TasksDto;
 public class TasksDtoConverter {
 
     private HashMap<UUID, List<TagDto>> tk = new HashMap<>();
+
+    private HashMap<UUID, List<TasKUserDto>> assignees = new HashMap<>();
 
     public List<TasksDto> convertToDtoList(List<Object[]> resultList) {
 
@@ -29,11 +32,27 @@ public class TasksDtoConverter {
                 UUID tagId = (arr[arr.length-2] != null) ? (UUID) arr[arr.length-2] : null;
                 String tagLabel = (arr[arr.length-4] != null) ? (String) arr[arr.length-4] : ""; 
                 this.tk.get(task_id).add(new TagDto(tagId, tagLabel));
-            }else{
+            }else{               
                 this.tk.put(task_id, new ArrayList<TagDto>());
                 UUID tagId = (arr[arr.length-2] != null) ? (UUID) arr[arr.length-2] : null;
                 String tagLabel = (arr[arr.length-4] != null) ? (String) arr[arr.length-4] : ""; 
                 this.tk.get(task_id).add(new TagDto(tagId, tagLabel));
+            }
+
+            if (this.assignees.containsKey(task_id)){
+                // assignees
+                UUID userId = (arr[arr.length-7] != null) ? (UUID) arr[arr.length-7] : null;
+                String name = (arr[arr.length-6] != null) ? (String) arr[arr.length-6] : ""; 
+                String url = (arr[arr.length-5] != null) ? (String) arr[arr.length-5] : ""; 
+
+                this.assignees.get(task_id).add(new TasKUserDto(userId, url, name));
+            }else{
+                 // assignees
+                 this.assignees.put(task_id, new ArrayList<TasKUserDto>());
+                 UUID userId = (arr[arr.length-7] != null) ? (UUID) arr[arr.length-7] : null;
+                 String name = (arr[arr.length-6] != null) ? (String) arr[arr.length-6] : ""; 
+                 String url = (arr[arr.length-5] != null) ? (String) arr[arr.length-5] : ""; 
+                 this.assignees.get(task_id).add(new TasKUserDto(userId, url, name));
             }
         }
 
@@ -49,7 +68,7 @@ public class TasksDtoConverter {
         Integer noOfComment = (result[5] != null) ? (Integer) result[5] : 0; 
         Integer noOfAssignee = (result[6] != null) ? (Integer) result[6] : 0;
 
-        return new TasksDto(categoryId, taskId, taskDescription, taskHeading, noOfComment, noOfAssignee, this.tk.get(taskId));
+        return new TasksDto(categoryId, taskId, taskDescription, taskHeading, noOfComment, noOfAssignee, this.tk.get(taskId), this.assignees.get(taskId));
     }
 }
 

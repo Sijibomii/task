@@ -53,7 +53,7 @@ VALUES
   ('c75a2b32-98b3-45e0-91db-4f1c843d45f8', 'f95aa726-e31b-42fc-96a5-76e51b3cfcee'),
   ('08e32d91-d5c9-44f8-84fb-c9f4979c7531', 'f95aa726-e31b-42fc-96a5-76e51b3cfcee'),
   ('08e32d91-d5c9-44f8-84fb-c9f4979c7531', 'd6d53ad6-ecaf-41e5-87b2-5f56f0ee0b1c'),
-  ('60393bc7-0fcd-46c7-8db0-4ee66a5de7e6', 'd6d53ad6-ecaf-41e5-87b2-5f56f0ee0b1c'),
+  ('60393bc7-0fcd-46c7-8db0-4ee66a5de7e6', 'd6d53ad6-ecaf-41e5-87b2-5f56f0ee0b1c'), 
   ('08e32d91-d5c9-44f8-84fb-c9f4979c7531', 'dfc60d60-3d78-4847-b849-9bc6f6e2d057'),
   ('60393bc7-0fcd-46c7-8db0-4ee66a5de7e6', 'dfc60d60-3d78-4847-b849-9bc6f6e2d057'),
   ('60393bc7-0fcd-46c7-8db0-4ee66a5de7e6', '0a40de0d-700c-49cc-9f4f-0cb835c23557'),
