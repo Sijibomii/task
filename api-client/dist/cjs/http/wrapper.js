@@ -9,7 +9,7 @@ var wrap = function (http) {
         //   const imageUrl = URL.createObjectURL(captchaImage);
         //   const captchaElement = document.createElement('img');
         //   captchaElement.src = imageUrl;
-        captcha: function () { return http.request("GET", "/captcha", {}); },
+        captcha: function () { return http.request("GET", "/captcha"); },
         login: function (email, password, captcha) { return http.request("POST", "/login", {
             email: email,
             password: password,

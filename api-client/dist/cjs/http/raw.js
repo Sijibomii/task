@@ -67,8 +67,7 @@ var create = function (baseOpts) {
                             //   captcha  returns image
                             return [4 /*yield*/, (0, isomorphic_unfetch_1.default)("".concat(baseUrl).concat(endpoint), {
                                     method: method,
-                                    headers: __assign({ "Content-Type": "application/json" }, headers),
-                                    body: body ? JSON.stringify(body) : undefined,
+                                    headers: __assign({ "Content-Type": "application/json" }, headers)
                                 }).then(function (res) { return res.blob(); })];
                         case 1:
                             //   captcha  returns image
