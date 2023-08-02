@@ -24,6 +24,19 @@ var wrap = function (http) {
             password: password,
             captcha: captcha
         }); },
+        projectBoard: function (projectId, accessToken) { return http.request("GET", "/projects/board/".concat(projectId), {}, {}, {
+            Authorization: "Bearer ".concat(accessToken)
+        }); },
+        favouriteBoards: function (accessToken) { return http.request("GET", "/projects/favourites", {}, {}, {
+            Authorization: "Bearer ".concat(accessToken)
+        }); },
+        allProjects: function (accessToken) { return http.request("GET", "/projects/all", {}, {}, {
+            Authorization: "Bearer ".concat(accessToken)
+        }); },
+        addFavouriteBoard: function (board_type, board_id) { return http.request("POST", "/projects/favourites", {
+            board_id: board_id,
+            board_type: board_type
+        }); },
         testUser: function (username) {
             return http.request("GET", "/dev/test-info?username=".concat(username));
         },

@@ -121,28 +121,23 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
   
     return (
       <>
-        <div className="flex">
-        </div>
-        <div
-          className="grid w-full h-full"
-          style={{
-            gridTemplateRows: "1fr auto 1fr",
-          }}
-        >
+        <div className="flex items-center justify-center w-screen h-screen">
+        <div className="flex items-center justify-center">
           <div className="hidden sm:flex" />
-          <div className="flex  m-auto flex-col p-6 gap-5 bg-primary-800 sm:rounded-8 z-10 sm:w-400 w-full">
+          <div className="flex  m-auto flex-col p-14 gap-5 bg-[#151a21] sm:rounded-8 z-10 sm:w-400 w-full">
             <div className="flex gap-2 flex-col text-center">
-              <span className="text-3xl text-primary-100 font-bold">Welcome</span>
-              <div className="text-primary-100 flex-wrap">
+              <span className="text-3xl text-[#dee3ea] font-bold">Welcome</span>
+              <div className="text-[#dee3ea] text-center">
                 By logging in you accept our&nbsp;
+                <br />
                 <a
                   href="/privacy-policy.html"
-                  className="text-accent hover:underline"
+                  className="text-[#fd4d4d] hover:underline"
                 >
                   Privacy Policy
                 </a>
                 &nbsp;and&nbsp;
-                <a href="/terms.html" className="text-accent hover:underline">
+                <a href="/terms.html" className="text-[#fd4d4d] hover:underline">
                   Terms of Service
                 </a>
                 .
@@ -217,7 +212,7 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
                   <Form className={``}>
                     <div className="flex flex-col gap-4">
                     <div className="flex flex-col">
-                        <h3 className="text-primary-100 text-sm text-gray">Email:</h3>
+                        <h3 className="text-[#dee3ea] text-sm text-gray">Email:</h3>
                         {errors.email ? (
                           <div className={`flex mt-1`}>
                             <InputErrorMsg>{errors.email}</InputErrorMsg>
@@ -225,6 +220,7 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
                         ) : null }
                           <Input
                             autoFocus
+                            className={`login-input`}
                             placeholder={"Enter your Email"}
                             name="email"
                             id="email"
@@ -234,7 +230,7 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
                           />
                     </div>
                     <div className="flex flex-col">
-                        <h3 className="text-primary-100 text-sm">Password</h3>
+                        <h3 className="text-[#dee3ea] text-sm">Password</h3>
                         {errors.password ? (
                           <div className={`flex flex-col mt-1`}>
                             {errors.password && errors.password.map(error => 
@@ -243,7 +239,7 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
                           </div>
                         ) : null}
                         <Input
-                          className={``}
+                          className={`login-input`}
                           id="password"
                           placeholder={"Enter password"}
                           name="password"
@@ -256,7 +252,7 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
                         
                           {captcha && (
                           <>
-                          <h3 className="text-primary-100 text-sm">Captcha</h3>
+                          <h3 className="text-[#dee3ea] text-sm">Captcha</h3>
                           <div className="flex items-center justify-between">
                               <Image src={captcha} height={100} width={120} alt="captcha" />
                               <Input
@@ -276,14 +272,14 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
                     <div className="flex items-center justify-between">
                         <a
                             href="#"
-                            className="text-primary-200 text-sm mt-0 underline"
+                            className="text-[#b2bdcd] text-sm mt-0 underline"
                             onClick={generateCaptcha}
                         >
                             Generate captcha
                         </a>
                         <a
                             href=""
-                            className="text-primary-200 text-sm mt-0 underline"
+                            className="text-[#b2bdcd] text-sm mt-0 underline"
                         >
                             Forgot Password?
                         </a>
@@ -297,10 +293,10 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
 
 
                     <h3 className="text-sm text-center">
-                        <span className="font-normal text-primary-200">Dont have an account?</span>
+                        <span className="font-normal text-[#b2bdcd]">Dont have an account?</span>
                         <a
                             href=""
-                            className="text-primary-200 text-sm mt-0 ml-1"
+                            className="text-[#b2bdcd] text-sm mt-0 ml-1"
                         >
                             Sign up
                         </a>
@@ -315,13 +311,13 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
             <div className="hidden sm:flex">
               {/* <LgLogo /> */}
             </div>
-            <div className="flex flex-row gap-6 text-primary-300">
-              <a href="mail:to" className="hover:text-primary-200">
+            <div className="flex flex-row gap-6 text-[#5d7290]">
+              <a href="mail:to" className="hover:text-[#b2bdcd]">
                 sijibomiolajubu@gmail.com
               </a>
               <a
                 href="https://github.com/sijibomii/task/issues"
-                className="ml-2 hover:text-primary-200"
+                className="ml-2 hover:text-[#b2bdcd]"
               >
                 Report a bug
               </a>
@@ -334,12 +330,13 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
                   <SvgSolidGitHub
                     width={20}
                     height={20}
-                    className="ml-2 cursor-pointer hover:text-primary-200"
+                    className="ml-2 cursor-pointer hover:text-[#b2bdcd]"
                   />
                 </a>
               </div>
             </div>
           </div>
+        </div>
         </div>
       </>
     );

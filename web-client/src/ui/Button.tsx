@@ -9,16 +9,16 @@ const sizeClassnames = {
 
 const colorClassnames = {
     primary:
-        "text-button bg-accent transition duration-200 ease-in-out hover:bg-accent-hover disabled:text-accent-disabled disabled:bg-accent-hover",
+        "text-[#fff] bg-[#fd4d4d] transition duration-200 ease-in-out hover:bg-[#fd6868] disabled:text-[#f5bfbf] disabled:bg-[#fd6868]",
     secondary:
-        "text-button bg-primary-700 hover:bg-primary-600 disabled:text-primary-300",
+        "text-[#fff] bg-[#242c37] hover:bg-[#323d4d] disabled:text-[#5d7290]",
     "secondary-800":
-        "text-button bg-primary-800 hover:bg-primary-600 disabled:text-primary-300",
+        "text-[#fff] bg-primary-800 hover:bg-[#323d4d] disabled:text-[#5d7290]",
     "primary-300":
-        "text-button bg-primary-700 hover:bg-primary-600 disabled:text-primary-300",
-    transparent: "text-button bg-transparent",
+        "text-[#fff] bg-[#242c37] hover:bg-[#323d4d] disabled:text-[#5d7290]",
+    transparent: "text-[#fff] bg-transparent",
     "accent-secondary":
-        "text-button bg-secondary hover:bg-secondary-washed-out disabled:text-secondary-washed-out",
+        "text-[#fff] bg-[#5575e7] hover:bg-[#879eed] disabled:text-[#879eed]",
 };
 // DetailedHTMLProps is a TypeScript type that represents all the possible props that a HTML element can have, including the standard HTML attributes, events, and the element-specific attributes.
 export type ButtonProps = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> & {

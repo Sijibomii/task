@@ -14,9 +14,10 @@ export const WaitForWsAndAuth: React.FC<any> = ({
 
   const { conn } = useContext(WebSocketContext);
 
-  if (!useVerifyLoggedIn()) {
-    return (<></>);
-  }
+  // uncomment this
+  // if (!useVerifyLoggedIn()) {
+  //   return (<></>);
+  // }
 
   return (
     <>

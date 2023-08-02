@@ -1,7 +1,7 @@
 interface Options {
     baseUrl?: string;
 }
-type Request = (method: string, endpoint: string, body?: unknown, opts?: Options) => Promise<unknown>;
+type Request = (method: string, endpoint: string, body?: unknown, opts?: Options, headers?: any) => Promise<unknown>;
 export type Http = {
     request: Request;
 };

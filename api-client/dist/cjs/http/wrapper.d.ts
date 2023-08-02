@@ -14,6 +14,10 @@ export declare const wrap: (http: Http) => {
     login: (email: String, password: String, captcha: String) => Promise<Response>;
     loginVerify: (code: String) => Promise<LoginResponse>;
     register: (email: String, password: String, captcha: String) => Promise<Response>;
+    projectBoard: (projectId: string, accessToken: string) => Promise<Response>;
+    favouriteBoards: (accessToken: string) => Promise<Response>;
+    allProjects: (accessToken: string) => Promise<Response>;
+    addFavouriteBoard: (board_type: string, board_id: string) => Promise<unknown>;
     testUser: (username: string) => Promise<{
         accessToken: string;
         refreshToken: string;
