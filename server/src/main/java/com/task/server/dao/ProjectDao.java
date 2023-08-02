@@ -15,8 +15,19 @@ public interface ProjectDao extends BaseDao<Projects> {
     // consider using jpql queries
 
     // wrote the sql myself to avoid qurerydsl problems
-    @Query(value="SELECT p.id AS project_id, p.name AS project_name, c.id AS category_id, c.title AS category_title FROM project p LEFT JOIN project_categories pc ON pc.project_id = p.id LEFT JOIN category c ON c.id = pc.category_id WHERE p.user_id=?1", nativeQuery = true)
-    List<Object[]> allProjectsByCatergoryUserId(String user_id);
+    
+    @Query(value="""
+        SELECT 
+        u.id AS id,
+        u.display_name as name,
+        u.avatar_url as avatar,
+        u.online as online 
+        FROM projects_membership pm
+        LEFT JOIN users u ON u.id = pm.users_id
+        LEFT JOIN projects p ON p.id = pm.projects_id
+        WHERE pm.users_id = CAST(?1 AS uuid)
+            """, nativeQuery = true)
+    List<Object[]> allProjectsByTeamAndUserId(String user_id);
 
     @Query(value="""
         SELECT 

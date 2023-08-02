@@ -42,11 +42,12 @@ public class ProjectController extends BaseController {
     // should return all projects under team with it's default project board id
     @RequestMapping(value = "/projects/all", method = RequestMethod.GET) 
     public MessageResult allProjectsByUser(HttpServletRequest request, HttpServletResponse response) throws Exception{
-        String userId = (String) request.getAttribute("userId");
-        if (userId.isEmpty()){
+        UUID userId = (UUID) request.getAttribute("userId");
+        if (userId.toString().isEmpty()){
             throw new Exception("Auth error");
         }
-        List<Object[]> result = projectService.getAllProjectsByUserId(userId);
+
+        List<Object[]> result = projectService.getAllProjectsByUserId(userId.toString());
 
         return success(200, result);
     }

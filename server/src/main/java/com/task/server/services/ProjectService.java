@@ -29,7 +29,9 @@ public class ProjectService {
     
     // get all projects by user id left join the categories to
     public List<Object[]> getAllProjectsByUserId(String user_id) throws Exception { 
-       return projectDao.allProjectsByCatergoryUserId(user_id);
+        // get project id and use to get team_id
+        // get all pm where pm is a member and pm.project.team_id equals 
+       return projectDao.allProjectsByTeamAndUserId(user_id);
     }
     // QueryProjectBoardDto
     public QueryProjectBoardDto getBoardDetails(String project_id) throws Exception {

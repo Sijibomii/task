@@ -3,7 +3,7 @@
 -- ----------------------------
  
 
-INSERT INTO projects (id, created_on, description, label, members_count, creator_id, team_id, seed)
+INSERT INTO projects (id, created_on, description, label, members_count, creator_id, team_id, seed) 
 VALUES
   ('3d37f6c1-4b7b-404e-8e5d-649d90f8498c', '2023-07-18 12:34:56', 'Project 1 description', 'Project 1 label', 3, '08e32d91-d5c9-44f8-84fb-c9f4979c7531', '53c5c5cc-d70f-4399-882d-18161e1c3d35', true),
   ('d1488f27-25e1-4d03-af29-ee652dd658bb', '2023-07-18 12:34:56', 'Project 2 description', 'Project 2 label', 3, '754a17aa-8353-4fc3-b1db-6a48211cd87b', '53c5c5cc-d70f-4399-882d-18161e1c3d35', true),
