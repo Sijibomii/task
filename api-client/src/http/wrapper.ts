@@ -22,7 +22,7 @@ export const wrap = (http: Http) => {
     //   const imageUrl = URL.createObjectURL(captchaImage);
     //   const captchaElement = document.createElement('img');
     //   captchaElement.src = imageUrl;
-    captcha: () => http.request("GET", "/captcha", {}) as Promise<Blob>,
+    captcha: () => http.request("GET", "/captcha") as Promise<Blob>,
 
     login: (email: String, password: String, captcha: String) => http.request("POST", "/login", { 
         email, password, captcha

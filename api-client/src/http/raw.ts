@@ -37,8 +37,7 @@ export const create = (baseOpts: Options): Http => {
     //   captcha  returns image
       await fetch(`${baseUrl}${endpoint}`, {
         method,
-        headers: { "Content-Type": "application/json", ...headers},
-        body: body ? JSON.stringify(body) : undefined,
+        headers: { "Content-Type": "application/json", ...headers}
       }).then((res) => res.blob())
       :
 
