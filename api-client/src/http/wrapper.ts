@@ -41,19 +41,17 @@ export const wrap = (http: Http) => {
       Authorization: `Bearer ${accessToken}` 
     }) as Promise<Response>, 
 
-    defaultUserBoard: (userId: string) => http.request("GET", `/boards/user/${userId}`) as Promise<Response>,
+    favouriteBoards: (accessToken: string) => http.request("GET", "/projects/favourites", {}, {}, {
+      Authorization: `Bearer ${accessToken}` 
+    }) as Promise<Response>, 
 
-    allUserBoard: () => http.request("GET", "/user/boards") as Promise<Response>,
+    allProjects: (accessToken: string) => http.request("GET", "/projects/all", {}, {}, {
+      Authorization: `Bearer ${accessToken}` 
+    }) as Promise<Response>, 
 
-    userBoard: (userId: string) => http.request("GET", `/boards/user/${userId}`) as Promise<Response>,
-
-    favouriteBoards: () => http.request("GET", "/boards/favourites") as Promise<Response>,
-
-    addFavouriteBoard: (board_type: string, board_id: string) => http.request("POST", "/boards/favourites", {
+    addFavouriteBoard: (board_type: string, board_id: string) => http.request("POST", "/projects/favourites", {
       board_id, board_type
     }),
-
-    
 
     testUser: (username: string) =>
       http.request("GET", `/dev/test-info?username=${username}`) as Promise<{
