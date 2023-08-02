@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.task.server.controllers.base.BaseController;
+import com.task.server.dto.FavoutieProjectsDto;
 import com.task.server.dto.ProjectCreateDto;
 import com.task.server.entity.Projects;
 import com.task.server.entity.Users;
@@ -82,9 +83,9 @@ public class ProjectController extends BaseController {
     public MessageResult getUsersFavouriteProjects(HttpServletRequest request, HttpServletResponse response) throws Exception {
         UUID loggedInUserId = (UUID) request.getAttribute("userId");
 
-        List<Object[]> favProjects = projectService.getUsersFavouriteProjects(loggedInUserId.toString());
+        List<FavoutieProjectsDto> favProjects = projectService.getUsersFavouriteProjects(loggedInUserId.toString());
 
-        return success(200, favProjects);
+        return success(200, favProjects); 
     }
 
     @SuppressWarnings({"all"})
