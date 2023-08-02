@@ -48,7 +48,7 @@ public class ProjectController extends BaseController {
             throw new Exception("Auth error");
         }
 
-        List<Object[]> result = projectService.getAllProjectsByUserId(userId.toString());
+        List<FavoutieProjectsDto> result = projectService.getAllProjectsByUserId(userId.toString());
 
         return success(200, result);
     }

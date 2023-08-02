@@ -18,13 +18,12 @@ public interface ProjectDao extends BaseDao<Projects> {
     
     @Query(value="""
         SELECT 
-        u.id AS id,
-        u.display_name as name,
-        u.avatar_url as avatar,
-        u.online as online 
+        p.id AS id,
+        p.label as label,
+        pb.id as board_id
         FROM projects_membership pm
-        LEFT JOIN users u ON u.id = pm.users_id
         LEFT JOIN projects p ON p.id = pm.projects_id
+        LEFT JOIN project_boards pb ON pb.project_id = p.id
         WHERE pm.users_id = CAST(?1 AS uuid)
             """, nativeQuery = true)
     List<Object[]> allProjectsByTeamAndUserId(String user_id);

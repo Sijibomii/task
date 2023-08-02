@@ -29,10 +29,20 @@ public class ProjectService {
     private QueryProjectBoardDtoConverter qpbConverter;
     
     // get all projects by user id left join the categories to
-    public List<Object[]> getAllProjectsByUserId(String user_id) throws Exception { 
-        // get project id and use to get team_id
-        // get all pm where pm is a member and pm.project.team_id equals 
-       return projectDao.allProjectsByTeamAndUserId(user_id);
+    public List<FavoutieProjectsDto> getAllProjectsByUserId(String user_id) throws Exception { 
+        List<Object[]> resultList = projectDao.allProjectsByTeamAndUserId(user_id);
+
+        List<FavoutieProjectsDto> ll= resultList.stream().map((Object[] o) -> {
+
+            UUID projectId = (o[0] != null) ? (UUID) o[0] : null;
+            String label = (o[1] != null) ? (String) o[1] : ""; 
+            UUID boardId = (o[2] != null) ? (UUID) o[2] : null;
+           
+            return new FavoutieProjectsDto(label, projectId,boardId);
+        }).collect(Collectors.toList());
+
+        return ll;
+       
     }
     // QueryProjectBoardDto
     public QueryProjectBoardDto getBoardDetails(String project_id) throws Exception {
