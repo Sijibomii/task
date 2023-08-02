@@ -46,7 +46,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 import fetch from "isomorphic-unfetch";
-var BASE_URL = "https://localhost:8080/";
+var BASE_URL = "https://localhost:8080";
 export var create = function (baseOpts) {
     return {
         request: function (method, endpoint, body, opts, headers) {

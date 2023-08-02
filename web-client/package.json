@@ -11,7 +11,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@sijibomi/task-api-client": "^1.0.7",
+    "@sijibomi/task-api-client": "^1.0.9",
     "@types/node": "20.1.3",
     "@types/react": "18.2.6",
     "@types/react-dom": "18.2.4",
