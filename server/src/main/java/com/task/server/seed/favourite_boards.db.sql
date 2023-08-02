@@ -2,7 +2,7 @@
 -- Records of favourite boards
 -- ----------------------------
 
- 
+  
 
 INSERT INTO favourite_boards (id, creator_id, created_on, is_private, taskboard_id, userboard_id, teamboard_id, projectboard_id, seed)
 VALUES

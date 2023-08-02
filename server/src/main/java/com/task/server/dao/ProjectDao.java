@@ -49,12 +49,26 @@ public interface ProjectDao extends BaseDao<Projects> {
     @Query(value="""
         SELECT 
         u.id AS id,
-        u.displayName as displayName,
-        u.avatarUrl as avatarUrl,
-        u.online as online
-        FROM project_memeberships pm
+        u.display_name as name,
+        u.avatar_url as avatar,
+        u.online as online 
+        FROM projects_membership pm
         LEFT JOIN users u ON u.id = pm.users_id
-        WHERE pm.projects_id = ?1
+        WHERE pm.projects_id = CAST(?1 AS uuid)
             """, nativeQuery = true)
     List<Object[]> peoplePreviewList(String project_id);
+
+
+    @Query(value="""
+        SELECT 
+        p.label AS label,
+        p.id AS project_id,
+        pb.id AS board_id
+        FROM favourite_boards fb
+        LEFT JOIN project_boards pb ON pb.id = fb.projectboard_id
+        LEFT JOIN projects p ON p.id = pb.project_id
+        WHERE fb.creator_id = CAST(?1 AS uuid)
+            """, nativeQuery = true)
+    List<Object[]> favouriteProjects(String user_id);
+
 }

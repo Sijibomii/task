@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,8 +39,8 @@ public class ProjectController extends BaseController {
     private UserService userService;
 
     
-    // should return all projects with each project's category
-    @RequestMapping(value = "/projects/all", method = RequestMethod.GET)
+    // should return all projects under team with it's default project board id
+    @RequestMapping(value = "/projects/all", method = RequestMethod.GET) 
     public MessageResult allProjectsByUser(HttpServletRequest request, HttpServletResponse response) throws Exception{
         String userId = (String) request.getAttribute("userId");
         if (userId.isEmpty()){
@@ -74,6 +75,15 @@ public class ProjectController extends BaseController {
         List<Object[]> people = projectService.getPeoplePreviewList(id);
 
         return success(200, people);
+    }
+
+    @RequestMapping(value = "/projects/favourites", method = RequestMethod.GET)
+    public MessageResult getUsersFavouriteProjects(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        UUID loggedInUserId = (UUID) request.getAttribute("userId");
+
+        List<Object[]> favProjects = projectService.getUsersFavouriteProjects(loggedInUserId.toString());
+
+        return success(200, favProjects);
     }
 
     @SuppressWarnings({"all"})

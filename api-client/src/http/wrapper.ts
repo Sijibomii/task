@@ -53,6 +53,7 @@ export const wrap = (http: Http) => {
       board_id, board_type
     }),
 
+    
 
     testUser: (username: string) =>
       http.request("GET", `/dev/test-info?username=${username}`) as Promise<{

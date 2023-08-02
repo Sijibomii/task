@@ -2,6 +2,7 @@ package com.task.server.services;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,7 @@ public class ProjectService {
        return projectDao.allProjectsByCatergoryUserId(user_id);
     }
     // QueryProjectBoardDto
-    public QueryProjectBoardDto   getBoardDetails(String project_id) throws Exception {
+    public QueryProjectBoardDto getBoardDetails(String project_id) throws Exception {
 
         // return projectDao.projectBoardDetails(project_id);
         List<Object[]> resultList = projectDao.projectBoardDetails(project_id);
@@ -41,6 +42,10 @@ public class ProjectService {
 
     public List<Object[]> getPeoplePreviewList(String project_id) throws Exception {
         return projectDao.peoplePreviewList(project_id);
+    }
+
+    public List<Object[]> getUsersFavouriteProjects(String user_id) throws Exception {
+        return projectDao.favouriteProjects(user_id);
     }
 
     public Projects create(ProjectCreateDto project) throws Exception { 

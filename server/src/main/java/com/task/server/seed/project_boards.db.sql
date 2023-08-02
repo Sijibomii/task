@@ -3,7 +3,7 @@
 -- ----------------------------
 
 
-INSERT INTO project_boards (id, creator_id, created_on, is_private, project_id, seed)
+INSERT INTO project_boards (id, creator_id, created_on, is_private, project_id, seed) 
 VALUES 
   ('4f303daf-51c8-4c63-8f2d-0c7c2e5ddfb6', '08e32d91-d5c9-44f8-84fb-c9f4979c7531', '2023-07-18 12:34:56', false, '3d37f6c1-4b7b-404e-8e5d-649d90f8498c', true),
   ('2a4fb45a-08b7-4c1e-93c2-0c2f38c57b63', '754a17aa-8353-4fc3-b1db-6a48211cd87b', '2023-07-18 12:34:56', false, 'd1488f27-25e1-4d03-af29-ee652dd658bb', true),
