@@ -21,14 +21,14 @@ export type Http = {
 };
 
 export const create = (baseOpts: Options): Http => {
-  return {
+  return { 
 
     request: async (
       method: string,
       endpoint: string,
       body?: unknown, 
       opts: Options = {},
-      headers?: any
+      headers?: any 
     ) => {
       const { baseUrl = BASE_URL } = { ...baseOpts, ...opts };
 

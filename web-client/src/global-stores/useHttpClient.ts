@@ -6,7 +6,7 @@ export const useHttpClient = create(
   combine( 
     {
       http: http.create({
-        baseUrl: "https://localhost:8080/"
+        baseUrl: "https://localhost:8080"
       })
     },
     (set, get) => ({
