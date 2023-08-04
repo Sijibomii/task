@@ -13,7 +13,7 @@ export const DashPage: React.FC<DashPageProps> = () => {
             <DefaultDesktopLayout>
                 {/* if task is choosen */}
                 <TaskController />
-                
+            
                 {/* <ChannelController /> */}
 
             </DefaultDesktopLayout>
