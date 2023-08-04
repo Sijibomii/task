@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import { combine } from "zustand/middleware";
-import { http } from "@sijibomi/task-api-client";
 
 type Current = "task" | "channel"
 
