@@ -10,7 +10,6 @@ import { useTokenStore } from "../auth/useTokenStore";
 import SvgSolidGoogle from "../../icons/SolidGoogle";
 import SvgSolidGitHub from "../../icons/GitHub";
 import SvgSolidPerson from "../../icons/Person";
-import captchaPlaceholder from "../../img/captcha-example.webp";
 import { errorObject, usePasswordValidator } from "../../shared-hooks/usePasswordValidator";
 import { InputErrorMsg } from "../../ui/inputErrorMsg";
 import { useHttpClient } from "../../shared-hooks/useHttpClient";
@@ -176,16 +175,16 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
 
                   const errors: LoginErrors = {};
 
-                  const emailNotValid =  (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
-                  if (emailNotValid && email.length !== 0){ 
-                    errors.email = "enter a valid email" 
-                    return errors
-                  }
-                  setIsValid(password)
-                  if(!isValid && password.length !== 0){
-                    errors.password= passwordErrors
-                    return errors
-                  }
+                  // const emailNotValid =  (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+                  // if (emailNotValid && email.length !== 0){ 
+                  //   errors.email = "enter a valid email" 
+                  //   return errors
+                  // }
+                  // setIsValid(password)
+                  // if(!isValid && password.length !== 0){
+                  //   errors.password= passwordErrors
+                  //   return errors
+                  // }
 
                   // had to do this because formik keeps changing my type of errors 
                   return {};

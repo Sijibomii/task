@@ -13,45 +13,82 @@ export interface LoginResponse extends Response {
     }
 }
 
+type tags = {
+  id: string
+  label: string
+}
+
+type categories = {
+  id: string
+  label: string
+}
+
+type assignees = {
+  id: string
+  avartar: string
+  name: string
+}
+
+type tasks = {
+  category_id: string
+  id: string
+  description: string
+  heading: string
+  comment: Number
+  no_of_assignee: Number
+  tags: tags[]
+  assignees: assignees[]
+}
+
+export interface ProjectBoardResponse extends Response {
+  data?: {
+    board_id: string,
+    tasks: tasks[],
+    categories: categories[]
+  }
+}
+
+type fBoard = {
+  label: string
+  id: string
+  board_id: string
+}
+
+export interface BoardsResponse extends Response {
+  data?: fBoard[]
+}
+
+
 export const wrap = (http: Http) => {
   return {
-    // captcha: I'm not sure the typescript type of response
-    //  to use: 
-    //  const captchaImage = await captcha;
-
-    //   const imageUrl = URL.createObjectURL(captchaImage);
-    //   const captchaElement = document.createElement('img');
-    //   captchaElement.src = imageUrl;
+  
     captcha: () => http.request("GET", "/captcha") as Promise<Blob>,
 
     login: (email: String, password: String, captcha: String) => http.request("POST", "/login", { 
         email, password, captcha
-    }) as Promise<Response>,
-
-    loginVerify: (code: String) => http.request("POST", "/login/verify", { 
-       code
     }) as Promise<LoginResponse>,
 
+    // set return types
     // register
     register: (email: String, password: String, captcha: String) => http.request("POST", "/register", { 
         email, password, captcha
     }) as Promise<Response>,
 
-    projectBoard: (projectId: string, accessToken: string) => http.request("GET", `/projects/board/${projectId}`, {}, {}, {
+    projectBoard: (projBoardId: string, accessToken: string) => http.request("GET", `/projects/board/${projBoardId}`, {}, {}, {
       Authorization: `Bearer ${accessToken}` 
-    }) as Promise<Response>, 
+    }) as Promise<ProjectBoardResponse>, 
 
     favouriteBoards: (accessToken: string) => http.request("GET", "/projects/favourites", {}, {}, {
       Authorization: `Bearer ${accessToken}` 
-    }) as Promise<Response>, 
+    }) as Promise<BoardsResponse>, 
 
     allProjects: (accessToken: string) => http.request("GET", "/projects/all", {}, {}, {
       Authorization: `Bearer ${accessToken}` 
-    }) as Promise<Response>, 
+    }) as Promise<BoardsResponse>, 
 
     addFavouriteBoard: (board_type: string, board_id: string) => http.request("POST", "/projects/favourites", {
       board_id, board_type
-    }),
+    }) as Promise<Response>,
 
     testUser: (username: string) =>
       http.request("GET", `/dev/test-info?username=${username}`) as Promise<{
