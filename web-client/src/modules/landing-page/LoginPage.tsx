@@ -71,6 +71,7 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
 
   export const LoginPage: React.FC = () => {
     // useSaveTokensFromQueryParams();
+    const [tokensSet, setTokensSet] = useState(false);
     const hasTokens = useTokenStore((s) => !!(s.accessToken && s.refreshToken));
     const { push } = useRouter();
     const [tokensChecked, setTokensChecked] = useState(false);
@@ -109,7 +110,7 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
       } else {
         setTokensChecked(true);
       }
-    }, [hasTokens, push]);
+    }, [hasTokens, push, tokensSet]);
   
     const queryParams =
       isStaging && !isServer
@@ -200,8 +201,9 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
                     
                     const resp = await wrappedClient.login(email, password, captcha_code)
                     if(resp.code===200 && resp.message==="SUCCESS"){
-                      localStorage.setItem("USER_EMAIL", email);
-                      push('/login-verify')
+                      localStorage.setItem("@task/token", resp.data?.access as string);
+                      localStorage.setItem("@task/refresh-token", resp.data?.refresh as string);
+                      push("/dashboard");
                     }else{
                       alert(resp.message)
                     }
