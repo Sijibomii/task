@@ -61,7 +61,6 @@ export interface BoardsResponse extends Response {
 
 export const wrap = (http: Http) => {
   return {
-  
     captcha: () => http.request("GET", "/captcha") as Promise<Blob>,
 
     login: (email: String, password: String, captcha: String) => http.request("POST", "/login", { 

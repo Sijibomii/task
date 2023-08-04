@@ -4,8 +4,7 @@ import { ProjectsController } from "../dashboard/ProjectsController";
 import { MainLayout } from "./MainLayout";
 import { TabletSidebar } from "./TabletSidebar";
 
-interface DefaultDesktopLayoutProps {
-}
+interface DefaultDesktopLayoutProps {}
 
 export const DefaultDesktopLayout: React.FC<DefaultDesktopLayoutProps> = ({
   children,
