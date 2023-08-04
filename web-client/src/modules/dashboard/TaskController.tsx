@@ -1,17 +1,28 @@
 import SvgSolidSearch from "@/icons/SolidSearch";
 import Star from "@/icons/Star";
 import ThreeDots from "@/icons/ThreeDots";
+import { isServer } from "@/lib/isServer";
 import { TaskCard } from "@/ui/TaskCard";
 import { MultipleUsers } from "@/ui/UserAvatar/MultipleUsers";
 import React, { useEffect } from "react";
 import Draggable from 'react-draggable';
+import { useTypeSafeHttp } from "../../shared-hooks/useTypeSafeHttp"
 
 
 export const TaskController: React.FC<any> = ({}) => {
+  
+  // dash route should be changes to dash?project=mkmdmodmdomdo
+  const queryString = window.location.search;
+  const searchParams = new URLSearchParams(queryString);
 
-  useEffect(() => {
-    
-  }, []);
+  const id = searchParams.get('projectId');
+  const accessToken = localStorage.getItem("@task/token")
+  const { isLoading, data } = useTypeSafeHttp("projectBoard",{
+    staleTime: Infinity,
+    enabled: !isServer,
+    refetchOnMount: "always",
+    refetchInterval: 10000,
+  }, [id as string, accessToken as string]);
 
   const srcArr = ['https://images.unsplash.com/photo-1480429370139-e0132c086e2a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=988&q=80',
   'https://images.unsplash.com/photo-1557862921-37829c790f19?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80',

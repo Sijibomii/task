@@ -10,7 +10,7 @@ type PaginatedKey<K extends Keys> = [K, ...(string | number | boolean)[]];
 //  checks if T is a promise type. if yes, returns the type U which is the type of the resolved value to else returns T
 type Await<T> = T extends Promise<infer U> ? U : T;
 
-export const useTypeSafeQuery = <K extends Keys>(
+export const useTypeSafeHttp = <K extends Keys>(
   key: K | PaginatedKey<K>,
   opts?: UseQueryOptions,
   // get the parameter types of the function k
