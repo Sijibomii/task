@@ -2,6 +2,7 @@ package com.task.server.connverters;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +34,9 @@ public class QueryProjectBoardDtoConverter {
             return Arrays.copyOfRange(o, 0, 3);
         }).collect(Collectors.toList());
 
-        List<TasksDto> tasks = taskscoConverter.convertToDtoList(taskList);
+        Set<TasksDto> tasks = taskscoConverter.convertToDtoList(taskList);
 
-        List<CategoryDto> cats = catconverter.convertToDtoList(catList);
+        Set<CategoryDto> cats = catconverter.convertToDtoList(catList);
 
         return new QueryProjectBoardDto(board_id, tasks, cats);
     }

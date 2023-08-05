@@ -2,6 +2,7 @@ package com.task.server.connverters;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class TasksDtoConverter {
 
     private HashMap<UUID, List<TasKUserDto>> assignees = new HashMap<>();
 
-    public List<TasksDto> convertToDtoList(List<Object[]> resultList) {
+    public Set<TasksDto> convertToDtoList(List<Object[]> resultList) {
 
         // sort tags according to task first
         for (int i=0; i<resultList.size(); i++) {
@@ -56,7 +57,7 @@ public class TasksDtoConverter {
             }
         }
 
-        return resultList.stream().map(this::convertToDto).collect(Collectors.toList());
+        return resultList.stream().map(this::convertToDto).collect(Collectors.toSet());
     }
 
     private TasksDto convertToDto(Object[] result) {

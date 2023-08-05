@@ -101,11 +101,49 @@ export const TaskController: React.FC<any> = ({}) => {
       <div className="overflow-auto pr-12">
         {/* tasks section */}
         <div className="tasks flex items-center px-8 py-4 w-screen">
-
           {data && data.data?.categories.map((category) => (
-            <></>
+                      <div className="task  h-full mx-1" key={`category.id${Math.random()}`}>
+                      <div className="task-heading-1 flex items-center px-4 justify-between w-full">
+                        <div className="task-heading-l flex items-center">
+                          <div className="ts-d bg-red-600"></div>
+                          <h4 className="text-white text-sm font-thin ml-3">{category.label}</h4>
+                          <p className="text-[#434344] text-sm font-thin ml-3">6</p>
+                        </div>
+                        <div className="task-heading-r flex items-center">
+                          <ThreeDots className="text-white" width={18} height={18} />
+                        </div>
+                      </div>
+          
+                      <div className="task-section h-screen overflow-auto">
+                        {data.data?.tasks.map((task) => {
+                            
+                            if(task.category_id == category.id){
+                              return <TaskCard key={task.id} tags={[
+                                {
+                                  color: "#B4D6FE",
+                                  label: "Website"
+                                },
+                                {
+                                  color: "#E9FE90",
+                                  label:"Design"
+                                }
+                              ]} 
+                              
+                              heading="Planning meeting for second version of app" 
+                              imagesSrc={srcArr}
+                              comment={7}
+                              files={4}
+                              >
+                                <p className="text-gray-400">All the details are in the file. I am sure it will turn out cool!</p>
+                              </TaskCard>
+                            }
+                            
+                          })}
+                       
+                      </div>
+                    </div>
           ))}
-          <div className="task overflow-auto h-full">
+          {/* <div className="task overflow-auto h-full">
             <div className="task-heading-1 flex items-center px-4 justify-between w-full">
               <div className="task-heading-l flex items-center">
                 <div className="ts-d bg-red-600"></div>
@@ -219,10 +257,10 @@ export const TaskController: React.FC<any> = ({}) => {
                 />
               </Draggable>
             </div>
-          </div>
+          </div> */}
 
           {/* task - 2 */}
-          <div className="task ">
+          {/* <div className="task ">
             <div className="task-heading-1 flex items-center px-4 justify-between w-full">
               <div className="task-heading-l flex items-center">
                 <div className="ts-d bg-red-600"></div>
@@ -333,10 +371,10 @@ export const TaskController: React.FC<any> = ({}) => {
                 />
               </Draggable>
             </div>
-          </div>
+          </div> */}
 
           {/* task -3 */}
-          <div className="task ">
+          {/* <div className="task ">
             <div className="task-heading-1 flex items-center px-4 justify-between w-full">
               <div className="task-heading-l flex items-center">
                 <div className="ts-d bg-red-600"></div>
@@ -447,11 +485,11 @@ export const TaskController: React.FC<any> = ({}) => {
                 />
               </Draggable>
             </div>
-          </div>
+          </div> */}
 
           {/* task -4 */}
 
-          <div className="task ">
+          {/* <div className="task ">
             <div className="task-heading-1 flex items-center px-4 justify-between w-full">
               <div className="task-heading-l flex items-center">
                 <div className="ts-d bg-red-600"></div>
@@ -562,10 +600,10 @@ export const TaskController: React.FC<any> = ({}) => {
                 />
               </Draggable>
             </div>
-          </div>
+          </div> */}
 
           {/* task 5 */}
-          <div className="task ">
+          {/* <div className="task ">
             <div className="task-heading-1 flex items-center px-4 justify-between w-full">
               <div className="task-heading-l flex items-center">
                 <div className="ts-d bg-red-600"></div>
@@ -676,7 +714,7 @@ export const TaskController: React.FC<any> = ({}) => {
                 />
               </Draggable>
             </div>
-          </div>
+          </div> */}
         </div>
 {/* 
         <div className="task-headings flex items-center px-8 py-4">

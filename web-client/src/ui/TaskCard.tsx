@@ -25,7 +25,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({ tags, heading, imagesSrc, co
   return (
 
     <div className="bg-[#1D1F21] mt-2 px-5 pt-6 pb-4 rounded-xl">
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-between mb-4 w-full">
             <div className="flex items-center">
                 {tags && tags.map((tag) => (
                         <Tag label={tag.label} color={tag.color} text="sm" key={tag.label} />

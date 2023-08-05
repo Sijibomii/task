@@ -1,7 +1,7 @@
 package com.task.server.dto;
 
 import java.util.UUID;
-import java.util.List;
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -11,7 +11,7 @@ public class QueryProjectBoardDto {
 
     private UUID board_id;
 
-    private List<TasksDto> tasks;
+    private Set<TasksDto> tasks;
 
-    private List<CategoryDto> categories;
+    private Set<CategoryDto> categories;
 }
