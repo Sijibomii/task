@@ -24,6 +24,7 @@ public class QueryProjectBoardDtoConverter {
     public QueryProjectBoardDto convertToDtoList(List<Object[]> resultList) {
 
         Object[] obj = resultList.get(0);
+        
         UUID board_id = (UUID) obj[0];
 
         List<Object[]> taskList = resultList.stream().map((Object[] o) -> {

@@ -1,6 +1,7 @@
 package com.task.server.connverters;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -18,7 +19,7 @@ import com.task.server.dto.TasksDto;
 @Component
 public class TasksDtoConverter {
 
-    private HashMap<UUID, List<TagDto>> tk = new HashMap<>();
+    private HashMap<UUID, Set<TagDto>> tk = new HashMap<>();
 
     private HashMap<UUID, List<TasKUserDto>> assignees = new HashMap<>();
 
@@ -34,7 +35,7 @@ public class TasksDtoConverter {
                 String tagLabel = (arr[arr.length-4] != null) ? (String) arr[arr.length-4] : ""; 
                 this.tk.get(task_id).add(new TagDto(tagId, tagLabel));
             }else{               
-                this.tk.put(task_id, new ArrayList<TagDto>());
+                this.tk.put(task_id, new HashSet<TagDto>());
                 UUID tagId = (arr[arr.length-2] != null) ? (UUID) arr[arr.length-2] : null;
                 String tagLabel = (arr[arr.length-4] != null) ? (String) arr[arr.length-4] : ""; 
                 this.tk.get(task_id).add(new TagDto(tagId, tagLabel));

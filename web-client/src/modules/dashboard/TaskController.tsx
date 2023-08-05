@@ -26,6 +26,8 @@ export const TaskController: React.FC<any> = ({}) => {
 
   console.log(data?.data)
 
+  const colors=["#B4D6FE","#E9FE90"]
+
   const srcArr = ['https://images.unsplash.com/photo-1480429370139-e0132c086e2a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=988&q=80',
   'https://images.unsplash.com/photo-1557862921-37829c790f19?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80',
   'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80',
@@ -118,16 +120,12 @@ export const TaskController: React.FC<any> = ({}) => {
                         {data.data?.tasks.map((task) => {
                             
                             if(task.category_id == category.id){
-                              return <TaskCard key={task.id} tags={[
-                                {
-                                  color: "#B4D6FE",
-                                  label: "Website"
-                                },
-                                {
-                                  color: "#E9FE90",
-                                  label:"Design"
+                              return <TaskCard key={task.id} tags={task.tags ? task.tags.map((tag) => {
+                                return {
+                                  color: colors[0],
+                                  label: tag.label
                                 }
-                              ]} 
+                              }) : []} 
                               
                               heading="Planning meeting for second version of app" 
                               imagesSrc={srcArr}
