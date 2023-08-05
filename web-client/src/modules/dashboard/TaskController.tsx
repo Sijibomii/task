@@ -24,6 +24,8 @@ export const TaskController: React.FC<any> = ({}) => {
     refetchOnMount: "always"
   }, [id as string, accessToken as string]);
 
+  console.log(data?.data)
+
   const srcArr = ['https://images.unsplash.com/photo-1480429370139-e0132c086e2a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=988&q=80',
   'https://images.unsplash.com/photo-1557862921-37829c790f19?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80',
   'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80',
@@ -99,6 +101,10 @@ export const TaskController: React.FC<any> = ({}) => {
       <div className="overflow-auto pr-12">
         {/* tasks section */}
         <div className="tasks flex items-center px-8 py-4 w-screen">
+
+          {data && data.data?.categories.map((category) => (
+            <></>
+          ))}
           <div className="task overflow-auto h-full">
             <div className="task-heading-1 flex items-center px-4 justify-between w-full">
               <div className="task-heading-l flex items-center">

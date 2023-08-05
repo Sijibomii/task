@@ -13,13 +13,13 @@ export var wrap = function (http) {
             password: password,
             captcha: captcha
         }); },
-        projectBoard: function (projBoardId, accessToken) { return http.request("GET", "/projects/board/".concat(projBoardId), {}, {}, {
+        projectBoard: function (projBoardId, accessToken) { return http.request("GET", "/projects/board/".concat(projBoardId), null, {}, {
             Authorization: "Bearer ".concat(accessToken)
         }); },
-        favouriteBoards: function (accessToken) { return http.request("GET", "/projects/favourites", {}, {}, {
+        favouriteBoards: function (accessToken) { return http.request("GET", "/projects/favourites", null, {}, {
             Authorization: "Bearer ".concat(accessToken)
         }); },
-        allProjects: function (accessToken) { return http.request("GET", "/projects/all", {}, {}, {
+        allProjects: function (accessToken) { return http.request("GET", "/projects/all", null, {}, {
             Authorization: "Bearer ".concat(accessToken)
         }); },
         addFavouriteBoard: function (board_type, board_id) { return http.request("POST", "/projects/favourites", {

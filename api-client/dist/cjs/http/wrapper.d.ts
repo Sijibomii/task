@@ -5,8 +5,8 @@ export interface Response {
 }
 export interface LoginResponse extends Response {
     data?: {
-        access: String;
-        refresh: String;
+        accessToken: String;
+        refreshToken: String;
     };
 }
 type tags = {

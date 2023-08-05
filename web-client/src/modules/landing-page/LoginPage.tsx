@@ -201,8 +201,8 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
                     
                     const resp = await wrappedClient.login(email, password, captcha_code)
                     if(resp.code===200 && resp.message==="SUCCESS"){
-                      localStorage.setItem("@task/token", resp.data?.access as string);
-                      localStorage.setItem("@task/refresh-token", resp.data?.refresh as string);
+                      localStorage.setItem("@task/token", resp.data?.accessToken as string);
+                      localStorage.setItem("@task/refresh-token", resp.data?.refreshToken as string);
                       push("/projects");
                     }else{
                       alert(resp.message)

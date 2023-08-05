@@ -69,16 +69,19 @@ export const ProjectsPage: React.FC = () => {
         enabled: !isServer,
         refetchOnMount: "always"
       }, [accessToken as string]);
-
+    
     return (
         <div className="flex items-center justify-center w-screen h-screen">
         <div className="flex items-center justify-center">
           <div className="hidden sm:flex" />
           <div className="flex  m-auto flex-col p-14 gap-5 bg-[#151a21] sm:rounded-8 z-10 sm:w-400 w-full">
-            
+            <div className="flex gap-2 flex-col text-center">
+              <span className="text-3xl text-[#dee3ea] font-bold">Select a project</span>
+            </div>
             <div className="flex flex-col gap-4">
                 {data && data.data?.map((project) => (
-                    <ProjectButton  projectId={project.id} key={project.id}>
+                    <ProjectButton  projectId={project.board_id} key={project.id}>
+                        
                     <CheckSquare width={20} height={20} />
                      {project.label}
                 </ProjectButton>
