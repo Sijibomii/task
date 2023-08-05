@@ -11,17 +11,17 @@ import { useTypeSafeHttp } from "../../shared-hooks/useTypeSafeHttp"
 
 export const TaskController: React.FC<any> = ({}) => {
   
-  // dash route should be changes to dash?project=mkmdmodmdomdo
+  // dash route should be changes to dash?projectId=mkmdmodmdomdo
+  // take categories and task and display on screen
+
   const queryString = window.location.search;
   const searchParams = new URLSearchParams(queryString);
-
   const id = searchParams.get('projectId');
   const accessToken = localStorage.getItem("@task/token")
   const { isLoading, data } = useTypeSafeHttp("projectBoard",{
     staleTime: Infinity,
     enabled: !isServer,
-    refetchOnMount: "always",
-    refetchInterval: 10000,
+    refetchOnMount: "always"
   }, [id as string, accessToken as string]);
 
   const srcArr = ['https://images.unsplash.com/photo-1480429370139-e0132c086e2a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=988&q=80',
@@ -112,6 +112,7 @@ export const TaskController: React.FC<any> = ({}) => {
             </div>
 
             <div className="task-section h-screen overflow-auto">
+
               <Draggable>
                 <TaskCard tags={[
                   {

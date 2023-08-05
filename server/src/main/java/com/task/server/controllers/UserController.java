@@ -237,6 +237,17 @@ public class UserController extends BaseController{
     }
 
 
+    // key is passed in as a url param
+    @SuppressWarnings({"all"}) 
+    @RequestMapping(value = "/user/projects")
+    @Transactional(rollbackFor = Exception.class)
+    public MessageResult allProjectsWhereUserIsMemeber(HttpServletRequest request) throws Exception {
+       
+        
+        return success("activation successfull");
+    }
+
+
     @SuppressWarnings({"all"})
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @Transactional(rollbackFor = Exception.class)

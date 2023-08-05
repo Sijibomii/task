@@ -106,7 +106,7 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
   
     useEffect(() => {
       if (hasTokens) {
-        push("/dashboard");
+        push("/projects");
       } else {
         setTokensChecked(true);
       }
@@ -203,7 +203,7 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
                     if(resp.code===200 && resp.message==="SUCCESS"){
                       localStorage.setItem("@task/token", resp.data?.access as string);
                       localStorage.setItem("@task/refresh-token", resp.data?.refresh as string);
-                      push("/dashboard");
+                      push("/projects");
                     }else{
                       alert(resp.message)
                     }

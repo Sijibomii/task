@@ -73,15 +73,15 @@ export const wrap = (http: Http) => {
         email, password, captcha
     }) as Promise<Response>,
 
-    projectBoard: (projBoardId: string, accessToken: string) => http.request("GET", `/projects/board/${projBoardId}`, {}, {}, {
+    projectBoard: (projBoardId: string, accessToken: string) => http.request("GET", `/projects/board/${projBoardId}`, null, {}, {
       Authorization: `Bearer ${accessToken}` 
     }) as Promise<ProjectBoardResponse>, 
 
-    favouriteBoards: (accessToken: string) => http.request("GET", "/projects/favourites", {}, {}, {
+    favouriteBoards: (accessToken: string) => http.request("GET", "/projects/favourites", null, {}, {
       Authorization: `Bearer ${accessToken}` 
     }) as Promise<BoardsResponse>, 
-
-    allProjects: (accessToken: string) => http.request("GET", "/projects/all", {}, {}, {
+ 
+    allProjects: (accessToken: string) => http.request("GET", "/projects/all", null, {}, {
       Authorization: `Bearer ${accessToken}` 
     }) as Promise<BoardsResponse>, 
 
